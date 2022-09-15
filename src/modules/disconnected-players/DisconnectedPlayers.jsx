@@ -1,8 +1,5 @@
 import React, { useContext } from 'react'
 import styles from './DisconnectedPlayers.module.scss'
-import { selectPlayers } from 'store/slices/get-players/getOnlineSlice'
-import { useDispatch, useSelector } from 'react-redux'
-import { showModal } from 'store/slices/modal/modalSlice'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchDisconnectedPlayers, fetchTeams } from '../../api/users'
 import { ModalContext } from '../../contexts'

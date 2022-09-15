@@ -5,13 +5,9 @@ import { useQuery } from '@tanstack/react-query'
 import { fetchPlayerBans } from 'api/users'
 
 export function Bans({ player }) {
-  const {
-    data: bans,
-    isSuccess,
-    isError,
-    isLoading,
-  } = useQuery(['players', player.steamId, 'bans'], () =>
-    fetchPlayerBans(player.steamId)
+  const { data: bans, isSuccess } = useQuery(
+    ['players', player.steamId, 'bans'],
+    () => fetchPlayerBans(player.steamId)
   )
 
   return (
