@@ -16,7 +16,7 @@ $wrapper-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.43);
 body {
   color: $color-main;
   font-family: Roboto, serif;
-  background: url("../assets/img/background.jpg") no-repeat fixed center;
+  background: url('../assets/img/background.jpg') no-repeat fixed center;
   background-size: cover;
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -25,7 +25,7 @@ body {
 }
 
 .login-page {
-  background: url("../assets/img/bg.png") no-repeat fixed center;
+  background: url('../assets/img/bg.png') no-repeat fixed center;
   background-size: cover;
   width: 100vw;
   height: 100vh;
@@ -41,7 +41,6 @@ body {
 }
 
 .home {
-
 }
 
 .header {
@@ -60,7 +59,7 @@ body {
   flex-direction: row;
   justify-content: center;
   position: relative;
-  top:30px
+  top: 30px;
 }
 
 .mid-section {
@@ -79,7 +78,12 @@ body {
   height: 140px;
   flex: none;
   flex-grow: 0;
-  background: linear-gradient(180deg, rgba(42, 42, 42, 0.06) 80%, $color-dark2 100%), url("../assets/img/bg-layers/bg.png");
+  background: linear-gradient(
+      180deg,
+      rgba(42, 42, 42, 0.06) 80%,
+      $color-dark2 100%
+    ),
+    url('../assets/img/bg-layers/bg.png');
 }
 
 .server-info-titles {
@@ -138,7 +142,6 @@ body {
 .teams-container {
   width: 400px;
 }
-
 
 .flag-container {
   display: flex;
@@ -207,7 +210,7 @@ body {
     padding: 1px;
     width: 25px;
     height: 25px;
-    background: #5F5F5F;
+    background: #5f5f5f;
     border-radius: 200px;
 
     p {
@@ -216,7 +219,7 @@ body {
       font-weight: 700;
       font-size: 16px;
       line-height: 19px;
-      color: #2B2B2B;
+      color: #2b2b2b;
     }
   }
 
@@ -229,7 +232,7 @@ body {
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   .squad-size {
@@ -264,7 +267,7 @@ body {
       font-weight: 400;
       font-size: 12px;
       line-height: 12px;
-      color: #5F5F5F;
+      color: #5f5f5f;
       &:hover {
         font-size: 16px;
         font-weight: 700;
@@ -305,7 +308,6 @@ body {
     color: $color-main2;
   }
 }
-
 
 .player-item#sl {
   order: 1;
@@ -357,7 +359,6 @@ body {
   }
 }
 
-
 .modal-player-wrapper {
   height: 100vh;
   width: 100%;
@@ -371,7 +372,6 @@ body {
   justify-content: center;
   transition: 0.3s;
   animation: fade 0.2s, overlay 1s forwards;
-
 }
 
 @keyframes fade {
@@ -388,7 +388,6 @@ body {
 
 @keyframes overlay {
   from {
-
   }
   to {
     background-color: rgba(0, 0, 0, 0.4);
@@ -481,7 +480,6 @@ body {
   p {
     margin-bottom: 10px;
   }
-
 
   .select-options {
     all: unset;
@@ -617,8 +615,6 @@ body {
   }
 }
 
-
-
 .right-section {
   display: flex;
   flex-direction: column;
@@ -662,7 +658,6 @@ body {
     justify-content: left;
   }
   .disconnected-players-list {
-
   }
   .disconnected-player-item {
     display: flex;
@@ -703,7 +698,12 @@ body {
   align-items: flex-start;
   width: 440px;
   height: 140px;
-  background: linear-gradient(180deg, rgba(42, 42, 42, 0.06) 80%, $color-dark2 100%), url("../assets/img/bg-layers/bg.png");
+  background: linear-gradient(
+      180deg,
+      rgba(42, 42, 42, 0.06) 80%,
+      $color-dark2 100%
+    ),
+    url('../assets/img/bg-layers/bg.png');
   box-shadow: $wrapper-shadow;
 
   .map-selector-content {
@@ -757,12 +757,20 @@ body {
   padding-top: 24px;
   padding-bottom: 12px;
   padding-left: 22px;
-  background: $color-dark2 linear-gradient(180deg, rgba(254, 0, 0, 0.03) 16.66%,
-          rgba(253, 140, 0, 0.03) 16.66%, 33.32%,
-          rgba(255, 229, 0, 0.03) 33.32%, 49.98%,
-          rgba(17, 159, 11, 0.03) 49.98%, 66.64%,
-          rgba(6, 68, 179, 0.03) 66.64%, 83.3%,
-          rgba(194, 46, 220, 0.03) 83.3%);
+  background: $color-dark2
+    linear-gradient(
+      180deg,
+      rgba(254, 0, 0, 0.03) 16.66%,
+      rgba(253, 140, 0, 0.03) 16.66%,
+      33.32%,
+      rgba(255, 229, 0, 0.03) 33.32%,
+      49.98%,
+      rgba(17, 159, 11, 0.03) 49.98%,
+      66.64%,
+      rgba(6, 68, 179, 0.03) 66.64%,
+      83.3%,
+      rgba(194, 46, 220, 0.03) 83.3%
+    );
   //background-color: $color-dark2;
   box-shadow: $wrapper-shadow;
   overflow-y: scroll;

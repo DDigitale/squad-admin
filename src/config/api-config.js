@@ -1,0 +1,32 @@
+const API_URL = 'http://localhost:8000'
+const CALLBACK_URL = 'http://localhost:3000/'
+const GET_STEAM_LINK = '/get-steam-link'
+const VERIFY_STEAM = '/verify-steam'
+const AUTH = '/auth'
+const LOGOUT = '/logout'
+const GET_ONLINE = '/get-online'
+const BAN_PLAYER = '/ban-player'
+const KICK_PLAYER = '/kick-player'
+const WARN_PLAYER = '/warn-player'
+const PLAYER_TEAM_CHANGE = '/player-team-change'
+const REMOVE_PLAYER_FROM_SQUAD = '/remove-player-from-squad'
+const DISBAND_SQUAD = '/disband-squad'
+const STEAM_KEY = 'D24E3D9EB90500EB1979B72B06B4D903'
+const STEAM_INFO = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0001/?key=${STEAM_KEY}&steamids=`
+
+export {
+  API_URL,
+  CALLBACK_URL,
+  GET_STEAM_LINK,
+  VERIFY_STEAM,
+  AUTH,
+  LOGOUT,
+  GET_ONLINE,
+  BAN_PLAYER,
+  KICK_PLAYER,
+  WARN_PLAYER,
+  PLAYER_TEAM_CHANGE,
+  REMOVE_PLAYER_FROM_SQUAD,
+  DISBAND_SQUAD,
+  STEAM_INFO,
+}

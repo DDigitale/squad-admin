@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { API_URL, BAN_PLAYER } from '../../../../config/api-config'
+import { API_URL, PLAYER_TEAM_CHANGE } from '../../../../config/api-config'
 
 const initialState = {
   isLoading: false,
@@ -9,16 +9,14 @@ const initialState = {
   message: '',
 }
 
-export const banPlayerRequest = createAsyncThunk(
-  'player/ban',
-  async ({ id, banReason, banLength }, thunkAPI) => {
+export const teamChangePlayerRequest = createAsyncThunk(
+  'player/teamChangePlayer',
+  async (id, thunkAPI) => {
     try {
       const response = await axios.post(
-        API_URL + BAN_PLAYER,
+        API_URL + PLAYER_TEAM_CHANGE,
         {
           id,
-          banLength, // unix time + 1d, 3d, 7d...
-          banReason,
         },
         {
           withCredentials: 'true',
@@ -27,10 +25,7 @@ export const banPlayerRequest = createAsyncThunk(
           },
         }
       )
-      console.info(
-        `BAN ${id} with reason ${banReason} and length ${banLength}`,
-        response.status
-      )
+      console.log(`TEAM CHANGE ${id}`, response.status)
       return response.data
     } catch (error) {
       const message =
@@ -44,22 +39,22 @@ export const banPlayerRequest = createAsyncThunk(
   }
 )
 
-const banPlayerSlice = createSlice({
-  name: 'ban',
+const teamChangePlayerSlice = createSlice({
+  name: 'team-change',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(banPlayerRequest.pending, (state) => {
+      .addCase(teamChangePlayerRequest.pending, (state) => {
         state.isLoading = true
         state.isError = false
       })
-      .addCase(banPlayerRequest.fulfilled, (state, action) => {
+      .addCase(teamChangePlayerRequest.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
         state.steamID = action.payload
       })
-      .addCase(banPlayerRequest.rejected, (state, action) => {
+      .addCase(teamChangePlayerRequest.rejected, (state, action) => {
         state.isError = true
         state.message = action.payload
         state.steamID = null
@@ -67,11 +62,11 @@ const banPlayerSlice = createSlice({
   },
 })
 
-export const selectBanPlayers = (state) => ({
-  isError: state.banPlayer.isError,
-  isSuccess: state.banPlayer.isSuccess,
-  isLoading: state.banPlayer.isLoading,
-  steamID: state.banPlayer.steamID,
+export const selectTeamChangePlayers = (state) => ({
+  isError: state.teamChangePlayer.isError,
+  isSuccess: state.teamChangePlayer.isSuccess,
+  isLoading: state.teamChangePlayer.isLoading,
+  steamID: state.teamChangePlayer.steamID,
 })
 
-export default banPlayerSlice.reducer
+export default teamChangePlayerSlice.reducer
