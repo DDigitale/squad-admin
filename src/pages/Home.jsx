@@ -52,8 +52,8 @@ export function Home() {
             {/*{selectedTab === 6 && <ChatList/>}*/}
           </section>
           <section className="right-section">
-            <MapSelector />
-            {/*<SuspectedPlayers/>*/}
+            <MapSelector/>
+            <SuspectedPlayers />
             <DisconnectedPlayers />
           </section>
         </div>

@@ -1,13 +1,10 @@
 import React from 'react'
 import { VscLock, VscUnlock } from 'react-icons/vsc'
-import { BsPerson } from 'react-icons/bs'
 import { DisbandSquadBtn } from '../../../store/features/squad-actions/disband/DisbandSquadBtn'
 import { PlayerItem } from './PlayerItem'
-import { showModal } from '../../../store/features/modal/modalSlice'
 import { useDispatch } from 'react-redux'
-import logoutSlice from '../../../store/features/logout/logoutSlice'
 
-export function SquadItem({ squad, allPlayers }) {
+export function SquadItem({squad}) {
   const dispatch = useDispatch()
 
   return (

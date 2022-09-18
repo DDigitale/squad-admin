@@ -9,7 +9,6 @@ export function PlayerItem({ player }) {
     <>
       {player.isSquadLeader && (
         <div
-          id="sl"
           key={player.id}
           className="player-item"
           onClick={() => dispatch(showModal({ player }))}
@@ -25,7 +24,6 @@ export function PlayerItem({ player }) {
       )}
       {player.isSquadLeader || (
         <div
-          id="not-sl"
           key={player.id}
           className="player-item"
           onClick={() => dispatch(showModal({ player }))}
