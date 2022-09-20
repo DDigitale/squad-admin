@@ -5,7 +5,7 @@ import { PlayersWithoutSquad } from './PlayersWithoutSquad'
 export function TeamItem({ team }) {
   return (
     <>
-      <div className="teams-container">
+      <div className="team-container">
         <div className="flag-container">
           <div className="teams-container-flag-wrapper">
             <div className="teams-container-flag-vline"></div>
@@ -15,9 +15,7 @@ export function TeamItem({ team }) {
           <div className="teams-title">{team.teamName}</div>
         </div>
         {team.squads.map((squad) => (
-          <div key={squad.id} className="squads-wrapper">
             <SquadItem key={squad.id} squad={squad} team={team} />
-          </div>
         ))}
         <div className="pws-title">Игроки без отряда</div>
         {team.playersWithoutSquad.map((pws) => (

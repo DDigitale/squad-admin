@@ -1,6 +1,8 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { disbandSquadRequest, selectDisbandSquad } from './disbandSlice'
+import { IoCloseCircleOutline } from "react-icons/io5";
+
 
 export function DisbandSquadBtn(props) {
   const { teamId, squadId } = props
@@ -13,9 +15,9 @@ export function DisbandSquadBtn(props) {
 
   return (
     <>
-      <button onClick={disbandSquadHandler} className="fast-action-btn">
+      <IoCloseCircleOutline onClick={disbandSquadHandler} className="disband-btn">
         ds
-      </button>
+      </IoCloseCircleOutline>
     </>
   )
 }

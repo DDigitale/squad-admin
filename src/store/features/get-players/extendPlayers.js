@@ -23,7 +23,6 @@ export const extendData = (data) => {
 						},
 					})
 				} else if (player.squadID !== squad.id) {
-					console.log(player, squad)
 					player.violations.push({
 						name: 'squad drop',
 						payload: {

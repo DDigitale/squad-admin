@@ -6,6 +6,7 @@ import { Home } from './pages/Home'
 import { PrivateRoutes } from './store/features/auth/PrivateRoute'
 
 function App() {
+
   return (
     <>
       <Router>

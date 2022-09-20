@@ -11,20 +11,19 @@ export function SquadItem({squad}) {
     <>
       <div className="squad-item">
         <div className="squad-title">
-          <div className="squad-id">
-            <p>{squad.id}</p>
-          </div>
-          <div className="squad-name">
-            <div>{squad.name}</div>
-          </div>
+          <span className="squad-id">
+            {squad.id}
+          </span>
+          <span className="squad-name">
+            {squad.name}
+          </span>
           <div className="squad-size">
-            <div>{squad.size}/9</div>
-            <div className="squad-locked-status">
-              {squad.isLocked ? <VscLock /> : <VscUnlock />}
-            </div>
+            {squad.size}/9
           </div>
-
-          {/*<DisbandSquadBtn squadId={squad.id} teamId={team.id}/>*/}
+          <div className="squad-locked-status">
+            {squad.isLocked ? <VscLock /> : <VscUnlock />}
+          </div>
+          <DisbandSquadBtn squadId={squad.id} teamId={squad.teamId}/>
         </div>
         {squad.players.map((player) => (
           <PlayerItem key={player.id} player={player} squad={squad} />
