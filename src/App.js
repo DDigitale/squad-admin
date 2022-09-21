@@ -3,10 +3,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { Login } from './pages/Login'
 import { NotFound } from './pages/NotFound'
 import { Home } from './pages/Home'
-import { PrivateRoutes } from './store/features/auth/PrivateRoute'
+import { PrivateRoutes } from 'pages/PrivateRoute'
 
 function App() {
-
   return (
     <>
       <Router>

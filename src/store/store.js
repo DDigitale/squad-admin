@@ -1,23 +1,27 @@
 import { configureStore } from '@reduxjs/toolkit'
-import authReducer from './features/auth/authSlice'
-import verifyReducer from './features/auth/verifySlice'
-import getPlayersReducer from './features/get-players/getPlayersSlice'
-import banPlayerReducer from './features/player-actions/ban/banSlice'
-import kickPlayerReducer from './features/player-actions/kick/kickSlice'
-import warnPlayerReducer from './features/player-actions/warn/warnSlice'
-import teamChangePlayerReducer from './features/player-actions/team-change/teamChangeSlice'
-import removePlayerFromSquadReducer from './features/player-actions/remove-player-from-squad/removePlayerFromSquadSlice'
-import disbandSquadReducer from './features/squad-actions/disband/disbandSlice'
-import steamInfoReducer from './features/player-actions/steam-info/steamInfoSlice'
-import modalReducer from './features/modal/modalSlice'
-import searchPlayerReducer from './features/player-actions/search-players/searchPlayerSlice'
-import logoutReducer from './features/logout/logoutSlice'
+import authReducer from './slices/auth/authSlice'
+import verifyReducer from './slices/auth/verifySlice'
+import getOnlineReducer from 'store/slices/get-players/getOnlineSlice'
+import getPlayersListReducer from 'store/slices/get-players/getPlayersListSlice'
+import getPlayerMessagesReducer from 'store/slices/get-players/getPlayerMessages'
+import banPlayerReducer from './slices/player-actions/banSlice'
+import kickPlayerReducer from './slices/player-actions/kickSlice'
+import warnPlayerReducer from './slices/player-actions/warnSlice'
+import teamChangePlayerReducer from './slices/player-actions/teamChangeSlice'
+import removePlayerFromSquadReducer from './slices/player-actions/removePlayerFromSquadSlice'
+import disbandSquadReducer from './slices/squad-actions/disbandSlice'
+import steamInfoReducer from './slices/player-actions/steamInfoSlice'
+import modalReducer from './slices/modal/modalSlice'
+import searchPlayerReducer from './slices/player-actions/searchPlayerSlice'
+import logoutReducer from './slices/auth/logoutSlice'
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     auth: authReducer,
     verify: verifyReducer,
-    players: getPlayersReducer,
+    players: getOnlineReducer,
+    playersList: getPlayersListReducer,
+    playerMessages: getPlayerMessagesReducer,
     banPlayer: banPlayerReducer,
     kickPlayer: kickPlayerReducer,
     warnPlayer: warnPlayerReducer,
@@ -29,5 +33,7 @@ export const store = configureStore({
     searchPlayer: searchPlayerReducer,
     logout: logoutReducer,
   },
-  // middleware: {}
+  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(playersInfoApi.middleware)
 })
+
+export default store
