@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-// @ts-ignore
 import styles from './Actions.module.scss'
 import { ActionBtn } from '../action-btn/ActionBtn'
 import { BanForm } from '../../../forms/BanForm'
@@ -35,7 +34,10 @@ export function Actions({ player }: Props) {
           <TeamChangeForm steamId={player.steamId} name={player.name} />
         )}
         {selectedTab === 5 && (
-          <RemovePlayerFromSquadForm steamId={player.steamId} />
+          <RemovePlayerFromSquadForm
+            steamId={player.steamId}
+            name={player.name}
+          />
         )}
       </div>
     </>

@@ -1,12 +1,15 @@
+import { IGetOnline } from '../api/users'
+import { Player, Squad, Team } from '../types/player'
+
 const SLKits = ['SL', 'SLCrewman', 'SLPilot']
 const SLCrewmanKits = ['SLCrewman', 'SLPilot']
 
-export const extendData = (data) => {
+export const extendData = (data: IGetOnline) => {
   data.teams.forEach((team) =>
     team.squads.forEach(sortSquadLeadersFirstOnPlace)
   )
 
-  const addSLViolations = (player) => {
+  const addSLViolations = (player: Player) => {
     const createdSquadsTeams = data.teams.map((team) => ({
       id: team.id,
       squads: team.squads.filter(
@@ -39,7 +42,7 @@ export const extendData = (data) => {
     )
   }
 
-  const addSLInvalidKitViolation = (player) => {
+  const addSLInvalidKitViolation = (player: Player) => {
     if (player.isSquadLeader && !SLKits.includes(player.role.split('_')[1]))
       player.violations.push({
         name: 'invalid kit',
@@ -49,7 +52,7 @@ export const extendData = (data) => {
       })
   }
 
-  const addCrewmanSLWithBigSquadViolation = (player) => {
+  const addCrewmanSLWithBigSquadViolation = (player: Player) => {
     if (
       player.isSquadLeader &&
       SLCrewmanKits.includes(player.role.split('_')[1])
@@ -58,6 +61,8 @@ export const extendData = (data) => {
       const playerSquad = squads.find((squad) =>
         squad.players.find((member) => member.id === player.id)
       )
+
+      if (playerSquad === undefined) throw new Error('playerSquad not found')
 
       if (playerSquad.size > 4) {
         player.violations.push({
@@ -75,23 +80,23 @@ export const extendData = (data) => {
     addSLInvalidKitViolation,
     addCrewmanSLWithBigSquadViolation,
   ]
-  const players = flatData(data)
+  const players = flatTeams(data.teams)
 
-  players.forEach((player) => {
+  players.forEach((player: Player) => {
     player.violations = []
     violationsFunctions.forEach((func) => func(player))
   })
 }
 
-export const flatData = (data) => {
-  return data.teams
+export const flatTeams = (teams: Team[]): Player[] => {
+  return teams
     .map((team) =>
       team.squads.map((squad) => squad.players.map((player) => player))
     )
     .flat(2)
 }
 
-const sortSquadLeadersFirstOnPlace = (squad) => {
+const sortSquadLeadersFirstOnPlace = (squad: Squad) => {
   squad.players.sort((a) => (a.isSquadLeader ? -1 : 1))
 }
 

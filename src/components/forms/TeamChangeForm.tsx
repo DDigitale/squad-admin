@@ -1,6 +1,4 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { kickReasonText } from 'config/actions-text'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { teamChangePlayer } from '../../api/users'
 
@@ -19,7 +17,10 @@ export function TeamChangeForm({ steamId, name }: Props) {
   return (
     <div>
       <p>Сменить команду игроку {name}?</p>
-      <button className="action-btn" onClick={() => teamChangeMutation}>
+      <button
+        className="action-btn"
+        onClick={() => teamChangeMutation.mutate()}
+      >
         СМЕНИТЬ
       </button>
     </div>

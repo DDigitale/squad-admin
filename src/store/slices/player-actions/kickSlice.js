@@ -27,7 +27,7 @@ export const kickPlayerRequest = createAsyncThunk(
         }
       )
       console.log(
-        `KICK ${playerSteamId} with reason ${kickReason}`,
+        `KICK ${playerSteamId} with reasdasdasdasdaason ${kickReason}`,
         response.data
       )
       return response.data

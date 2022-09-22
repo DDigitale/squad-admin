@@ -24,6 +24,7 @@ export interface Player {
   squadID: number
   isSquadLeader: boolean
   role: string
+  violations: Violation[]
 }
 
 export interface PlayerWithoutSquad extends Omit<Player, 'squadID'> {
@@ -33,4 +34,22 @@ export interface PlayerWithoutSquad extends Omit<Player, 'squadID'> {
 export interface DisconnectedPlayer
   extends Pick<Player, 'id' | 'steamId' | 'name'> {
   sinceDisconnected: string
+}
+
+type violationName =
+  | 'SL drop'
+  | 'squad drop'
+  | 'invalid kit'
+  | 'crewman with big squad'
+
+export interface Violation {
+  name: violationName
+  payload: { message: string }
+}
+
+export interface Message {
+  id: number
+  chatType: string
+  message: string
+  creationTime: Date
 }

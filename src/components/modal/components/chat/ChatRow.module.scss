@@ -1,0 +1,21 @@
+.row {
+  background-color: var(--color-dark2);
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.type {
+  font-size: 14px;
+  flex-basis: 4em;
+  color: #33fdd9;
+}
+
+.message {
+  color: #fdac34;
+}
+
+.time {
+  font-size: 12px;
+  color: #fd4b4c;
+}

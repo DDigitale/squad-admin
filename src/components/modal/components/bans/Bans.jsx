@@ -5,8 +5,6 @@ import { useQuery } from '@tanstack/react-query'
 import { fetchPlayerBans } from 'api/users'
 
 export function Bans({ player }) {
-  console.log('player in ban', player)
-
   const {
     data: bans,
     isSuccess,
@@ -15,8 +13,6 @@ export function Bans({ player }) {
   } = useQuery(['players', player.steamId, 'bans'], () =>
     fetchPlayerBans(player.steamId)
   )
-
-  console.log('ban in player', bans)
 
   return (
     <div className={styles.wrapper}>

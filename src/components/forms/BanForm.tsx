@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { banLengthText, banReasonText } from 'config/actions-text'
-import { banPlayerRequest, selectBanPlayers } from 'store'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { banPlayer } from '../../api/users'
 
-export function BanForm({ steamId }) {
-  const dispatch = useDispatch()
-  const { isLoading, isSuccess, isError } = useSelector(selectBanPlayers)
+interface Props {
+  steamId: string
+}
+
+export function BanForm({ steamId }: Props) {
+  const queryClient = useQueryClient()
   const [banReason, setBanReason] = useState(banReasonText[0].text)
   const [banLength, setBanLength] = useState(banLengthText[0].blength)
 
@@ -25,9 +28,12 @@ export function BanForm({ steamId }) {
     )
   })
 
-  const banPlayerHandler = () => {
-    dispatch(banPlayerRequest({ banReason, banLength, playerSteamId: steamId }))
-  }
+  const banPlayerMutation = useMutation(
+    () => banPlayer(steamId, banLength, banReason),
+    {
+      onSuccess: () => queryClient.invalidateQueries(['players']),
+    }
+  )
 
   return (
     <div>
@@ -49,7 +55,7 @@ export function BanForm({ steamId }) {
           {lengthOptions}
         </select>
       </div>
-      <button className="action-btn" onClick={banPlayerHandler}>
+      <button className="action-btn" onClick={() => banPlayerMutation.mutate()}>
         ЗАБАНИТЬ
       </button>
     </div>

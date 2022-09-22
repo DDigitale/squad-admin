@@ -1,31 +1,34 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styles from './SuspectedPlayers.module.scss'
 import { showModal } from 'store/slices/modal/modalSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectPlayers } from 'store/slices/get-players/getOnlineSlice'
-import { flatData } from 'utils/extendPlayers'
+import { flatTeams } from 'utils/extendPlayers'
 import { ViolationRow } from 'modules/suspected-players/components/ViolationRow'
+import { ModalContext, ModalContextType } from '../../contexts'
+import { Player } from '../../types/player'
 
-export function SuspectedPlayers() {
-  const dispatch = useDispatch()
-  let data = useSelector((state) => selectPlayers(state))
+interface Props {
+  players: Player[]
+}
 
-  const players = data
-    ? flatData(data).filter((player) => player.violations.length > 0)
-    : []
+export function SuspectedPlayers({ players }: Props) {
+  const [playerModal, setPlayerModal] = useContext(
+    ModalContext
+  ) as ModalContextType
 
-  const rowClickHandler = (player) => {
-    dispatch(showModal({ player }))
-  }
+  const playersWithViolations = players.filter(
+    (player) => player.violations.length > 0
+  )
 
   return (
     <>
       <div className={styles.wrapper}>
         <span className={styles.title}>Нарушители</span>
-        {players.map((player) => (
+        {playersWithViolations.map((player) => (
           <div
             key={player.id}
-            onClick={() => rowClickHandler(player)}
+            onClick={() => setPlayerModal(player)}
             className={styles.list}
           >
             <span className={styles.name}>{player.name}</span>

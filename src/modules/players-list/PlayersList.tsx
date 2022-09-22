@@ -1,26 +1,13 @@
 import React from 'react'
 import styles from './PlayersList.module.scss'
 import { TeamItem } from 'modules/players-list/components/team-item/TeamItem'
-import { useQuery } from '@tanstack/react-query'
-import { fetchTeams } from '../../api/users'
+import { Team } from '../../types/player'
 
-export function PlayersList() {
-  const {
-    data: teams,
-    isSuccess,
-    isError,
-  } = useQuery(['teams'], fetchTeams, {
-    refetchInterval: 3000,
-  })
+interface Props {
+  teams: Team[]
+}
 
-  if (!isSuccess) {
-    return <h1>Загрузка игроков</h1>
-  }
-
-  if (isError) {
-    return <h1>Ошибка загрузки игроков</h1>
-  }
-
+export function PlayersList({ teams }: Props) {
   return (
     <>
       <div className={styles.wrapper}>

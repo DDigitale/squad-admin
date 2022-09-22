@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { kickReasonText } from 'config/actions-text'
-import { kickPlayerRequest, selectKickPlayers } from 'store'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { kickPlayer, teamChangePlayer } from '../../api/users'
 
-export function KickForm({ steamId }) {
-  const dispatch = useDispatch()
-  const { isLoading, isSuccess, isError } = useSelector(selectKickPlayers)
+interface Props {
+  steamId: string
+}
+
+export function KickForm({ steamId }: Props) {
+  const queryClient = useQueryClient()
   const [kickReason, setKickReason] = useState(kickReasonText[0].text)
 
   const options = kickReasonText.map((i) => {
@@ -16,9 +19,12 @@ export function KickForm({ steamId }) {
     )
   })
 
-  const kickPlayerHandler = () => {
-    dispatch(kickPlayerRequest({ kickReason, playerSteamId: steamId }))
-  }
+  const kickPlayerMutation = useMutation(
+    () => kickPlayer(steamId, kickReason),
+    {
+      onSuccess: () => queryClient.invalidateQueries(['players']),
+    }
+  )
 
   return (
     <div>
@@ -32,7 +38,10 @@ export function KickForm({ steamId }) {
           {options}
         </select>
       </div>
-      <button className="action-btn" onClick={kickPlayerHandler}>
+      <button
+        className="action-btn"
+        onClick={() => kickPlayerMutation.mutate()}
+      >
         КИКНУТЬ
       </button>
     </div>

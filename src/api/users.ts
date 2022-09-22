@@ -10,20 +10,21 @@ import {
   GET_PLAYER_KICKS,
   GET_PLAYER_MESSAGES,
   KICK_PLAYER,
+  PLAYER_TEAM_CHANGE,
   REMOVE_PLAYER_FROM_SQUAD,
   WARN_PLAYER,
 } from '../config/api-config'
 import { extendData } from '../utils/extendPlayers'
-import { DisconnectedPlayer, Team } from '../types/player'
+import { DisconnectedPlayer, Message, Team } from '../types/player'
 
 export const JSONbig = jsonBigInt({ storeAsString: true })
 
-interface IGetOnline {
+export interface IGetOnline {
   teams: Team[]
   disconnectedPlayers: DisconnectedPlayer[]
 }
 
-export const fetchTeams = async () => {
+export const fetchTeams = async (): Promise<Team[]> => {
   const response = await axios.get<IGetOnline>(API_URL + GET_ONLINE, {
     credentials: '',
     withCredentials: true,
@@ -59,7 +60,7 @@ export const fetchDisconnectedPlayers = async () => {
 
 export const fetchPlayerMessages = async (playerSteamId: string) => {
   try {
-    const response = await axios.post(
+    const response = await axios.post<Message[]>(
       API_URL + GET_PLAYER_MESSAGES,
       { playerSteamId },
       {
@@ -68,11 +69,18 @@ export const fetchPlayerMessages = async (playerSteamId: string) => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        transformResponse: (data) => {
+          return JSON.parse(data, (key, value) => {
+            if (key === 'creationTime') return new Date(Date.parse(value))
+            return value
+          })
+        },
       }
     )
     if (!Array.isArray(response.data)) {
       throw new Error('Ошибка в получении данных')
     }
+    console.log('123', response.data)
     return response.data
   } catch (e) {
     throw new Error('Ошибка в получении данных')
@@ -207,7 +215,7 @@ export const banPlayer = async (
 export const teamChangePlayer = async (playerSteamId: string) => {
   try {
     const response = await axios.post(
-      API_URL + WARN_PLAYER,
+      API_URL + PLAYER_TEAM_CHANGE,
       {
         playerSteamId,
       },

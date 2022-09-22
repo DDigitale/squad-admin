@@ -8,11 +8,31 @@ import { MapSelector } from 'modules/map-selector/MapSelector'
 import DisconnectedPlayers from 'modules/disconnected-players/DisconnectedPlayers'
 import { ModalContext } from 'contexts'
 import { PlayerModal } from '../modules/player-modal/PlayerModal'
+import { useQuery } from '@tanstack/react-query'
+import { fetchTeams } from '../api/users'
+import { flatTeams } from '../utils/extendPlayers'
+import { Player, PlayerWithoutSquad } from '../types/player'
 
 export function Home() {
-  const [playerInModal, setPlayerInModal] = useState(null)
+  const [playerInModal, setPlayerInModal] = useState<
+    Player | PlayerWithoutSquad | null
+  >(null)
 
-  console.log('pim', playerInModal)
+  const {
+    data: teams,
+    isSuccess,
+    isError,
+  } = useQuery(['teams'], fetchTeams, {
+    refetchInterval: 3000,
+  })
+
+  if (!isSuccess) {
+    return <h1>Загрузка игроков</h1>
+  }
+
+  if (isError) {
+    return <h1>Ошибка загрузки игроков</h1>
+  }
 
   return (
     <ModalContext.Provider value={[playerInModal, setPlayerInModal]}>
@@ -22,10 +42,10 @@ export function Home() {
         <SearchPlayer />
         <ServerInfo />
         <main className="main">
-          <PlayersList />
+          <PlayersList teams={teams} />
         </main>
         <MapSelector />
-        <SuspectedPlayers />
+        <SuspectedPlayers players={flatTeams(teams)} />
         <DisconnectedPlayers />
       </div>
       {playerInModal && (
