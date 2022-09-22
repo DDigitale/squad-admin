@@ -8,66 +8,43 @@ import {
   GET_PLAYER_MESSAGES,
 } from '../config/api-config'
 import { extendData } from '../utils/extendPlayers'
+import disconnectedPlayers from '../modules/disconnected-players/DisconnectedPlayers'
 
 export const JSONbig = jsonBigInt({ storeAsString: true })
 
-const fetchPlayer = async (playerSteamId) => {
-  const players = await fetchTeams()
-  const player = players.find()
-  const playerBans = await fetchPlayerBans(playerSteamId)
-  const playerKicks = await fetchPlayerKicks(playerSteamId)
-  const playerMessages = await fetchPlayerMessages(playerSteamId)
-  return {
-    ...player,
-    bans: playerBans,
-    kicks: playerKicks,
-    messages: playerMessages,
-  }
-}
-
 export const fetchTeams = async () => {
-  try {
-    const response = await axios.get(API_URL + GET_ONLINE, {
-      withCredentials: 'true',
-      headers: {
-        'Content-Type': 'application/json',
+  const response = await axios.get(API_URL + GET_ONLINE, {
+    withCredentials: 'true',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    transformResponse: [
+      (data) => {
+        return JSONbig.parse(data)
       },
-      transformResponse: [
-        (data) => {
-          return JSONbig.parse(data)
-        },
-      ],
-    })
-    extendData(response.data)
-    console.log('fetchPlayers', response.data)
-    return response.data.teams
-  } catch (error) {
-    console.log(error)
-  }
+    ],
+  })
+  extendData(response.data)
+  return response.data.teams
 }
 
 export const fetchDisconnectedPlayers = async () => {
-  try {
-    const response = await axios.get(API_URL + GET_ONLINE, {
-      withCredentials: 'true',
-      headers: {
-        'Content-Type': 'application/json',
+  const response = await axios.get(API_URL + GET_ONLINE, {
+    withCredentials: 'true',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    transformResponse: [
+      (data) => {
+        return JSONbig.parse(data)
       },
-      transformResponse: [
-        (data) => {
-          return JSONbig.parse(data)
-        },
-      ],
-    })
-    extendData(response.data)
-    console.log('fetchPlayers', response.data)
-    return response.data.disconnectedPlayers
-  } catch (error) {
-    console.log(error)
-  }
+    ],
+  })
+  extendData(response.data)
+  return response.data.disconnectedPlayers
 }
 
-const fetchPlayerMessages = async (playerSteamId) => {
+export const fetchPlayerMessages = async (playerSteamId) => {
   try {
     const response = await axios.post(
       API_URL + GET_PLAYER_MESSAGES,
@@ -77,21 +54,18 @@ const fetchPlayerMessages = async (playerSteamId) => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        transformResponse: [
-          (data) => {
-            return JSONbig.parse(data)
-          },
-        ],
       }
     )
-    console.log(response.data)
+    if (!Array.isArray(response.data)) {
+      throw new Error('Ошибка в получении данных')
+    }
     return response.data
   } catch (e) {
-    console.log(e)
+    throw new Error('Ошибка в получении данных')
   }
 }
 
-const fetchPlayerBans = async (playerSteamId) => {
+export const fetchPlayerBans = async (playerSteamId) => {
   try {
     const response = await axios.post(
       API_URL + GET_PLAYER_BANS,
@@ -101,17 +75,14 @@ const fetchPlayerBans = async (playerSteamId) => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        transformResponse: [
-          (data) => {
-            return JSONbig.parse(data)
-          },
-        ],
       }
     )
-    console.log(response.data)
+    if (!Array.isArray(response.data)) {
+      throw new Error('Ошибка в получении данных')
+    }
     return response.data
   } catch (e) {
-    console.log(e)
+    throw new Error('Ошибка в получении данных')
   }
 }
 
@@ -125,26 +96,13 @@ const fetchPlayerKicks = async (playerSteamId) => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        transformResponse: [
-          (data) => {
-            return JSONbig.parse(data)
-          },
-        ],
       }
     )
-    console.log(response.data)
+    if (!Array.isArray(response.data)) {
+      throw new Error('Ошибка в получении данных')
+    }
     return response.data
   } catch (e) {
-    console.log(e)
+    throw new Error('Ошибка в получении данных')
   }
 }
-
-// } catch (error) {
-//   console.log(error)
-//   const message =
-//     (error.response &&
-//       error.response.data &&
-//       error.response.data.message) ||
-//     error.message ||
-//     error.toString()
-//   return thunkAPI.rejectWithValue(message)

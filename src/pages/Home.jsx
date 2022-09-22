@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { useState } from 'react'
 import { SearchPlayer } from 'modules/search-player/SearchPlayer'
 import { PlayersList } from 'modules/players-list/PlayersList'
 import { ServerInfo } from 'modules/server-info/ServerInfo'
@@ -11,6 +11,8 @@ import { PlayerModal } from '../modules/player-modal/PlayerModal'
 
 export function Home() {
   const [playerInModal, setPlayerInModal] = useState(null)
+
+  console.log('pim', playerInModal)
 
   return (
     <ModalContext.Provider value={[playerInModal, setPlayerInModal]}>
@@ -26,7 +28,12 @@ export function Home() {
         <SuspectedPlayers />
         <DisconnectedPlayers />
       </div>
-      {playerInModal && <PlayerModal>ASDKFHASKLERUDGQAGL</PlayerModal>}
+      {playerInModal && (
+        <PlayerModal
+          player={playerInModal}
+          onClose={() => setPlayerInModal(null)}
+        />
+      )}
     </ModalContext.Provider>
   )
 }

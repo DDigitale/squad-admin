@@ -6,8 +6,6 @@ import { PlayerItem } from 'modules/players-list/components/player-item/PlayerIt
 import { useDispatch } from 'react-redux'
 
 export function SquadItem({ squad }) {
-  const dispatch = useDispatch()
-
   return (
     <>
       <div className={styles.wrapper}>
@@ -21,7 +19,7 @@ export function SquadItem({ squad }) {
           <DisbandSquadBtn teamId={squad.teamId} squadId={squad.id} />
         </div>
         {squad.players.map((player) => (
-          <PlayerItem key={player.id} player={player} squad={squad} />
+          <PlayerItem key={player.id} player={player} />
         ))}
       </div>
     </>

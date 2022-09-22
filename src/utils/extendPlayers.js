@@ -94,3 +94,7 @@ export const flatData = (data) => {
 const sortSquadLeadersFirstOnPlace = (squad) => {
   squad.players.sort((a) => (a.isSquadLeader ? -1 : 1))
 }
+
+// const player = teams?.map((team) =>
+//   team.squads.map((squad) => squad.players.map((player) => player)).flat(2)
+// )

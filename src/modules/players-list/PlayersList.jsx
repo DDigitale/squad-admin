@@ -1,16 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styles from './PlayersList.module.scss'
-import { useDispatch, useSelector } from 'react-redux'
-import { getOnlineResponse, selectPlayers, selectPlayersInfo } from 'store'
 import { TeamItem } from 'modules/players-list/components/team-item/TeamItem'
 import { useQuery } from '@tanstack/react-query'
 import { fetchTeams } from '../../api/Users'
 
 export function PlayersList() {
-  const dispatch = useDispatch()
-  const { isLoading } = useSelector(selectPlayersInfo)
-  const players = useSelector((state) => selectPlayers(state))
-
   const {
     data: teams,
     isSuccess,

@@ -1,12 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styles from './PlayerItem.module.scss'
-import { useDispatch } from 'react-redux'
-import { showModal } from 'store/slices/modal/modalSlice'
 import { ModalContext } from 'contexts'
 
 export function PlayerItem({ player }) {
-  const dispatch = useDispatch()
-  const [playerInModal, setPlayerInModal] = useContext(ModalContext)
+  const [playerModal, setPlayerModal] = useContext(ModalContext)
 
   const [kitImg, setKitImg] = useState(null)
 
@@ -22,11 +19,7 @@ export function PlayerItem({ player }) {
 
   return (
     <>
-      <div
-        className={styles.wrapper}
-        // onClick={() => dispatch(showModal({ player }))}
-        onClick={() => setPlayerInModal(player.id)}
-      >
+      <div className={styles.wrapper} onClick={() => setPlayerModal(player)}>
         {kitImg && <img className={styles.icon} src={kitImg} />}
         <span className={styles.name}>{player.name}</span>
       </div>

@@ -1,0 +1,52 @@
+.title {
+  display: inline-flex;
+  justify-content: flex-start;
+  padding: 1rem;
+  align-items: center;
+  background-color: var(--color-gray1);
+}
+
+.wrapper {
+  min-width: 650px;
+  display: grid;
+}
+
+.avatar {
+  width: 96px;
+  height: 96px;
+  margin-right: 1.5rem;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.name {
+  color: var(--color-main);
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.link {
+  all: unset;
+  font-size: 18px;
+  line-height: 14px;
+  transition: 0.3s;
+
+  &:hover {
+    color: var(--color-blue);
+    font-weight: 700;
+  }
+}
+
+.actionsForm {
+
+}
+
+.actionsBtns {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}

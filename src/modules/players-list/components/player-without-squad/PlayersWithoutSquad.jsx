@@ -1,11 +1,9 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import styles from './PlayersWithoutSquad.module.scss'
-import { showModal } from 'store'
-import { useDispatch } from 'react-redux'
+import { ModalContext } from 'contexts'
 
-export function PlayersWithoutSquad(props) {
-  const dispatch = useDispatch()
-  const { pws: player } = props
+export function PlayersWithoutSquad({ player }) {
+  const [playerModal, setPlayerModal] = useContext(ModalContext)
 
   return (
     <>
@@ -13,7 +11,7 @@ export function PlayersWithoutSquad(props) {
         <div
           key={player.id}
           className={styles.item}
-          onClick={() => dispatch(showModal({ player }))}
+          onClick={() => setPlayerModal(player)}
         >
           <img
             className={styles.icon}

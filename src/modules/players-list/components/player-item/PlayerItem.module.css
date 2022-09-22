@@ -21,4 +21,8 @@
   color: var(--color-main2);
 }
 
+.withoutSquad {
+  color: var(--color-gray1);
+}
+
 /*# sourceMappingURL=PlayerItem.module.css.map */

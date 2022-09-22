@@ -8,8 +8,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  //transition: 0.3s;
-  //animation: fade 0.2s, overlay 1s forwards;
+  transition: 0.3s;
+  animation: fade 0.2s, overlay 1s forwards;
 }
 
 @keyframes fade {
@@ -34,78 +34,22 @@
 }
 
 .modal {
+  display: grid;
+  grid-template-rows: 8rem 1fr;
   z-index: 2;
-  //background-color: var(--color-dark2);
+  background-color: var(--color-dark2);
   background-color: white;
   padding: 1rem;
   color: var(--color-gray3);
-  max-width: 900px;
   border-radius: 8px;
-
-
-
-
 }
 
-.title {
-  display: inline-flex;
-  justify-content: flex-start;
-  padding-left: 32px;
-  align-items: center;
-  background-color: var(--color-gray1);
-}
 
-.avatar {
-  width: 96px;
-  height: 96px;
-  margin-right: 1.5rem;
-}
 
-.info {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
 
-.name {
-  color: var(--color-main);
-  font-weight: 500;
-  font-size: 24px;
-}
 
-.link {
-  all: unset;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 14px;
-  transition: 0.3s;
 
-  &:hover {
-    color: var(--color-blue);
-    font-weight: 700;
-  }
-}
 
-.actionsBtns {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 180px;
-  height: 460px;
-  padding-left: 10px;
-  border-right: 3px solid var(--color-dark1);
-  margin-right: 24px;
-}
 
-.close {
-  position: relative;
-  top: -45px;
-  left: 55px;
-  width: 35px;
-  height: 35px;
-  transition: 0.3s;
 
-  &:hover {
-    color: var(--color-red);
-  }
-}
+
