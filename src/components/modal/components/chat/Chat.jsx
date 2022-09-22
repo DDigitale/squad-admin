@@ -1,7 +1,7 @@
 import React from 'react'
 import { ChatRow } from './ChatRow'
 import { useQuery } from '@tanstack/react-query'
-import { fetchPlayerMessages } from '../../../../api/Users'
+import { fetchPlayerMessages } from '../../../../api/users'
 
 export function Chat({ player }) {
   console.log('player in chat', player)

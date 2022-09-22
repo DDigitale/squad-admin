@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { API_URL, GET_ONLINE } from 'config/api-config'
 import axios from 'axios'
 import { extendData } from 'utils/extendPlayers'
-import { JSONbig } from 'api/Users'
+import { JSONbig } from 'api/users'
 
 const initialState = {
   isLoading: false,

@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './Bans.module.scss'
 import { BanRow } from './BanRow'
 import { useQuery } from '@tanstack/react-query'
-import { fetchPlayerBans } from 'api/Users'
+import { fetchPlayerBans } from 'api/users'
 
 export function Bans({ player }) {
   console.log('player in ban', player)

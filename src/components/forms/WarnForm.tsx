@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
-import {
-  selectWarnPlayers,
-  warnPlayerRequest,
-} from 'store/slices/player-actions/warnSlice'
+import { selectWarnPlayers } from 'store/slices/player-actions/warnSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { warnReasonText } from 'config/actions-text'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { warnPlayer } from '../../api/users'
 
-export function WarnForm({ steamId }) {
-  const dispatch = useDispatch()
-  const { isLoading, isSuccess, isError } = useSelector(selectWarnPlayers)
+interface Props {
+  steamId: string
+}
+
+export function WarnForm({ steamId }: Props) {
+  const queryClient = useQueryClient()
   const [warnReason, setWarnReason] = useState(warnReasonText[0].text)
 
   const options = warnReasonText.map((i) => {
@@ -19,9 +21,9 @@ export function WarnForm({ steamId }) {
     )
   })
 
-  const warnPlayerHandler = () => {
-    dispatch(warnPlayerRequest({ warnReason, playerSteamId: steamId }))
-  }
+  const warnMutation = useMutation(() => warnPlayer(steamId, warnReason), {
+    onSuccess: () => queryClient.invalidateQueries(['players']),
+  })
 
   return (
     <div>
@@ -44,7 +46,7 @@ export function WarnForm({ steamId }) {
           onChange={(e) => setWarnReason(e.target.value)}
         />
       </div>
-      <button className="action-btn" onClick={warnPlayerHandler}>
+      <button className="action-btn" onClick={() => warnMutation.mutate()}>
         ОТПРАВИТЬ СООБЩЕНИЕ
       </button>
     </div>

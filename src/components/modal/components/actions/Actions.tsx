@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import styles from 'modules/player-modal/PlayerModal.module.scss'
+// @ts-ignore
+import styles from './Actions.module.scss'
 import { ActionBtn } from '../action-btn/ActionBtn'
 import { BanForm } from '../../../forms/BanForm'
 import { KickForm } from '../../../forms/KickForm'
@@ -7,7 +8,11 @@ import { WarnForm } from '../../../forms/WarnForm'
 import { TeamChangeForm } from '../../../forms/TeamChangeForm'
 import { RemovePlayerFromSquadForm } from '../../../forms/RemovePlayerFromSquadForm'
 
-export function Actions({ player }) {
+interface Props {
+  player: any
+}
+
+export function Actions({ player }: Props) {
   const [selectedTab, setSelectedTab] = useState(0)
 
   return (
@@ -23,23 +28,14 @@ export function Actions({ player }) {
         />
       </div>
       <div className={styles.actionsForm}>
-        {selectedTab === 1 && (
-          <BanForm steamId={player.steamId} name={player.name} />
-        )}
-        {selectedTab === 2 && (
-          <KickForm steamId={player.steamId} name={player.name} />
-        )}
-        {selectedTab === 3 && (
-          <WarnForm steamId={player.steamId} name={player.name} />
-        )}
+        {selectedTab === 1 && <BanForm steamId={player.steamId} />}
+        {selectedTab === 2 && <KickForm steamId={player.steamId} />}
+        {selectedTab === 3 && <WarnForm steamId={player.steamId} />}
         {selectedTab === 4 && (
           <TeamChangeForm steamId={player.steamId} name={player.name} />
         )}
         {selectedTab === 5 && (
-          <RemovePlayerFromSquadForm
-            steamId={player.steamId}
-            name={player.name}
-          />
+          <RemovePlayerFromSquadForm steamId={player.steamId} />
         )}
       </div>
     </>

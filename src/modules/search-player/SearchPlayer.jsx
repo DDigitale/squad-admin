@@ -8,7 +8,7 @@ import {
 import { selectPlayers } from 'store/slices/get-players/getOnlineSlice'
 import { showModal } from 'store/slices/modal/modalSlice'
 import { useQuery } from '@tanstack/react-query'
-import { fetchTeams } from '../../api/Users'
+import { fetchTeams } from '../../api/users'
 
 export function SearchPlayer() {
   // const dispatch = useDispatch()

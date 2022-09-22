@@ -1,11 +1,16 @@
 import React from 'react'
+// @ts-ignore
 import styles from './SquadItem.module.scss'
 import { VscLock, VscUnlock } from 'react-icons/vsc'
 import { DisbandSquadBtn } from 'components/buttons/disband-squad/DisbandSquadBtn'
 import { PlayerItem } from 'modules/players-list/components/player-item/PlayerItem'
-import { useDispatch } from 'react-redux'
+import { Squad } from '../../../../types/player'
 
-export function SquadItem({ squad }) {
+interface Props {
+  squad: Squad
+}
+
+export function SquadItem({ squad }: Props) {
   return (
     <>
       <div className={styles.wrapper}>

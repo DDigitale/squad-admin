@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './PlayersList.module.scss'
 import { TeamItem } from 'modules/players-list/components/team-item/TeamItem'
 import { useQuery } from '@tanstack/react-query'
-import { fetchTeams } from '../../api/Users'
+import { fetchTeams } from '../../api/users'
 
 export function PlayersList() {
   const {

@@ -1,10 +1,16 @@
 import React from 'react'
+// @ts-ignore
 import styles from './TeamItem.module.scss'
 import { SquadItem } from 'modules/players-list/components/squad-item/SquadItem'
 import { PlayersWithoutSquad } from 'modules/players-list/components/player-without-squad/PlayersWithoutSquad'
 import { PlayerItem } from '../player-item/PlayerItem'
+import { Team } from '../../../../types/player'
 
-export function TeamItem({ team }) {
+interface Props {
+  team: Team
+}
+
+export function TeamItem({ team }: Props) {
   return (
     <>
       <div className={styles.teamWrapper}>
@@ -16,7 +22,7 @@ export function TeamItem({ team }) {
           <span className={styles.defaultName}>{team.teamName}</span>
         </div>
         {team.squads.map((squad) => (
-          <SquadItem key={squad.id} squad={squad} team={team} />
+          <SquadItem key={squad.id} squad={squad} />
         ))}
         <div className={styles.title}>Игроки без отряда</div>
         {team.playersWithoutSquad.map((player) => (
