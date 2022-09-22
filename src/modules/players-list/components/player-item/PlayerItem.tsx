@@ -28,7 +28,7 @@ export function PlayerItem({ player }: Props) {
   return (
     <>
       <div className={styles.wrapper} onClick={() => setPlayerModal(player)}>
-        {kitImg && <img className={styles.icon} src={kitImg} />}
+        {kitImg && <img className={styles.icon} src={kitImg} alt="kit-icon" />}
         <span className={styles.name}>{player.name}</span>
       </div>
     </>

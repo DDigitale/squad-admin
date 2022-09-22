@@ -14,6 +14,7 @@ export const logoutResponse = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(API_URL + LOGOUT, {
+        credentials: '',
         withCredentials: 'true',
         headers: {
           'Access-Control-Allow-Origin': 'http://localhost:3000',

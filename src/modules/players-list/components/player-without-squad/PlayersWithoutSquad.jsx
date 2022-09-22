@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import styles from './PlayersWithoutSquad.module.scss'
 import { ModalContext } from 'contexts'
 
@@ -18,6 +18,7 @@ export function PlayersWithoutSquad({ player }) {
             src={require(`assets/img/kits/${
               player.role.split(new RegExp('_'))[1]
             }.svg`)}
+            alt="kit-icon"
           />
           <p className={styles.name}>{player.name}</p>
         </div>
