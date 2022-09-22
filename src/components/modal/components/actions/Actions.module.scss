@@ -1,7 +1,14 @@
 .actionsBtns {
-  color: #33fdd9;
+  height: 3rem;
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--color-dark1);
+  color: var(--color-gray3);
 }
 
 .actionsForm {
-  color: #33fdd9;
+  display: flex;
+  height: 130px;
+  color: var(--color-gray3);
+  align-items: center;
 }

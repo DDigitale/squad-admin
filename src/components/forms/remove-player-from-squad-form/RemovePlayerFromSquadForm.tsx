@@ -1,6 +1,7 @@
 import React from 'react'
+import styles from './RemovePlayerFromSquadForm.module.scss'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { removePlayerFromSquad, teamChangePlayer } from '../../api/users'
+import { removePlayerFromSquad } from '../../../api/users'
 
 interface Props {
   steamId: string
@@ -19,12 +20,11 @@ export function RemovePlayerFromSquadForm({ steamId, name }: Props) {
 
   return (
     <div>
-      <p>Исключить из отряда игрока {name}?</p>
       <button
-        className="action-btn"
+        className={styles.button}
         onClick={() => removePlayerFromSquadMutation.mutate()}
       >
-        ИСКЛЮЧИТЬ
+        ИСКЛЮЧИТЬ ИЗ ОТРЯДА ИГРОКА {name}
       </button>
     </div>
   )

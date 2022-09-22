@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import styles from './Actions.module.scss'
 import { ActionBtn } from '../action-btn/ActionBtn'
-import { BanForm } from '../../../forms/BanForm'
-import { KickForm } from '../../../forms/KickForm'
-import { WarnForm } from '../../../forms/WarnForm'
-import { TeamChangeForm } from '../../../forms/TeamChangeForm'
-import { RemovePlayerFromSquadForm } from '../../../forms/RemovePlayerFromSquadForm'
+import { BanForm } from '../../../forms/ban-form/BanForm'
+import { KickForm } from '../../../forms/kick-form/KickForm'
+import { WarnForm } from '../../../forms/warn-form/WarnForm'
+import { TeamChangeForm } from '../../../forms/team-change-form/TeamChangeForm'
+import { RemovePlayerFromSquadForm } from '../../../forms/remove-player-from-squad-form/RemovePlayerFromSquadForm'
 
 interface Props {
   player: any

@@ -1,6 +1,7 @@
 import React from 'react'
+import styles from './TeamChangeForm.module.scss'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { teamChangePlayer } from '../../api/users'
+import { teamChangePlayer } from '../../../api/users'
 
 interface Props {
   steamId: string
@@ -16,12 +17,11 @@ export function TeamChangeForm({ steamId, name }: Props) {
 
   return (
     <div>
-      <p>Сменить команду игроку {name}?</p>
       <button
-        className="action-btn"
+        className={styles.button}
         onClick={() => teamChangeMutation.mutate()}
       >
-        СМЕНИТЬ
+        СМЕНИТЬ КОМАНДУ ИГРОКУ {name}
       </button>
     </div>
   )

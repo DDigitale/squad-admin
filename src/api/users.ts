@@ -256,13 +256,18 @@ export const removePlayerFromSquad = async (playerSteamId: string) => {
   }
 }
 
-export const disbandSquad = async (teamId: number, squadId: number) => {
+export const disbandSquad = async (
+  teamId: number,
+  squadId: number,
+  squadName: string
+) => {
   try {
     const response = await axios.post(
       API_URL + DISBAND_SQUAD,
       {
         teamId,
         squadId,
+        squadName,
       },
       {
         credentials: '',

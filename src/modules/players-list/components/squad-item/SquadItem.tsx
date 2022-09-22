@@ -21,7 +21,11 @@ export function SquadItem({ squad }: Props) {
           <div className={styles.lock}>
             {squad.isLocked ? <VscLock /> : <VscUnlock />}
           </div>
-          <DisbandSquadBtn teamId={squad.teamId} squadId={squad.id} />
+          <DisbandSquadBtn
+            teamId={squad.teamId}
+            squadId={squad.id}
+            squadName={squad.name}
+          />
         </div>
         {squad.players.map((player) => (
           <PlayerItem key={player.id} player={player} />
