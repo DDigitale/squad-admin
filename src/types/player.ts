@@ -53,3 +53,15 @@ export interface Message {
   message: string
   creationTime: Date
 }
+
+export interface Ban {
+  id: number
+  reason: string
+  adminSteamId: string
+  playerSteamId: string
+  isUnbannedManually: boolean
+  unbannedAdminId: string
+  unbannedTime: Date
+  creationTime: Date
+  expirationTime: Date
+}

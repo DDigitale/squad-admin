@@ -7,6 +7,7 @@ interface Props {
 }
 
 export function ChatRow({ message }: Props) {
+
   return (
     <div className={styles.row}>
       <span className={styles.time}>

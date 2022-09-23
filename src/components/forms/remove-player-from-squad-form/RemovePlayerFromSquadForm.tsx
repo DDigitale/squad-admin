@@ -19,7 +19,7 @@ export function RemovePlayerFromSquadForm({ steamId, name }: Props) {
   )
 
   return (
-    <div>
+    <div className={styles.wrapper}>
       <button
         className={styles.button}
         onClick={() => removePlayerFromSquadMutation.mutate()}
