@@ -13,9 +13,9 @@ import {
   PLAYER_TEAM_CHANGE,
   REMOVE_PLAYER_FROM_SQUAD,
   WARN_PLAYER,
-} from '../config/api-config'
-import { extendData } from '../utils/extendPlayers'
-import { DisconnectedPlayer, Message, Team } from '../types/player'
+} from 'config/api-config'
+import { extendData } from 'utils/extendPlayers'
+import { Ban, DisconnectedPlayer, Message, Team } from 'types/player'
 
 export const JSONbig = jsonBigInt({ storeAsString: true })
 
@@ -26,7 +26,6 @@ export interface IGetOnline {
 
 export const fetchTeams = async (): Promise<Team[]> => {
   const response = await axios.get<IGetOnline>(API_URL + GET_ONLINE, {
-    credentials: '',
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
@@ -41,20 +40,28 @@ export const fetchTeams = async (): Promise<Team[]> => {
   return response.data.teams
 }
 
-export const fetchDisconnectedPlayers = async () => {
-  const response = await axios.get(API_URL + GET_ONLINE, {
-    credentials: '',
-    withCredentials: true,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    transformResponse: [
-      (data) => {
-        return JSONbig.parse(data)
+interface IFetchDisconnectedPlayers {
+  teams: Team[]
+  disconnectedPlayers: DisconnectedPlayer[]
+}
+
+export const fetchDisconnectedPlayers = async (): Promise<
+  DisconnectedPlayer[]
+> => {
+  const response = await axios.get<IFetchDisconnectedPlayers>(
+    API_URL + GET_ONLINE,
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
       },
-    ],
-  })
-  extendData(response.data)
+      transformResponse: [
+        (data) => {
+          return JSONbig.parse(data)
+        },
+      ],
+    }
+  )
   return response.data.disconnectedPlayers
 }
 
@@ -64,7 +71,6 @@ export const fetchPlayerMessages = async (playerSteamId: string) => {
       API_URL + GET_PLAYER_MESSAGES,
       { playerSteamId },
       {
-        credentials: '',
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -87,23 +93,47 @@ export const fetchPlayerMessages = async (playerSteamId: string) => {
   }
 }
 
-export const fetchPlayerBans = async (playerSteamId: string) => {
+// type IFetchPlayerBans = {
+//   creationTime: string
+//   expirationTime: string
+//   id: number
+//   isUnbannedManually: boolean
+//   reason: string
+//   unbannedTime: string | null
+// }[]
+
+export const fetchPlayerBans = async (
+  playerSteamId: string
+): Promise<Ban[]> => {
   try {
     const response = await axios.post(
       API_URL + GET_PLAYER_BANS,
       { playerSteamId },
       {
-        credentials: '',
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        transformResponse: (data) => {
+          return JSON.parse(data, (key, value) => {
+            const dateStrings = [
+              'creationTime',
+              'expirationTime',
+              'unbannedTime',
+            ]
+
+            if (dateStrings.includes(key) && value !== null)
+              return new Date(Date.parse(value))
+            return value
+          })
+        },
       }
     )
+
     if (!Array.isArray(response.data)) {
       throw new Error('Ошибка в получении данных')
     }
-    console.log(response.data)
+
     return response.data
   } catch (e) {
     throw new Error('Ошибка в получении данных')
@@ -116,7 +146,6 @@ const fetchPlayerKicks = async (playerSteamId: string) => {
       API_URL + GET_PLAYER_KICKS,
       { playerSteamId },
       {
-        credentials: '',
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -141,7 +170,6 @@ export const warnPlayer = async (playerSteamId: string, warnReason: string) => {
         warnReason,
       },
       {
-        credentials: '',
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -165,7 +193,6 @@ export const kickPlayer = async (playerSteamId: string, kickReason: string) => {
         kickReason,
       },
       {
-        credentials: '',
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -196,7 +223,6 @@ export const banPlayer = async (
         banReason,
       },
       {
-        credentials: '',
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -221,7 +247,6 @@ export const teamChangePlayer = async (playerSteamId: string) => {
         playerSteamId,
       },
       {
-        credentials: '',
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -243,7 +268,6 @@ export const removePlayerFromSquad = async (playerSteamId: string) => {
         playerSteamId,
       },
       {
-        credentials: '',
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -271,7 +295,6 @@ export const disbandSquad = async (
         squadName,
       },
       {
-        credentials: '',
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',

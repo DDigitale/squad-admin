@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-// @ts-ignore
 import styles from './PlayerItem.module.scss'
 import { ModalContext, ModalContextType } from 'contexts'
 import { Player, PlayerWithoutSquad } from '../../../../types/player'

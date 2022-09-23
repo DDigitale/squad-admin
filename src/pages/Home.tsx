@@ -7,16 +7,13 @@ import { Navbar } from 'components/navbar/Navbar'
 import { MapSelector } from 'modules/map-selector/MapSelector'
 import DisconnectedPlayers from 'modules/disconnected-players/DisconnectedPlayers'
 import { ModalContext } from 'contexts'
-import { PlayerModal } from '../modules/player-modal/PlayerModal'
+import { PlayerModal, validPlayer } from 'modules/player-modal/PlayerModal'
 import { useQuery } from '@tanstack/react-query'
-import { fetchTeams } from '../api/users'
-import { flatTeams } from '../utils/extendPlayers'
-import { Player, PlayerWithoutSquad } from '../types/player'
+import { fetchTeams } from 'api/users'
+import { flatTeams } from 'utils/extendPlayers'
 
 export function Home() {
-  const [playerInModal, setPlayerInModal] = useState<
-    Player | PlayerWithoutSquad | null
-  >(null)
+  const [playerInModal, setPlayerInModal] = useState<validPlayer | null>(null)
 
   const {
     data: teams,

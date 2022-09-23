@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
-import { logoutResponse, selectLogout, selectLogoutInfo } from 'store'
+import React from 'react'
+import { selectLogout, selectLogoutInfo } from 'store'
 import { useDispatch, useSelector } from 'react-redux'
 
-export function LogoutBtn(props) {
+export function LogoutBtn() {
   const dispatch = useDispatch()
   const { isLoading, isError, isSuccess } = useSelector(selectLogoutInfo)
   const logout = useSelector(selectLogout)

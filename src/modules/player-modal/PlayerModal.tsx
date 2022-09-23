@@ -3,13 +3,15 @@ import styles from './PlayerModal.module.scss'
 import { Modal } from '../../components/modal'
 import { Actions } from 'components/modal/components/actions/Actions'
 import { Title } from 'components/modal/components/title/Title'
-import { Chat } from '../../components/modal/components/chat/Chat'
-import { Player, PlayerWithoutSquad } from '../../types/player'
-import { ActionBtn } from '../../components/modal/components/action-btn/ActionBtn'
+import { Chat } from 'components/modal/components/chat/Chat'
+import { DisconnectedPlayer, Player, PlayerWithoutSquad } from 'types/player'
+import { ActionBtn } from 'components/modal/components/action-btn/ActionBtn'
 import { Bans } from 'components/modal/components/bans/Bans'
 
+export type validPlayer = Player | PlayerWithoutSquad | DisconnectedPlayer
+
 interface Props {
-  player: Player | PlayerWithoutSquad
+  player: validPlayer
   onClose: () => void
 }
 
@@ -27,7 +29,7 @@ export function PlayerModal({ player, onClose }: Props) {
       </div>
       <div className={styles.tablesWrapper}>
         {selectedTab === 1 && <Chat playerSteamId={player.steamId} />}
-        {selectedTab === 2 && <Bans playerSteamId={player.steamId}/>}
+        {selectedTab === 2 && <Bans playerSteamId={player.steamId} />}
         {selectedTab === 3 && <h1>ТИМКИЛЛЫ</h1>}
       </div>
       {/*<Teamkills player={player} />*/}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styles from './BanForm.module.scss'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { banPlayer } from '../../../api/users'
+import { banPlayer } from 'api/users'
 import Select from 'react-select'
 
 interface Props {

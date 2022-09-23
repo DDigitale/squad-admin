@@ -1,11 +1,13 @@
 import React, { useContext } from 'react'
 import styles from './DisconnectedPlayers.module.scss'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { fetchDisconnectedPlayers, fetchTeams } from '../../api/users'
-import { ModalContext } from '../../contexts'
+import { useQuery } from '@tanstack/react-query'
+import { fetchDisconnectedPlayers } from 'api/users'
+import { ModalContext, ModalContextType } from 'contexts'
 
 function DisconnectedPlayers() {
-  const [playerModal, setPlayerModal] = useContext(ModalContext)
+  const [playerModal, setPlayerModal] = useContext(
+    ModalContext
+  ) as ModalContextType
 
   const {
     data: disconnectedPlayers,
