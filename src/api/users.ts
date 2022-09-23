@@ -80,7 +80,7 @@ export const fetchPlayerMessages = async (playerSteamId: string) => {
     if (!Array.isArray(response.data)) {
       throw new Error('Ошибка в получении данных')
     }
-    console.log('123', response.data)
+
     return response.data
   } catch (e) {
     throw new Error('Ошибка в получении данных')
@@ -103,6 +103,7 @@ export const fetchPlayerBans = async (playerSteamId: string) => {
     if (!Array.isArray(response.data)) {
       throw new Error('Ошибка в получении данных')
     }
+    console.log(response.data)
     return response.data
   } catch (e) {
     throw new Error('Ошибка в получении данных')

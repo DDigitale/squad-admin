@@ -6,6 +6,7 @@ import { Title } from 'components/modal/components/title/Title'
 import { Chat } from '../../components/modal/components/chat/Chat'
 import { Player, PlayerWithoutSquad } from '../../types/player'
 import { ActionBtn } from '../../components/modal/components/action-btn/ActionBtn'
+import { Bans } from 'components/modal/components/bans/Bans'
 
 interface Props {
   player: Player | PlayerWithoutSquad
@@ -24,14 +25,11 @@ export function PlayerModal({ player, onClose }: Props) {
         <ActionBtn text={'Баны'} onClick={() => setSelectedTab(2)} />
         <ActionBtn text={'Тимкиллы'} onClick={() => setSelectedTab(3)} />
       </div>
-      <div>
+      <div className={styles.tablesWrapper}>
         {selectedTab === 1 && <Chat playerSteamId={player.steamId} />}
-        {/*{selectedTab === 2 && <Chat playerSteamId={player.steamId} />}*/}
-        {selectedTab === 2 && <h1>БАНЫ</h1>}
-        {/*{selectedTab === 3 && <Chat playerSteamId={player.steamId} />}*/}
+        {selectedTab === 2 && <Bans playerSteamId={player.steamId}/>}
         {selectedTab === 3 && <h1>ТИМКИЛЛЫ</h1>}
       </div>
-      {/*<Bans player={player} />*/}
       {/*<Teamkills player={player} />*/}
     </Modal>
   )

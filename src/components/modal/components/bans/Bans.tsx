@@ -4,10 +4,14 @@ import { BanRow } from './BanRow'
 import { useQuery } from '@tanstack/react-query'
 import { fetchPlayerBans } from 'api/users'
 
-export function Bans({ player }) {
+interface Props {
+  playerSteamId: string
+}
+
+export function Bans({ playerSteamId  }:Props) {
   const { data: bans, isSuccess } = useQuery(
-    ['players', player.steamId, 'bans'],
-    () => fetchPlayerBans(player.steamId)
+    ['players', playerSteamId, 'bans'],
+    () => fetchPlayerBans(playerSteamId)
   )
 
   return (

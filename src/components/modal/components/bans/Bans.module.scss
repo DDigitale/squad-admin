@@ -1,3 +1,6 @@
 .wrapper {
-
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  height: 500px;
 }

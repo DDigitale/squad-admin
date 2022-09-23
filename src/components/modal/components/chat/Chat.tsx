@@ -9,14 +9,11 @@ interface Props {
 }
 
 export function Chat({ playerSteamId }: Props) {
-  console.log('player in chat', playerSteamId)
 
   const { data: messages, isSuccess } = useQuery(
     ['players', playerSteamId, 'messages'],
     () => fetchPlayerMessages(playerSteamId)
   )
-
-  console.log('chat in player', messages)
 
   return (
     <div className={styles.wrapper}>

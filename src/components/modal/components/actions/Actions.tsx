@@ -26,7 +26,6 @@ export function Actions({ player }: Props) {
           onClick={() => setSelectedTab(5)}
         />
       </div>
-      <div className={styles.actionsForm}>
         {selectedTab === 1 && <BanForm steamId={player.steamId} />}
         {selectedTab === 2 && <KickForm steamId={player.steamId} />}
         {selectedTab === 3 && <WarnForm steamId={player.steamId} />}
@@ -39,7 +38,6 @@ export function Actions({ player }: Props) {
             name={player.name}
           />
         )}
-      </div>
     </>
   )
 }
