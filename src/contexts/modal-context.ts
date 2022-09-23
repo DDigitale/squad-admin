@@ -1,9 +1,6 @@
 import React, { createContext } from 'react'
-import { Player, PlayerWithoutSquad } from '../types/player'
+import { validPlayer } from 'modules/player-modal/PlayerModal'
 
-export type ModalContextType = [
-  Player | PlayerWithoutSquad | null,
-  React.Dispatch<Player | PlayerWithoutSquad>
-]
+export type ModalContextType = [validPlayer | null, React.Dispatch<validPlayer>]
 
 export const ModalContext = createContext<ModalContextType | null>(null)

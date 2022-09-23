@@ -1,0 +1,40 @@
+import React, { MouseEventHandler, ReactNode, useRef } from 'react'
+import styles from './Modal.module.scss'
+
+import { createPortal } from 'react-dom'
+
+interface Props {
+  children: ReactNode
+  onClose: Function
+}
+
+export function Modal({ children, onClose }: Props) {
+  const modalRoot = document.getElementById('modalRoot')
+
+  const innerRef = useRef<HTMLDivElement | null>(null)
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!innerRef.current) return
+    if (!innerRef.current.contains(e.target as Node)) onClose()
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.code === 'Escape') onClose()
+  }
+
+  if (!modalRoot) throw new Error('Modal root not found')
+
+  return createPortal(
+    <div
+      className={styles.wrapper}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+    >
+      <div className={styles.modal} ref={innerRef}>
+        {children}
+      </div>
+    </div>,
+    modalRoot
+  )
+}

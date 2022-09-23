@@ -61,7 +61,7 @@ export interface Ban {
   playerSteamId: string
   isUnbannedManually: boolean
   unbannedAdminId: string
-  unbannedTime: Date
+  unbannedTime: Date | null
   creationTime: Date
   expirationTime: Date
 }

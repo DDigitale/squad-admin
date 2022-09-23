@@ -8,7 +8,7 @@ interface Props {
   playerSteamId: string
 }
 
-export function Bans({ playerSteamId  }:Props) {
+export function Bans({ playerSteamId }: Props) {
   const { data: bans, isSuccess } = useQuery(
     ['players', playerSteamId, 'bans'],
     () => fetchPlayerBans(playerSteamId)

@@ -5,6 +5,7 @@ const SLKits = ['SL', 'SLCrewman', 'SLPilot']
 const SLCrewmanKits = ['SLCrewman', 'SLPilot']
 
 export const extendData = (data: IGetOnline) => {
+  // saturate each player with violations
   data.teams.forEach((team) =>
     team.squads.forEach(sortSquadLeadersFirstOnPlace)
   )
