@@ -16,13 +16,9 @@ export function Chat({ playerSteamId }: Props) {
 
   return (
     <div className={styles.wrapper}>
-      {isSuccess && (
-        <>
-          {messages.map((message) => (
-            <ChatRow key={message.id} message={message} />
-          ))}
-        </>
-      )}
+      {messages?.map((message) => (
+        <ChatRow key={message.id} message={message} />
+      ))}
     </div>
   )
 }

@@ -15,26 +15,25 @@ export function BanRow({
     reason,
   },
 }: Props) {
-  console.log(unbannedTime)
-
   return (
     <div className={styles.row}>
       <div className={styles.up}>
         <span className={styles.adminName}>VoblaCringitale</span>
-        <span className={styles.creationTime}>
-          {creationTime.toLocaleString()}
-        </span>
-      </div>
-      <div className={styles.down}>
-        <span className={styles.reason}>{reason}</span>
-        <span className={styles.expirationTime}>
-          До: {expirationTime.toLocaleString()}
-        </span>
-        {unbannedTime && (
+        {unbannedTime ? (
           <span className={styles.unbannedTime}>
-            Разбанен вручную: {unbannedTime.toLocaleString()}
+            Разбанен {unbannedTime.toLocaleString()}
+          </span>
+        ) : (
+          <span className={styles.expirationTime}>
+            До {expirationTime.toLocaleString()}
           </span>
         )}
+      </div>
+      <div className={styles.down}>
+        <span className={styles.creationTime}>
+          {creationTime.toLocaleString('ru-RU')}
+        </span>
+        <span className={styles.reason}>{reason}</span>
       </div>
     </div>
   )

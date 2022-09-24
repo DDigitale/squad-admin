@@ -1,7 +1,15 @@
-.actionsBtns {
-  height: 3rem;
+.actionBtns {
   display: flex;
-  justify-content: space-between;
-  background-color: var(--color-dark1);
-  color: var(--color-gray3);
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.actionForms {
+  display: flex;
+  width: 400px;
+}
+
+.wrapper {
+  display: flex;
+  gap: 1rem;
 }

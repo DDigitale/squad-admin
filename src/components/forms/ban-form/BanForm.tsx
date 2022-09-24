@@ -3,6 +3,10 @@ import styles from './BanForm.module.scss'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { banPlayer } from 'api/users'
 import Select from 'react-select'
+import {
+  StylesConfig,
+  StylesProps,
+} from 'react-select/dist/declarations/src/styles'
 
 interface Props {
   steamId: string
@@ -31,6 +35,34 @@ export function BanForm({ steamId }: Props) {
       label:
         '1.3. Запрещено передавать сквадного другому игроку, если об этом не было договоренности. Выход из отряда приравнивается к передаче сквадного',
     },
+    {
+      value:
+        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
+      label:
+        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
+    },
+    ,
+    {
+      value:
+        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
+      label:
+        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
+    },
+    ,
+    {
+      value:
+        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
+      label:
+        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
+    },
+    ,
+    {
+      value:
+        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
+      label:
+        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
+    },
+    ,
     {
       value:
         '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
@@ -74,27 +106,56 @@ export function BanForm({ steamId }: Props) {
   )
 
   const handleChangeReason = (selectedOption: any) => {
-    console.log('asd', selectedOption)
     setBanReason(selectedOption.value)
   }
 
   const handleChangeLength = (selectedOption: any) => {
-    console.log('asd', selectedOption)
     setBanLength(selectedOption.value)
+  }
+
+  const customStyles = {
+    control: (provided: any, state: any) => ({
+      ...provided,
+      backgroundColor: '#3c3f41',
+      border: 'none',
+      height: 50,
+    }),
+    placeholder: (provided: any, state: any) => ({
+      ...provided,
+      color: 'rgba(253, 253, 254, 0.65)',
+    }),
+    option: (provided: any, state: any) => ({
+      ...provided,
+      borderBottom: '1px solid #5e5e5f',
+      backgroundColor: state.isSelected
+        ? '#939394'
+        : '#3c3f41' && state.isFocused
+        ? '#2a2a2b'
+        : '#3c3f41',
+      color: 'rgba(253, 253, 254, 0.65)',
+      padding: '0.6rem',
+    }),
+    menu: (provided: any, state: any) => ({
+      ...provided,
+      backgroundColor: '#3c3f41',
+    }),
   }
 
   return (
     <div className={styles.wrapper}>
       <Select
+        styles={customStyles}
         options={reasonOptions}
         onChange={handleChangeReason}
-        className={styles.reason}
+        placeholder={'Выберите причину'}
       />
       <div className={styles.container}>
         <Select
+          className={styles.length}
+          styles={customStyles}
           options={lengthOptions}
           onChange={handleChangeLength}
-          className={styles.length}
+          placeholder={'Выберите срок'}
         />
         <button
           className={styles.button}

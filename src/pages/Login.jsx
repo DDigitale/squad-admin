@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { getSteamLink } from '../store/slices/auth/authSlice'
+import { getSteamLink } from 'store/slices/auth/authSlice'
 
 export function Login() {
   const dispatch = useDispatch()
