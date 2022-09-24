@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SearchPlayer } from 'modules/search-player/SearchPlayer'
 import { PlayersList } from 'modules/players-list/PlayersList'
 import { ServerInfo } from 'modules/server-info/ServerInfo'
@@ -22,6 +22,10 @@ export function Home() {
   } = useQuery(['teams'], fetchTeams, {
     refetchInterval: 3000,
   })
+
+  useEffect(() => {
+    console.log('fetch')
+  }, [teams])
 
   if (!isSuccess) {
     return <h1>Загрузка игроков</h1>

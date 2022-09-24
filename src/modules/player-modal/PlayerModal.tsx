@@ -7,6 +7,8 @@ import { Chat } from 'components/modal/components/chat/Chat'
 import { DisconnectedPlayer, Player, PlayerWithoutSquad } from 'types/player'
 import { ActionBtn } from 'components/modal/components/action-btn/ActionBtn'
 import { Bans } from 'components/modal/components/bans/Bans'
+import { Card } from 'components/card/Card'
+import { MdNavigateNext } from 'react-icons/md'
 
 export type validPlayer = Player | PlayerWithoutSquad | DisconnectedPlayer
 
@@ -16,23 +18,50 @@ interface Props {
 }
 
 export function PlayerModal({ player, onClose }: Props) {
+  const [toggle, setToggle] = useState(false)
   const [selectedTab, setSelectedTab] = useState(1)
 
   return (
-    <Modal onClose={onClose}>
-      <Title player={player} />
-      <Actions player={player} />
-      <div className={styles.tablesBtn}>
-        <ActionBtn text={'Чат'} onClick={() => setSelectedTab(1)} />
-        <ActionBtn text={'Баны'} onClick={() => setSelectedTab(2)} />
-        <ActionBtn text={'Тимкиллы'} onClick={() => setSelectedTab(3)} />
-      </div>
-      <div className={styles.tablesWrapper}>
-        {selectedTab === 1 && <Chat playerSteamId={player.steamId} />}
-        {selectedTab === 2 && <Bans playerSteamId={player.steamId} />}
-        {selectedTab === 3 && <h1>ТИМКИЛЛЫ</h1>}
-      </div>
-      {/*<Teamkills player={player} />*/}
+    <Modal onClose={onClose} className={styles.modal}>
+      <Card className={styles.info}>
+        <Title player={player} showActions={() => setToggle(!toggle)} />
+        <div className={styles.tablesBtn}>
+          <ActionBtn
+            style={{
+              backgroundColor:
+                selectedTab === 1 ? 'rgba(51,253,217,0.2)' : null,
+            }}
+            text={'Чат'}
+            onClick={() => setSelectedTab(1)}
+          />
+          <ActionBtn
+            style={{
+              backgroundColor:
+                selectedTab === 2 ? 'rgba(51,253,217,0.2)' : null,
+            }}
+            text={'Баны'}
+            onClick={() => setSelectedTab(2)}
+          />
+          <ActionBtn
+            style={{
+              backgroundColor:
+                selectedTab === 3 ? 'rgba(51,253,217,0.2)' : null,
+            }}
+            text={'Тимкиллы'}
+            onClick={() => setSelectedTab(3)}
+          />
+        </div>
+        <div className={styles.tablesWrapper}>
+          {selectedTab === 1 && <Chat playerSteamId={player.steamId} />}
+          {selectedTab === 2 && <Bans playerSteamId={player.steamId} />}
+          {selectedTab === 3 && <h1>ТИМКИЛЛЫ</h1>}
+        </div>
+      </Card>
+      {toggle && (
+        <Card className={styles.actions}>
+          <Actions player={player} />
+        </Card>
+      )}
     </Modal>
   )
 }

@@ -34,15 +34,8 @@
 }
 
 .modal {
-  display: grid;
-  //grid-template-rows: 1rem 1fr;
   z-index: 2;
-  width: 650px;
-  height: 750px;
-  background-color: var(--color-dark2);
-  padding: 1rem;
-  color: var(--color-gray3);
-  border-radius: 8px;
+  height: 700px;
 }
 
 

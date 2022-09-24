@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styles from './PlayerItem.module.scss'
 import { ModalContext, ModalContextType } from 'contexts'
-import { Player, PlayerWithoutSquad } from '../../../../types/player'
+import { Player, PlayerWithoutSquad } from 'types/player'
 
 interface Props {
   player: Player | PlayerWithoutSquad

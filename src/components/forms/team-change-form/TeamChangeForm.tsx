@@ -21,7 +21,8 @@ export function TeamChangeForm({ steamId, name }: Props) {
         className={styles.button}
         onClick={() => teamChangeMutation.mutate()}
       >
-        СМЕНИТЬ КОМАНДУ ИГРОКУ {name}
+        СМЕНИТЬ КОМАНДУ ИГРОКУ <br />
+        {name}
       </button>
     </div>
   )

@@ -24,7 +24,8 @@ export function RemovePlayerFromSquadForm({ steamId, name }: Props) {
         className={styles.button}
         onClick={() => removePlayerFromSquadMutation.mutate()}
       >
-        ИСКЛЮЧИТЬ ИЗ ОТРЯДА ИГРОКА {name}
+        ИСКЛЮЧИТЬ ИЗ ОТРЯДА ИГРОКА <br />
+        {name}
       </button>
     </div>
   )

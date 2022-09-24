@@ -1,14 +1,19 @@
-import React, { MouseEventHandler, ReactNode, useRef } from 'react'
+import React, {
+  ComponentPropsWithoutRef,
+  MouseEventHandler,
+  ReactNode,
+  useRef,
+} from 'react'
 import styles from './Modal.module.scss'
 
 import { createPortal } from 'react-dom'
+import classnames from 'classnames'
 
-interface Props {
-  children: ReactNode
+interface Props extends ComponentPropsWithoutRef<'div'> {
   onClose: Function
 }
 
-export function Modal({ children, onClose }: Props) {
+export function Modal({ children, className, onClose }: Props) {
   const modalRoot = document.getElementById('modalRoot')
 
   const innerRef = useRef<HTMLDivElement | null>(null)
@@ -31,7 +36,7 @@ export function Modal({ children, onClose }: Props) {
       onKeyDown={handleKeyDown}
       tabIndex={0}
     >
-      <div className={styles.modal} ref={innerRef}>
+      <div className={classnames(className, styles.modal)} ref={innerRef}>
         {children}
       </div>
     </div>,
