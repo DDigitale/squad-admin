@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './TeamChangeForm.module.scss'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { teamChangePlayer } from '../../../api/users'
+import { teamChangePlayer } from 'api/users'
 
 interface Props {
   steamId: string

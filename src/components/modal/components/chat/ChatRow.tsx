@@ -1,13 +1,12 @@
 import React from 'react'
 import styles from './ChatRow.module.scss'
-import { Message } from '../../../../types/player'
+import { Message } from 'types/players'
 
 interface Props {
   message: Message
 }
 
 export function ChatRow({ message }: Props) {
-
   return (
     <div className={styles.row}>
       <span className={styles.time}>

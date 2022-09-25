@@ -1,6 +1,6 @@
 import React, { createContext } from 'react'
-import { validPlayer } from 'modules/player-modal/PlayerModal'
+import { steamId } from 'types/players'
 
-export type ModalContextType = [validPlayer | null, React.Dispatch<validPlayer>]
+export type ModalContextType = [steamId | null, React.Dispatch<steamId>]
 
 export const ModalContext = createContext<ModalContextType | null>(null)

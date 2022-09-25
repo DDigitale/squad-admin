@@ -1,12 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './ServerInfo.module.scss'
-import backgroundImage from 'assets/img/bg-layers/bg.png'
+import backgroundImage from "assets/img/bg-layers/Fool's.png"
 
 export function ServerInfo() {
+  const [layerImg, setLayerImg] = useState(null)
+
+  useEffect(() => {
+    const getImg = async () => {
+      const { default: layerImg } = await import(
+        // `assets/img/kits/${player.role.split('_')[1]}.png`
+        `assets/img/bg-layers/Gorodok.png`
+      )
+      setLayerImg(layerImg)
+    }
+    getImg()
+  }, [])
+
   return (
     <div
       className={styles.wrapper}
-      style={{ backgroundImage: `url(${backgroundImage})` }}
+      style={{ backgroundImage: `url(${layerImg})` }}
     >
       <div className={styles.item}>
         <span className={styles.text}>Текущий TPS</span>

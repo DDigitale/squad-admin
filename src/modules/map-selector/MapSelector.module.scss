@@ -10,13 +10,12 @@
   background-position: center;
   transition: 0.3s;
   &:hover {
-    filter: brightness(150%);
+    filter: brightness(50%);
   }
 }
 
 .title {
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.75);
-  color: var(--color-main);
 }
 
 .nextMap {
@@ -25,6 +24,5 @@
   line-height: 28px;
   display: flex;
   align-items: center;
-  color: var(--color-main);
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.75);
 }

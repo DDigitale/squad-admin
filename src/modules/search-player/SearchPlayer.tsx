@@ -16,7 +16,9 @@ export function SearchPlayer() {
 
   let players = teams
     ?.map((team) =>
-      team.squads.map((squad) => squad.players.map((player) => player))
+      team.squads.map((squad: any) =>
+        squad.players.map((player: any) => player)
+      )
     )
     .flat(2)
 

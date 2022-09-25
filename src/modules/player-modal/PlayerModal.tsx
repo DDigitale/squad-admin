@@ -1,23 +1,15 @@
 import React, { useRef, useState } from 'react'
 import styles from './PlayerModal.module.scss'
-import { Modal } from '../../components/modal'
-import { Actions } from 'components/modal/components/actions/Actions'
-import { Title } from 'components/modal/components/title/Title'
-import { Chat } from 'components/modal/components/chat/Chat'
-import { DisconnectedPlayer, Player, PlayerWithoutSquad } from 'types/player'
-import { ActionBtn } from 'components/modal/components/action-btn/ActionBtn'
-import { Bans } from 'components/modal/components/bans/Bans'
-import { Card } from 'components/card/Card'
-import { MdNavigateNext } from 'react-icons/md'
-
-export type validPlayer = Player | PlayerWithoutSquad | DisconnectedPlayer
+import { steamId } from 'types/players'
+import { Card, Modal } from 'components'
+import { ActionBtn, Actions, Bans, Chat, Title } from 'components/modal'
 
 interface Props {
-  player: validPlayer
+  playerSteamId: steamId
   onClose: () => void
 }
 
-export function PlayerModal({ player, onClose }: Props) {
+export function PlayerModal({ playerSteamId, onClose }: Props) {
   const [toggle, setToggle] = useState(false)
   const [selectedTab, setSelectedTab] = useState(1)
 
@@ -41,7 +33,10 @@ export function PlayerModal({ player, onClose }: Props) {
       innerElRefs={[infoRef, actionsRef]}
     >
       <Card className={styles.info} ref={infoRef}>
-        <Title player={player} showActions={() => setToggle(!toggle)} />
+        <Title
+          player={null as unknown as any}
+          showActions={() => setToggle(!toggle)}
+        />
         <div className={styles.tablesBtn}>
           <ActionBtn
             style={{
@@ -69,14 +64,14 @@ export function PlayerModal({ player, onClose }: Props) {
           />
         </div>
         {/*<div className={styles.tablesWrapper}>*/}
-        {selectedTab === 1 && <Chat playerSteamId={player.steamId} />}
-        {selectedTab === 2 && <Bans playerSteamId={player.steamId} />}
+        {selectedTab === 1 && <Chat playerSteamId={playerSteamId} />}
+        {selectedTab === 2 && <Bans playerSteamId={playerSteamId} />}
         {selectedTab === 3 && <h1>ТИМКИЛЛЫ</h1>}
         {/*</div>*/}
       </Card>
       {toggle && (
         <Card className={styles.actions} ref={actionsRef}>
-          <Actions player={player} />
+          <Actions player={playerSteamId} />
         </Card>
       )}
     </Modal>

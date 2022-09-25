@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './RemovePlayerFromSquadForm.module.scss'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { removePlayerFromSquad } from '../../../api/users'
+import { removePlayerFromSquad } from 'api/users'
 
 interface Props {
   steamId: string

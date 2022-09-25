@@ -1,11 +1,5 @@
-import React, {
-  ComponentPropsWithoutRef,
-  MouseEventHandler,
-  ReactNode,
-  useRef,
-} from 'react'
+import React, { ComponentPropsWithoutRef, useRef } from 'react'
 import styles from './Modal.module.scss'
-
 import { createPortal } from 'react-dom'
 import classnames from 'classnames'
 
