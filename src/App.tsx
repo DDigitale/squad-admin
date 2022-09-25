@@ -4,6 +4,7 @@ import { Login } from './pages/Login'
 import { NotFound } from './pages/NotFound'
 import { Home } from './pages/Home'
 import { PrivateRoutes } from 'pages/PrivateRoute'
+import { Players } from 'pages/Players'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route element={<PrivateRoutes />}>
             <Route path="/" element={<Home />} />
+            <Route path="/players" element={<Players />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

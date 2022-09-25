@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styles from './SearchPlayer.module.scss'
 import { useQuery } from '@tanstack/react-query'
-import { fetchTeams } from '../../api/users'
+import { fetchTeams } from 'api/users'
+import { ModalContext, ModalContextType } from 'contexts'
 
 export function SearchPlayer() {
+  const [playerModal, setPlayerModal] = useContext(
+    ModalContext
+  ) as ModalContextType
   const [search, setSearch] = useState('')
 
   let { data: teams } = useQuery(['teams'], fetchTeams, {
@@ -16,7 +20,7 @@ export function SearchPlayer() {
     )
     .flat(2)
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: any) => {
     setSearch(e.target.value)
   }
 
@@ -30,13 +34,13 @@ export function SearchPlayer() {
       />
       <>
         {search ? (
-          players
+          players!
             .filter((player) => player.name.toLowerCase().includes(search))
             .map((player) => (
               <div
                 key={player.name}
                 className={styles.item}
-                onClick={() => dispatch(showModal({ player }))}
+                onClick={() => setPlayerModal(player)}
               >
                 <p className={styles.name}>{player.name}</p>
               </div>

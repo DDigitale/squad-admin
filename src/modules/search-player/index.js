@@ -1,1 +1,1 @@
-export * from './SearchPlayer'
+export * from 'modules/search-player/SearchPlayer'
