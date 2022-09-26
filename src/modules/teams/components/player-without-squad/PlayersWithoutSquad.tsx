@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import styles from './PlayersWithoutSquad.module.scss'
-import { ModalContext, ModalContextType } from 'contexts'
+import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 import { PlayerWithoutSquad } from 'types/players'
 
 interface Props {
@@ -9,8 +9,8 @@ interface Props {
 
 export function PlayersWithoutSquad({ player }: Props) {
   const [playerModal, setPlayerModal] = useContext(
-    ModalContext
-  ) as ModalContextType
+    PlayerModalContext
+  ) as PlayerModalContextType
 
   return (
     <>

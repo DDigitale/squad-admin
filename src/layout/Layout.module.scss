@@ -1,6 +1,6 @@
 .layout {
   display: flex;
-  background-color: var(--color-gray1);
+  background-color: var(--color-dark2);
   max-width: 1980px;
   padding: 1.5rem 170px 1.5rem 20px;
   gap: 1rem;
@@ -9,4 +9,5 @@
   & main {
     flex-grow: 1;
   }
+  filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.3));
 }

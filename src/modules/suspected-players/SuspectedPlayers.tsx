@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import styles from './SuspectedPlayers.module.scss'
 import { ViolationRow } from 'modules/suspected-players/components'
-import { ModalContext, ModalContextType } from 'contexts'
+import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 import { Players } from 'types/players'
 
 interface Props {
@@ -10,8 +10,8 @@ interface Props {
 
 export function SuspectedPlayers({ players }: Props) {
   const [playerModal, setPlayerModal] = useContext(
-    ModalContext
-  ) as ModalContextType
+    PlayerModalContext
+  ) as PlayerModalContextType
 
   const playersWithViolations = players.filter(
     (player) => player.violations.length > 0

@@ -1,4 +1,5 @@
 .wrapper {
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.3rem;
@@ -19,8 +20,4 @@
   font-size: 16px;
   line-height: 16px;
   color: var(--color-main2);
-}
-
-.withoutSquad {
-  color: var(--color-gray1);
 }

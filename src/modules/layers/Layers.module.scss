@@ -1,0 +1,16 @@
+.wrapper {
+  grid-column-start: aside-right-start;
+  grid-column-end: aside-right-end;
+  grid-row: 2/-1;
+  background-color: var(--color-dark2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+.actionsWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}

@@ -2,12 +2,12 @@ import React, { useContext } from 'react'
 import styles from './DisconnectedPlayers.module.scss'
 import { useQuery } from '@tanstack/react-query'
 import { fetchDisconnectedPlayers } from 'api/users'
-import { ModalContext, ModalContextType } from 'contexts'
+import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 
 export function DisconnectedPlayers() {
   const [playerModal, setPlayerModal] = useContext(
-    ModalContext
-  ) as ModalContextType
+    PlayerModalContext
+  ) as PlayerModalContextType
 
   const {
     data: disconnectedPlayers,

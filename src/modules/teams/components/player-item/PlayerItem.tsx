@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styles from './PlayerItem.module.scss'
-import { ModalContext, ModalContextType } from 'contexts'
+import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 import { Players, PlayerWithoutSquad } from 'types/players'
 
 interface Props {
@@ -9,8 +9,8 @@ interface Props {
 
 export function PlayerItem({ player }: Props) {
   const [playerModal, setPlayerModal] = useContext(
-    ModalContext
-  ) as ModalContextType
+    PlayerModalContext
+  ) as PlayerModalContextType
 
   const [kitImg, setKitImg] = useState(null)
 

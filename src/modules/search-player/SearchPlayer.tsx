@@ -2,12 +2,12 @@ import React, { useContext, useState } from 'react'
 import styles from './SearchPlayer.module.scss'
 import { useQuery } from '@tanstack/react-query'
 import { fetchTeams } from 'api/users'
-import { ModalContext, ModalContextType } from 'contexts'
+import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 
 export function SearchPlayer() {
   const [playerModal, setPlayerModal] = useContext(
-    ModalContext
-  ) as ModalContextType
+    PlayerModalContext
+  ) as PlayerModalContextType
   const [search, setSearch] = useState('')
 
   let { data: teams } = useQuery(['teams'], fetchTeams, {

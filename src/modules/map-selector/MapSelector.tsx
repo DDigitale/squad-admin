@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styles from './MapSelector.module.scss'
-import backgroundImage from 'assets/img/bg-layers/Fallujah.png'
+import {
+  LayerModalContext,
+  LayerModalContextType,
+} from 'contexts/layer-modal-context'
 
 export function MapSelector() {
+  const [layerModal, setLayerModal] = useContext(
+    LayerModalContext
+  ) as LayerModalContextType
+
   const [layerImg, setLayerImg] = useState(null)
 
   useEffect(() => {
@@ -20,7 +27,12 @@ export function MapSelector() {
     <>
       <div
         className={styles.wrapper}
-        style={{ backgroundImage: `url(${layerImg})` }}
+        style={{
+          backgroundImage: `url(${layerImg})`,
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+        }}
+        onClick={() => setLayerModal(!layerModal)}
       >
         <p className={styles.title}>Следующая карта</p>
         <p className={styles.nextMap}>Sumari Bala RAAS v2</p>
