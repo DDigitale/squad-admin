@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './BansRow.module.scss'
-import { Ban } from '../../../../types/player'
+import { Ban } from 'types/players'
 
 interface Props {
   ban: Ban

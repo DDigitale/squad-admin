@@ -6,6 +6,7 @@
   flex-direction: column;
   justify-content: space-around;
   color: var(--color-gray1);
+  width: 12em;
 }
 
 .item {
@@ -23,5 +24,6 @@
 }
 
 .name {
+  all: unset;
   font-size: 24px;
 }

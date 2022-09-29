@@ -1,23 +1,113 @@
 import axios from 'axios'
-// @ts-ignore
-import jsonBigInt from 'json-bigint'
 import {
   API_URL,
   BAN_PLAYER,
   DISBAND_SQUAD,
+  GET_ADMIN_ACTIONS,
+  GET_ADMINS,
   GET_ONLINE,
+  GET_PLAYER,
   GET_PLAYER_BANS,
   GET_PLAYER_KICKS,
   GET_PLAYER_MESSAGES,
+  GET_PLAYERS,
   KICK_PLAYER,
   PLAYER_TEAM_CHANGE,
   REMOVE_PLAYER_FROM_SQUAD,
   WARN_PLAYER,
-} from 'config/api-config'
-import { extendData } from 'utils/extendPlayers'
-import { Ban, DisconnectedPlayer, Message, Team } from 'types/player'
+} from 'config'
+// @ts-ignore
+import jsonBigInt from 'json-bigint'
+import { extendData } from 'utils'
+import { Ban, DisconnectedPlayer, Message, Player, Team } from 'types/players'
 
 export const JSONbig = jsonBigInt({ storeAsString: true })
+
+export const fetchAdminsLog = async () => {
+  const response = await axios.post(
+    API_URL + GET_ADMIN_ACTIONS,
+    {
+      adminSteamId: 76561198054690038,
+      page: 0,
+      size: 100,
+    },
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  )
+  return response.data
+}
+
+export const fetchAdmins = async () => {
+  const response = await axios.post(
+    API_URL + GET_ADMINS,
+    {
+      page: 1,
+      size: 30,
+    },
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  )
+  return response.data
+}
+
+export const fetchPlayer = async (steamId: string) => {
+  const response = await axios.post(
+    API_URL + GET_PLAYER,
+    {
+      steamId,
+    },
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      transformResponse: [
+        (data) => {
+          return JSONbig.parse(data)
+        },
+      ],
+    }
+  )
+
+  return response.data
+}
+
+export interface IFetchPlayers {
+  content: Player[]
+  currentPage: number
+  hasNext: boolean
+  hasPrevious: boolean
+  nextPage: number
+  previousPage: number
+  totalPages: number
+  totalPlayers: number
+}
+
+export const fetchPlayers = async (): Promise<IFetchPlayers> => {
+  const response = await axios.post<IFetchPlayers>(
+    API_URL + GET_PLAYERS,
+    {
+      page: 1,
+      size: 30,
+    },
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  )
+
+  return response.data
+}
 
 export interface IGetOnline {
   teams: Team[]
@@ -37,6 +127,7 @@ export const fetchTeams = async (): Promise<Team[]> => {
     ],
   })
   extendData(response.data)
+  console.log(response.data)
   return response.data.teams
 }
 
@@ -92,15 +183,6 @@ export const fetchPlayerMessages = async (playerSteamId: string) => {
     throw new Error('Ошибка в получении данных')
   }
 }
-
-// type IFetchPlayerBans = {
-//   creationTime: string
-//   expirationTime: string
-//   id: number
-//   isUnbannedManually: boolean
-//   reason: string
-//   unbannedTime: string | null
-// }[]
 
 export const fetchPlayerBans = async (
   playerSteamId: string

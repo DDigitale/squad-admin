@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { warnPlayer } from '../../../api/users'
+import { warnPlayer } from 'api/users'
 import styles from './WarnForm.module.scss'
 import CreatableSelect from 'react-select/creatable'
 

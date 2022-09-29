@@ -1,0 +1,49 @@
+const API_URL = 'http://localhost:8000'
+const CALLBACK_URL = 'http://localhost:3000/'
+const GET_STEAM_LINK = '/get-steam-link'
+const VERIFY_STEAM = '/verify-steam'
+const AUTH = '/auth'
+const LOGOUT = '/logout'
+const GET_ONLINE = '/get-online'
+const GET_ADMINS = '/get-admins'
+const GET_ADMIN_ACTIONS = '/get-admin-actions'
+const GET_PLAYER = '/get-player'
+const GET_PLAYERS = '/get-players'
+const GET_PLAYER_MESSAGES = '/get-player-messages'
+const GET_PLAYER_KICKS = '/get-player-kicks'
+const GET_PLAYER_BANS = '/get-player-bans'
+const BAN_PLAYER = '/ban-player'
+const KICK_PLAYER = '/kick-player'
+const WARN_PLAYER = '/warn-player'
+const PLAYER_TEAM_CHANGE = '/player-team-change'
+const REMOVE_PLAYER_FROM_SQUAD = '/remove-player-from-squad'
+const DISBAND_SQUAD = '/disband-squad'
+const CHANGE_CURRENT_LAYER = '/change-current-layer-PROTECT'
+const CHANGE_NEXT_LAYER = '/change-next-layer-PROTECT'
+// const STEAM_KEY = 'D24E3D9EB90500EB1979B72B06B4D903'
+// const STEAM_INFO = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0001/?key=${STEAM_KEY}&steamids=`
+
+export {
+  API_URL,
+  CALLBACK_URL,
+  GET_STEAM_LINK,
+  VERIFY_STEAM,
+  AUTH,
+  LOGOUT,
+  GET_ONLINE,
+  GET_ADMINS,
+  GET_ADMIN_ACTIONS,
+  GET_PLAYER,
+  GET_PLAYERS,
+  GET_PLAYER_MESSAGES,
+  GET_PLAYER_KICKS,
+  GET_PLAYER_BANS,
+  BAN_PLAYER,
+  KICK_PLAYER,
+  WARN_PLAYER,
+  PLAYER_TEAM_CHANGE,
+  REMOVE_PLAYER_FROM_SQUAD,
+  DISBAND_SQUAD,
+  CHANGE_CURRENT_LAYER,
+  CHANGE_NEXT_LAYER,
+}

@@ -11,19 +11,35 @@
 .modal {
   display: flex;
   gap: 1rem;
+  align-items: start;
+  max-height: none;
+  height: 60em;
 }
 
 .info {
   display: grid;
   grid-template-columns: auto 5fr;
   grid-template-rows: auto 5fr;
+  align-self: stretch;
   gap: 1rem;
-  width: 700px;
+  width: 60em;
 }
 
+
 .actions {
-  //opacity: 1;
-  width: 550px;
+  //width: 550px;
+  height: max-content;
+  animation: fade 0.2s;
 }
+
+@keyframes fade {
+  0% {
+    transform: translateY(-1500px);
+  }
+  100% {
+    transform: translateY(0);;
+  }
+}
+
 
 

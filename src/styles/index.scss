@@ -1,16 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900);
-
-$color-dark1: #212122;
-$color-dark2: #2a2a2b;
-$color-gray1: #3c3f41;
-$color-gray2: #5e5e5f;
-$color-gray3: #939394;
-$color-main: #fdfdfe;
-$color-main2: rgba(253, 253, 254, 0.65);
-$color-blue: #4ba8fe;
-$color-orange: #fdac34;
-$color-green: #33fdd9;
-$color-red: #fd4b4c;
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900);
 
 * {
   --scrollbar-color: transparent;
@@ -54,55 +42,16 @@ $color-red: #fd4b4c;
   box-sizing: border-box;
 }
 
+#root {
+}
+
 body {
-  color: $color-main;
+  color: var(--color-main);
   font-family: Roboto, serif;
-  background: $color-dark1;
-  background-size: cover;
-}
-
-.login-page {
-  background: url('../assets/img/bg.png') no-repeat fixed center;
-  background-size: cover;
-  width: 100vw;
+  background: var(--color-dark1);
   height: 100vh;
 }
 
-.login-btn {
-  margin: 0 auto;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-.main-container {
-  display: grid;
-  grid-template-columns:
-    [menu-start] 180px
-    [menu-end aside-left-start] 1fr
-    [aside-left-end main-start] 2fr
-    [main-end aside-right-start] 1fr
-    [aside-right-end];
-  grid-template-rows: 1fr 7fr 1fr;
-  max-width: 1980px;
-  padding: 1.5rem 170px 1.5rem 20px;
-  gap: 1rem;
-  margin: auto;
-  height: 100vh;
-  overflow-y: hidden;
-  filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.3));
-  & > * {
-    border-radius: 8px;
-  }
-}
 
-.main {
-  display: flex;
-  flex-direction: column;
-  grid-column-start: main-start;
-  grid-column-end: main-end;
-  grid-row: 2/-1;
-  background-color: $color-dark2;
-}
+

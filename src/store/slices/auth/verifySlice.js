@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { API_URL, AUTH, VERIFY_STEAM } from '../../../config/api-config'
-import { openidParams } from 'pages/PrivateRoute'
+import { API_URL, AUTH, VERIFY_STEAM } from 'config/api-config'
+import { openidParams } from 'layout/PrivateRoute'
 
 const initialState = {
   isLoading: false,

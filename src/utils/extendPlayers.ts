@@ -1,5 +1,5 @@
-import { IGetOnline } from '../api/users'
-import { Player, Squad, Team } from '../types/player'
+import { IGetOnline } from 'api/users'
+import { Players, Squad, Team } from 'types/players'
 
 const SLKits = ['SL', 'SLCrewman', 'SLPilot']
 const SLCrewmanKits = ['SLCrewman', 'SLPilot']
@@ -10,9 +10,10 @@ export const extendData = (data: IGetOnline) => {
     team.squads.forEach(sortSquadLeadersFirstOnPlace)
   )
 
-  const addSLViolations = (player: Player) => {
+  const addSLViolations = (player: Players) => {
     const createdSquadsTeams = data.teams.map((team) => ({
       id: team.id,
+      team: team.teamName,
       squads: team.squads.filter(
         (squad) => squad.creatorSteam64id === player.steamId
       ),
@@ -31,9 +32,9 @@ export const extendData = (data: IGetOnline) => {
           player.violations.push({
             name: 'squad drop',
             payload: {
-              message: `Бросил отряд ${squad.id}${
+              message: `Бросил отряд ${squad.id} ${
                 player.teamId !== squad.teamId
-                  ? ' в противоположной команде'
+                  ? ` в противоположной команде`
                   : ''
               }`,
             },
@@ -43,17 +44,17 @@ export const extendData = (data: IGetOnline) => {
     )
   }
 
-  const addSLInvalidKitViolation = (player: Player) => {
+  const addSLInvalidKitViolation = (player: Players) => {
     if (player.isSquadLeader && !SLKits.includes(player.role.split('_')[1]))
       player.violations.push({
         name: 'invalid kit',
         payload: {
-          message: 'Без кита сквадного',
+          message: `Без кита сквадного`,
         },
       })
   }
 
-  const addCrewmanSLWithBigSquadViolation = (player: Player) => {
+  const addCrewmanSLWithBigSquadViolation = (player: Players) => {
     if (
       player.isSquadLeader &&
       SLCrewmanKits.includes(player.role.split('_')[1])
@@ -83,13 +84,13 @@ export const extendData = (data: IGetOnline) => {
   ]
   const players = flatTeams(data.teams)
 
-  players.forEach((player: Player) => {
+  players.forEach((player: Players) => {
     player.violations = []
     violationsFunctions.forEach((func) => func(player))
   })
 }
 
-export const flatTeams = (teams: Team[]): Player[] => {
+export const flatTeams = (teams: Team[]): Players[] => {
   return teams
     .map((team) =>
       team.squads.map((squad) => squad.players.map((player) => player))

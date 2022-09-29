@@ -1,9 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import {
-  API_URL,
-  CALLBACK_URL,
-  GET_STEAM_LINK,
-} from '../../../config/api-config'
+import { API_URL, CALLBACK_URL, GET_STEAM_LINK } from 'config/api-config'
 import axios from 'axios'
 
 const initialState = {

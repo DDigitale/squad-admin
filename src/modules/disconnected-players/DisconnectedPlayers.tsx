@@ -2,12 +2,12 @@ import React, { useContext } from 'react'
 import styles from './DisconnectedPlayers.module.scss'
 import { useQuery } from '@tanstack/react-query'
 import { fetchDisconnectedPlayers } from 'api/users'
-import { ModalContext, ModalContextType } from 'contexts'
+import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 
-function DisconnectedPlayers() {
+export function DisconnectedPlayers() {
   const [playerModal, setPlayerModal] = useContext(
-    ModalContext
-  ) as ModalContextType
+    PlayerModalContext
+  ) as PlayerModalContextType
 
   const {
     data: disconnectedPlayers,
@@ -33,7 +33,7 @@ function DisconnectedPlayers() {
           <div
             key={player.id}
             className={styles.item}
-            onClick={() => setPlayerModal(player)}
+            onClick={() => setPlayerModal(player.steamId)}
           >
             <div className={styles.name}>{player.name}</div>
             <div className={styles.since}>{player.sinceDisconnected} назад</div>
@@ -43,5 +43,3 @@ function DisconnectedPlayers() {
     </>
   )
 }
-
-export default DisconnectedPlayers

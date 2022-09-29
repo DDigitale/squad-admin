@@ -3,10 +3,6 @@ import styles from './BanForm.module.scss'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { banPlayer } from 'api/users'
 import Select from 'react-select'
-import {
-  StylesConfig,
-  StylesProps,
-} from 'react-select/dist/declarations/src/styles'
 
 interface Props {
   steamId: string
@@ -41,28 +37,24 @@ export function BanForm({ steamId }: Props) {
       label:
         '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
     },
-    ,
     {
       value:
         '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
       label:
         '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
     },
-    ,
     {
       value:
         '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
       label:
         '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
     },
-    ,
     {
       value:
         '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
       label:
         '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
     },
-    ,
     {
       value:
         '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',

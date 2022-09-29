@@ -9,6 +9,7 @@ interface Props {
 }
 
 export function Chat({ playerSteamId }: Props) {
+  console.log(playerSteamId)
   const { data: messages, isSuccess } = useQuery(
     ['players', playerSteamId, 'messages'],
     () => fetchPlayerMessages(playerSteamId)

@@ -1,17 +1,17 @@
 import React, { useContext } from 'react'
 import styles from './SuspectedPlayers.module.scss'
-import { ViolationRow } from 'modules/suspected-players/components/ViolationRow'
-import { ModalContext, ModalContextType } from '../../contexts'
-import { Player } from '../../types/player'
+import { ViolationRow } from 'modules/suspected-players/components'
+import { PlayerModalContext, PlayerModalContextType } from 'contexts'
+import { Players } from 'types/players'
 
 interface Props {
-  players: Player[]
+  players: Players[]
 }
 
 export function SuspectedPlayers({ players }: Props) {
   const [playerModal, setPlayerModal] = useContext(
-    ModalContext
-  ) as ModalContextType
+    PlayerModalContext
+  ) as PlayerModalContextType
 
   const playersWithViolations = players.filter(
     (player) => player.violations.length > 0
@@ -24,7 +24,7 @@ export function SuspectedPlayers({ players }: Props) {
         {playersWithViolations.map((player) => (
           <div
             key={player.id}
-            onClick={() => setPlayerModal(player)}
+            onClick={() => setPlayerModal(player.steamId)}
             className={styles.list}
           >
             <span className={styles.name}>{player.name}</span>

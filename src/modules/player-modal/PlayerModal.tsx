@@ -1,64 +1,87 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import styles from './PlayerModal.module.scss'
-import { Modal } from '../../components/modal'
-import { Actions } from 'components/modal/components/actions/Actions'
-import { Title } from 'components/modal/components/title/Title'
-import { Chat } from 'components/modal/components/chat/Chat'
-import { DisconnectedPlayer, Player, PlayerWithoutSquad } from 'types/player'
-import { ActionBtn } from 'components/modal/components/action-btn/ActionBtn'
-import { Bans } from 'components/modal/components/bans/Bans'
-import { Card } from 'components/card/Card'
-import { MdNavigateNext } from 'react-icons/md'
-
-export type validPlayer = Player | PlayerWithoutSquad | DisconnectedPlayer
+import { steamId } from 'types/players'
+import { Card, Modal } from 'components'
+import { ActionBtn, Actions, Bans, Chat, Title } from 'components/modal'
+import { useQuery } from '@tanstack/react-query'
+import { fetchPlayer } from 'api/users'
 
 interface Props {
-  player: validPlayer
+  playerSteamId: steamId
   onClose: () => void
 }
 
-export function PlayerModal({ player, onClose }: Props) {
+export function PlayerModal({ playerSteamId, onClose }: Props) {
+  const {
+    data: player,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useQuery(['player', playerSteamId, 'get-player'], () =>
+    fetchPlayer(playerSteamId)
+  )
+
+  console.log(player)
+
   const [toggle, setToggle] = useState(false)
   const [selectedTab, setSelectedTab] = useState(1)
 
+  const infoRef = useRef<HTMLDivElement | null>(null)
+  const actionsRef = useRef<HTMLDivElement | null>(null)
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    console.log(e)
+    if (!infoRef.current || !actionsRef.current) return
+    if (
+      !infoRef.current.contains(e.target as Node) &&
+      !actionsRef.current.contains(e.target as Node)
+    )
+      onClose()
+  }
+
   return (
-    <Modal onClose={onClose} className={styles.modal}>
-      <Card className={styles.info}>
-        <Title player={player} showActions={() => setToggle(!toggle)} />
-        <div className={styles.tablesBtn}>
-          <ActionBtn
-            style={{
-              backgroundColor:
-                selectedTab === 1 ? 'rgba(51,253,217,0.2)' : null,
-            }}
-            text={'Чат'}
-            onClick={() => setSelectedTab(1)}
-          />
-          <ActionBtn
-            style={{
-              backgroundColor:
-                selectedTab === 2 ? 'rgba(51,253,217,0.2)' : null,
-            }}
-            text={'Баны'}
-            onClick={() => setSelectedTab(2)}
-          />
-          <ActionBtn
-            style={{
-              backgroundColor:
-                selectedTab === 3 ? 'rgba(51,253,217,0.2)' : null,
-            }}
-            text={'Тимкиллы'}
-            onClick={() => setSelectedTab(3)}
-          />
-        </div>
-        <div className={styles.tablesWrapper}>
-          {selectedTab === 1 && <Chat playerSteamId={player.steamId} />}
-          {selectedTab === 2 && <Bans playerSteamId={player.steamId} />}
+    <Modal
+      onClose={onClose}
+      className={styles.modal}
+      innerElRefs={[infoRef, actionsRef]}
+    >
+      {isSuccess && (
+        <Card className={styles.info} ref={infoRef}>
+          <Title player={player} showActions={() => setToggle(!toggle)} />
+          <div className={styles.tablesBtn}>
+            <ActionBtn
+              style={{
+                backgroundColor:
+                  selectedTab === 1 ? 'rgba(51,253,217,0.2)' : null,
+              }}
+              text={'Чат'}
+              onClick={() => setSelectedTab(1)}
+            />
+            <ActionBtn
+              style={{
+                backgroundColor:
+                  selectedTab === 2 ? 'rgba(51,253,217,0.2)' : null,
+              }}
+              text={'Баны'}
+              onClick={() => setSelectedTab(2)}
+            />
+            <ActionBtn
+              style={{
+                backgroundColor:
+                  selectedTab === 3 ? 'rgba(51,253,217,0.2)' : null,
+              }}
+              text={'Тимкиллы'}
+              onClick={() => setSelectedTab(3)}
+            />
+          </div>
+          {selectedTab === 1 && <Chat playerSteamId={playerSteamId} />}
+          {selectedTab === 2 && <Bans playerSteamId={playerSteamId} />}
           {selectedTab === 3 && <h1>ТИМКИЛЛЫ</h1>}
-        </div>
-      </Card>
+        </Card>
+      )}
+
       {toggle && (
-        <Card className={styles.actions}>
+        <Card className={styles.actions} ref={actionsRef}>
           <Actions player={player} />
         </Card>
       )}

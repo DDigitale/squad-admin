@@ -1,1 +1,1 @@
-export * from './modal-context'
+export * from 'contexts/player-modal-context'

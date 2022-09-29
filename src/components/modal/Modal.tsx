@@ -1,26 +1,31 @@
-import React, {
-  ComponentPropsWithoutRef,
-  MouseEventHandler,
-  ReactNode,
-  useRef,
-} from 'react'
+import React, { ComponentPropsWithoutRef, useRef } from 'react'
 import styles from './Modal.module.scss'
-
 import { createPortal } from 'react-dom'
 import classnames from 'classnames'
 
+type innerElRef = React.MutableRefObject<HTMLDivElement | null>
+
 interface Props extends ComponentPropsWithoutRef<'div'> {
   onClose: Function
+  innerElRefs?: innerElRef[]
 }
 
-export function Modal({ children, className, onClose }: Props) {
+export function Modal({ children, className, onClose, innerElRefs }: Props) {
   const modalRoot = document.getElementById('modalRoot')
 
   const innerRef = useRef<HTMLDivElement | null>(null)
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!innerRef.current) return
-    if (!innerRef.current.contains(e.target as Node)) onClose()
+    if (innerElRefs) {
+      for (const innerElRef of innerElRefs) {
+        if (!innerRef.current) continue
+        if (innerElRef.current?.contains(e.target as Node)) return
+      }
+    } else {
+      if (!innerRef.current) return
+      if (innerRef.current.contains(e.target as Node)) return
+    }
+    onClose()
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
