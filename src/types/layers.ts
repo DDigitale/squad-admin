@@ -5,3 +5,5 @@ export interface Layer {
   mapName: string //without mode and version
   lighting: string
 }
+
+export type layer = object

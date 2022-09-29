@@ -20,8 +20,14 @@ export function Title({ player, showActions }: Props) {
         />
         <div className={styles.info}>
           <p className={styles.name}>{player.name}</p>
-          <p>В команде {player.teamId}</p>
-          <p>В отряде {player.squadID}</p>
+          {player.isOnline ? (
+            <>
+              <p>В команде {player.isOnline?.teamId}</p>
+              <p>В отряде {player.isOnline?.squadID}</p>
+            </>
+          ) : (
+            <p>Игрок оффлайн</p>
+          )}
           <a
             className={styles.link}
             href={`http://steamcommunity.com/profiles/${player.steamId}`}

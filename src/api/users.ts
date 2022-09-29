@@ -6,6 +6,7 @@ import {
   GET_ADMIN_ACTIONS,
   GET_ADMINS,
   GET_ONLINE,
+  GET_PLAYER,
   GET_PLAYER_BANS,
   GET_PLAYER_KICKS,
   GET_PLAYER_MESSAGES,
@@ -27,8 +28,8 @@ export const fetchAdminsLog = async () => {
     API_URL + GET_ADMIN_ACTIONS,
     {
       adminSteamId: 76561198054690038,
-      page: 1,
-      size: 30,
+      page: 0,
+      size: 100,
     },
     {
       withCredentials: true,
@@ -57,6 +58,28 @@ export const fetchAdmins = async () => {
   return response.data
 }
 
+export const fetchPlayer = async (steamId: string) => {
+  const response = await axios.post(
+    API_URL + GET_PLAYER,
+    {
+      steamId,
+    },
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      transformResponse: [
+        (data) => {
+          return JSONbig.parse(data)
+        },
+      ],
+    }
+  )
+
+  return response.data
+}
+
 export interface IFetchPlayers {
   content: Player[]
   currentPage: number
@@ -82,6 +105,7 @@ export const fetchPlayers = async (): Promise<IFetchPlayers> => {
       },
     }
   )
+
   return response.data
 }
 
@@ -103,6 +127,7 @@ export const fetchTeams = async (): Promise<Team[]> => {
     ],
   })
   extendData(response.data)
+  console.log(response.data)
   return response.data.teams
 }
 

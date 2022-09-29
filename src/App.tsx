@@ -6,35 +6,44 @@ import { steamId } from 'types/players'
 import { Admins, Login, NotFound, Panel, Players } from 'pages'
 import { PlayerModal } from 'modules'
 import { AdminsLog } from 'pages/admins-log/AdminsLog'
-import { LayerModalContext } from 'contexts/layer-modal-context'
+import { LayersContext } from 'contexts/layers-context'
+import { LayerActionsContext } from 'contexts/layer-actions-contex'
+import { layer } from 'types/layers'
+import { LayerModal } from 'modules/layers/LayerModal'
 
 function App() {
   const [playerInModal, setPlayerInModal] = useState<steamId | null>(null)
-  const [layerInModal, setLayerInModal] = useState<boolean>(false)
+  const [layersInMenu, setLayersInMenu] = useState<boolean>(false)
+  const [layerInModal, setLayerInModal] = useState<layer | undefined>(undefined)
 
   return (
     <PlayerModalContext.Provider value={[playerInModal, setPlayerInModal]}>
-      <LayerModalContext.Provider value={[layerInModal, setLayerInModal]}>
-        <Router>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route element={<PrivateRoutes />}>
-              <Route path="/" element={<Panel />} />
+      <LayersContext.Provider value={[layersInMenu, setLayersInMenu]}>
+        <LayerActionsContext.Provider value={[layerInModal, setLayerInModal]}>
+          <Router>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route element={<PrivateRoutes />}>
+                <Route path="/" element={<Panel />} />
 
-              <Route path="/players" element={<Players />} />
-              <Route path="/admins" element={<Admins />} />
-              <Route path="/admins-log" element={<AdminsLog />} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Router>
-        {playerInModal && (
-          <PlayerModal
-            playerSteamId={playerInModal}
-            onClose={() => setPlayerInModal(null)}
-          />
-        )}
-      </LayerModalContext.Provider>
+                <Route path="/players" element={<Players />} />
+                <Route path="/admins" element={<Admins />} />
+                <Route path="/admins-log" element={<AdminsLog />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Router>
+          {layerInModal && (
+            <LayerModal onClose={() => setLayerInModal(undefined)} />
+          )}
+          {playerInModal && (
+            <PlayerModal
+              playerSteamId={playerInModal}
+              onClose={() => setPlayerInModal(null)}
+            />
+          )}
+        </LayerActionsContext.Provider>
+      </LayersContext.Provider>
     </PlayerModalContext.Provider>
   )
 }

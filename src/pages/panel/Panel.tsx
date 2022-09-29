@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import styles from './Panel.module.scss'
 import { useQuery } from '@tanstack/react-query'
 import { fetchTeams } from 'api/users'
@@ -12,15 +12,12 @@ import {
   Teams,
 } from 'modules'
 import { Layers } from 'modules/layers/Layers'
-import {
-  LayerModalContext,
-  LayerModalContextType,
-} from 'contexts/layer-modal-context'
+import { LayersContext, LayersContextType } from 'contexts/layers-context'
 
 export function Panel() {
-  const [layerModal, setLayerModal] = useContext(
-    LayerModalContext
-  ) as LayerModalContextType
+  const [layersMenu, setLayersMenu] = useContext(
+    LayersContext
+  ) as LayersContextType
 
   const {
     data: teams,
@@ -46,7 +43,7 @@ export function Panel() {
         <Teams teams={teams} />
       </main>
       <MapSelector />
-      {layerModal ? (
+      {layersMenu ? (
         <Layers />
       ) : (
         <>

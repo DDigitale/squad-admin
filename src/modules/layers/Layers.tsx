@@ -4,6 +4,7 @@ import { Maps } from 'modules/layers/Maps'
 import { mapNamesList } from 'api/local/mapNamesList'
 import Select from 'react-select'
 import { gameModesList } from 'api/local/gameModesList'
+import { raw } from 'api/local/raw'
 
 export function Layers() {
   const [selectedMapName, setSelectedMapName] = useState('')

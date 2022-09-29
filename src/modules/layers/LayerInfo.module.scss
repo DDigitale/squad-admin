@@ -1,0 +1,162 @@
+.wrapper {
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1rem;
+}
+
+.layerImg {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 80vh;
+  height: 80vh;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: 0.7s;
+
+}
+
+.name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-main2);
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+}
+
+.info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.upper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.down {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.team {
+  font-size: 2rem;
+  font-weight: 300;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+}
+
+.flag {
+  width: 6rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 1);
+}
+
+.flagWrapper {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.lighting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & span {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 24px;
+    color: var(--color-main2);
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+  }
+}
+
+.vehicles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+
+  & img {
+    width: 2rem;
+  }
+
+  & span {
+    padding-right: 1rem;
+  }
+}
+
+.vehicleRow {
+  display: grid;
+  grid-template-columns: 2rem 10em 1fr;
+  align-items: center;
+}
+
+.button {
+  all: unset;
+  height: 30px;
+  width: 14em;
+  text-align: center;
+  border-radius: 5px;
+  transition: 0.2s;
+  cursor: pointer;
+  background-color: var(--color-gray1);
+  opacity: 0.5;
+  &:hover {
+    opacity: 1;
+    background-color: var(--color-orange);
+    color: var(--color-dark1);
+    font-weight: 700;
+  }
+}
+
+.confirm {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0.5rem;
+  background-color: var(--color-gray1);
+  border-radius: 8px;
+  font-size: 1.5rem;
+}
+
+.confBtn {
+  all: unset;
+  width: 5em;
+  text-align: center;
+  border-radius: 5px;
+  transition: 0.2s;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+    background-color: var(--color-green);
+    color: var(--color-dark1);
+    font-weight: 700;
+  }
+}
+
+.cancelBtn {
+  all: unset;
+  width: 7em;
+  text-align: center;
+  border-radius: 5px;
+  transition: 0.2s;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+    background-color: var(--color-red);
+    color: var(--color-dark1);
+    font-weight: 700;
+  }
+}

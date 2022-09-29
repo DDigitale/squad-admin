@@ -13,6 +13,7 @@ export const extendData = (data: IGetOnline) => {
   const addSLViolations = (player: Players) => {
     const createdSquadsTeams = data.teams.map((team) => ({
       id: team.id,
+      team: team.teamName,
       squads: team.squads.filter(
         (squad) => squad.creatorSteam64id === player.steamId
       ),
@@ -31,9 +32,9 @@ export const extendData = (data: IGetOnline) => {
           player.violations.push({
             name: 'squad drop',
             payload: {
-              message: `Бросил отряд ${squad.id}${
+              message: `Бросил отряд ${squad.id} ${
                 player.teamId !== squad.teamId
-                  ? ' в противоположной команде'
+                  ? ` в противоположной команде`
                   : ''
               }`,
             },
@@ -48,7 +49,7 @@ export const extendData = (data: IGetOnline) => {
       player.violations.push({
         name: 'invalid kit',
         payload: {
-          message: 'Без кита сквадного',
+          message: `Без кита сквадного`,
         },
       })
   }

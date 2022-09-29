@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styles from './MapSelector.module.scss'
-import {
-  LayerModalContext,
-  LayerModalContextType,
-} from 'contexts/layer-modal-context'
+import { LayersContext, LayersContextType } from 'contexts/layers-context'
 
 export function MapSelector() {
   const [layerModal, setLayerModal] = useContext(
-    LayerModalContext
-  ) as LayerModalContextType
+    LayersContext
+  ) as LayersContextType
 
   const [layerImg, setLayerImg] = useState(null)
 
