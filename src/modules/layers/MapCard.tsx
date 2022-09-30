@@ -9,7 +9,7 @@ interface Props {
   layer: any
 }
 
-export function MapCart({ layer }: Props) {
+export function MapCard({ layer }: Props) {
   const [layerActions, setLayerActions] = useContext(
     LayerActionsContext
   ) as LayerActionsContextType

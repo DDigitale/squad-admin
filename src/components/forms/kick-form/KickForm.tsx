@@ -45,7 +45,6 @@ export function KickForm({ steamId }: Props) {
   )
 
   const handleChange = (selectedOption: any) => {
-    console.log('asd', selectedOption)
     setKickReason(selectedOption.value)
   }
 

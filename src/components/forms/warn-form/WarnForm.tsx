@@ -45,7 +45,6 @@ export function WarnForm({ steamId }: Props) {
   )
 
   const handleChange = (selectedOption: any) => {
-    console.log('asd', selectedOption)
     setWarnReason(selectedOption.value)
   }
 

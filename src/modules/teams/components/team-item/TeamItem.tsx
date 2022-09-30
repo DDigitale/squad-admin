@@ -14,12 +14,46 @@ export function TeamItem({ team }: Props) {
   useEffect(() => {
     const getImg = async () => {
       const { default: flagImg } = await import(
-        `assets/img/flags/flag_${team.teamName.split(' ')[0]}.png`
+        `assets/img/flags/flag_${team.teamNameShort}.png`
       )
       setFlagImg(flagImg)
     }
     getImg()
   }, [])
+
+  let team1: any
+  switch (team.teamNameShort) {
+    case 'CAF':
+      team1 = 'Канада'
+      break
+    case 'GB':
+      team1 = 'Великобритания'
+      break
+    case 'INS':
+      team1 = 'Повстанцы'
+      break
+    case 'MIL':
+      team1 = 'Ополченцы'
+      break
+    case 'RUS':
+      team1 = 'Россия'
+      break
+    case 'USA':
+      team1 = 'США'
+      break
+    case 'USMC':
+      team1 = 'Морпехи'
+      break
+    case 'MEA':
+      team1 = 'МЕА'
+      break
+    case 'AUS':
+      team1 = 'Австралия'
+      break
+    default:
+      team1 = '---'
+      break
+  }
 
   return (
     <>
@@ -27,7 +61,7 @@ export function TeamItem({ team }: Props) {
         <div className={styles.flagWrapper}>
           <div className={styles.flagContent}>
             <img src={flagImg!} alt="" />
-            <p className={styles.generatedName}>Россия</p>
+            <p className={styles.generatedName}>{team1}</p>
           </div>
           <span className={styles.defaultName}>{team.teamName}</span>
         </div>

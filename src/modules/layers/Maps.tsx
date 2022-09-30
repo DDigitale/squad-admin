@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './Maps.module.scss'
 import { mapsNormalized } from 'api/local/mapsNormalized'
-import { MapCart } from 'modules/layers/MapCart'
+import { MapCard } from 'modules/layers/MapCard'
 
 interface Props {
   selectedMap: any
@@ -37,7 +37,7 @@ export function Maps({ selectedMap, selectedMode }: Props) {
   return (
     <div className={styles.wrapper}>
       {selectedMap || selectedMode ? (
-        filteredData.map((layer) => <MapCart layer={layer} />)
+        filteredData.map((layer) => <MapCard layer={layer} />)
       ) : (
         <h1>Выберите карту</h1>
       )}

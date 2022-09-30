@@ -4,6 +4,6 @@ import { fetchAdmins } from 'api/users'
 
 export function Admins() {
   const { data: admins, isSuccess, isError } = useQuery(['admins'], fetchAdmins)
-
+  console.log(admins)
   return <div>admins</div>
 }

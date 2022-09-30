@@ -13,12 +13,13 @@ export function BanRow({
     unbannedTime,
     isUnbannedManually,
     reason,
+    adminsBySteamId,
   },
 }: Props) {
   return (
     <div className={styles.row}>
       <div className={styles.up}>
-        <span className={styles.adminName}>VoblaCringitale</span>
+        <span className={styles.adminName}>{adminsBySteamId.name}</span>
         {unbannedTime ? (
           <span className={styles.unbannedTime}>
             Разбанен {unbannedTime.toLocaleString()}

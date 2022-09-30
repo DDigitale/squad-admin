@@ -21,8 +21,6 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
     fetchPlayer(playerSteamId)
   )
 
-  console.log(player)
-
   const [toggle, setToggle] = useState(false)
   const [selectedTab, setSelectedTab] = useState(1)
 

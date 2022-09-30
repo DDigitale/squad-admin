@@ -5,12 +5,14 @@ import {
   DISBAND_SQUAD,
   GET_ADMIN_ACTIONS,
   GET_ADMINS,
-  GET_ONLINE,
+  GET_DISCONNECTED_PLAYERS,
+  GET_ONLINE_PLAYERS,
   GET_PLAYER,
   GET_PLAYER_BANS,
   GET_PLAYER_KICKS,
   GET_PLAYER_MESSAGES,
   GET_PLAYERS,
+  GET_SERVER_INFO,
   KICK_PLAYER,
   PLAYER_TEAM_CHANGE,
   REMOVE_PLAYER_FROM_SQUAD,
@@ -22,6 +24,21 @@ import { extendData } from 'utils'
 import { Ban, DisconnectedPlayer, Message, Player, Team } from 'types/players'
 
 export const JSONbig = jsonBigInt({ storeAsString: true })
+
+export const fetchServerInfo = async () => {
+  try {
+    const response = await axios.get(API_URL + GET_SERVER_INFO, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    console.log('servinfo', response.data)
+    return response.data
+  } catch (e) {
+    throw new Error('Ошибка в получении данных')
+  }
+}
 
 export const fetchAdminsLog = async () => {
   const response = await axios.post(
@@ -89,13 +106,16 @@ export interface IFetchPlayers {
   previousPage: number
   totalPages: number
   totalPlayers: number
+  totalElements: number
+  page: number
+  hasMore: any
 }
 
-export const fetchPlayers = async (): Promise<IFetchPlayers> => {
+export const fetchPlayers = async (page: any): Promise<IFetchPlayers> => {
   const response = await axios.post<IFetchPlayers>(
     API_URL + GET_PLAYERS,
     {
-      page: 1,
+      page,
       size: 30,
     },
     {
@@ -103,6 +123,11 @@ export const fetchPlayers = async (): Promise<IFetchPlayers> => {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+      transformResponse: [
+        (data) => {
+          return JSONbig.parse(data)
+        },
+      ],
     }
   )
 
@@ -111,11 +136,10 @@ export const fetchPlayers = async (): Promise<IFetchPlayers> => {
 
 export interface IGetOnline {
   teams: Team[]
-  disconnectedPlayers: DisconnectedPlayer[]
 }
 
 export const fetchTeams = async (): Promise<Team[]> => {
-  const response = await axios.get<IGetOnline>(API_URL + GET_ONLINE, {
+  const response = await axios.get<IGetOnline>(API_URL + GET_ONLINE_PLAYERS, {
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
@@ -131,29 +155,21 @@ export const fetchTeams = async (): Promise<Team[]> => {
   return response.data.teams
 }
 
-interface IFetchDisconnectedPlayers {
-  teams: Team[]
-  disconnectedPlayers: DisconnectedPlayer[]
-}
-
 export const fetchDisconnectedPlayers = async (): Promise<
   DisconnectedPlayer[]
 > => {
-  const response = await axios.get<IFetchDisconnectedPlayers>(
-    API_URL + GET_ONLINE,
-    {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
+  const response = await axios.get(API_URL + GET_DISCONNECTED_PLAYERS, {
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    transformResponse: [
+      (data) => {
+        return JSONbig.parse(data)
       },
-      transformResponse: [
-        (data) => {
-          return JSONbig.parse(data)
-        },
-      ],
-    }
-  )
-  return response.data.disconnectedPlayers
+    ],
+  })
+  return response.data
 }
 
 export const fetchPlayerMessages = async (playerSteamId: string) => {

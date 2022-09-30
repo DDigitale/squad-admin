@@ -4,7 +4,8 @@ const GET_STEAM_LINK = '/get-steam-link'
 const VERIFY_STEAM = '/verify-steam'
 const AUTH = '/auth'
 const LOGOUT = '/logout'
-const GET_ONLINE = '/get-online'
+const GET_ONLINE_PLAYERS = '/get-online-players'
+const GET_DISCONNECTED_PLAYERS = '/get-disconnected-players'
 const GET_ADMINS = '/get-admins'
 const GET_ADMIN_ACTIONS = '/get-admin-actions'
 const GET_PLAYER = '/get-player'
@@ -12,6 +13,7 @@ const GET_PLAYERS = '/get-players'
 const GET_PLAYER_MESSAGES = '/get-player-messages'
 const GET_PLAYER_KICKS = '/get-player-kicks'
 const GET_PLAYER_BANS = '/get-player-bans'
+const GET_SERVER_INFO = '/get-server-info'
 const BAN_PLAYER = '/ban-player'
 const KICK_PLAYER = '/kick-player'
 const WARN_PLAYER = '/warn-player'
@@ -30,7 +32,8 @@ export {
   VERIFY_STEAM,
   AUTH,
   LOGOUT,
-  GET_ONLINE,
+  GET_ONLINE_PLAYERS,
+  GET_DISCONNECTED_PLAYERS,
   GET_ADMINS,
   GET_ADMIN_ACTIONS,
   GET_PLAYER,
@@ -38,6 +41,7 @@ export {
   GET_PLAYER_MESSAGES,
   GET_PLAYER_KICKS,
   GET_PLAYER_BANS,
+  GET_SERVER_INFO,
   BAN_PLAYER,
   KICK_PLAYER,
   WARN_PLAYER,

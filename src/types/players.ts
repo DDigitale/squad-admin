@@ -1,4 +1,5 @@
 export interface Team {
+  teamNameShort: string
   teamName: string
   id: number
   squads: Squad[]
@@ -61,6 +62,8 @@ export interface Ban {
   id: number
   reason: string
   adminSteamId: string
+  adminsBySteamId: any
+  admin: any
   playerSteamId: string
   isUnbannedManually: boolean
   unbannedAdminId: string

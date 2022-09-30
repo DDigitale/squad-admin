@@ -15,7 +15,7 @@ export function SearchPlayer() {
   })
 
   let players = teams
-    ?.map((team) =>
+    ?.map((team: { squads: any[] }) =>
       team.squads.map((squad: any) =>
         squad.players.map((player: any) => player)
       )
@@ -37,8 +37,10 @@ export function SearchPlayer() {
       <>
         {search ? (
           players!
-            .filter((player) => player.name.toLowerCase().includes(search))
-            .map((player) => (
+            .filter((player: { name: string }) =>
+              player.name.toLowerCase().includes(search)
+            )
+            .map((player: any) => (
               <div
                 key={player.name}
                 className={styles.item}

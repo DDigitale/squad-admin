@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import styles from './ServerInfo.module.scss'
 
-export function ServerInfo() {
+interface Props {
+  server: any
+}
+
+export function ServerInfo({ server }: Props) {
   const [layerImg, setLayerImg] = useState(null)
 
   useEffect(() => {
     const getImg = async () => {
       const { default: layerImg } = await import(
-        // `assets/img/kits/${player.role.split('_')[1]}.png`
-        `assets/img/bg-layers/Gorodok.png`
+        `assets/img/bg-layers/${server.currentLayer.split(' ')[0]}.png`
       )
       setLayerImg(layerImg)
     }
     getImg()
   }, [])
+
+  const formattedTime = (time: number) => {
+    const m = Math.floor(time / 60)
+    return m
+  }
 
   return (
     <div
@@ -26,15 +34,21 @@ export function ServerInfo() {
     >
       <div className={styles.item}>
         <span className={styles.text}>Текущий TPS</span>
-        <span className={styles.text}>30</span>
+        <span className={styles.text}>{`${server.serverTickRate} ${
+          server.maxTickRate === null ? '' : `(${server.maxTickRate})`
+        }`}</span>
       </div>
       <div className={styles.item}>
         <span className={styles.text}>Игроков на сервере</span>
-        <span className={styles.text}>99/100 (+23)</span>
+        <span className={styles.text}>
+          {server.playerCount}/{server.maxPlayers} (+{server.publicQueue})
+        </span>
       </div>
       <div className={styles.item}>
-        <span className={styles.text}>Текущая карта 1:49:53</span>
-        <span className={styles.text}>Gorodok AAS v1</span>
+        <span className={styles.text}>
+          Время игры {formattedTime(server.playTime)} мин
+        </span>
+        <span className={styles.text}>{server.currentLayer}</span>
       </div>
     </div>
   )
