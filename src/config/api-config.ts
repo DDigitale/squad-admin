@@ -14,6 +14,7 @@ const GET_PLAYER_MESSAGES = '/get-player-messages'
 const GET_PLAYER_KICKS = '/get-player-kicks'
 const GET_PLAYER_BANS = '/get-player-bans'
 const GET_SERVER_INFO = '/get-server-info'
+const GET_CHAT_MESSAGES = '/get-chat-messages'
 const BAN_PLAYER = '/ban-player'
 const KICK_PLAYER = '/kick-player'
 const WARN_PLAYER = '/warn-player'
@@ -21,7 +22,7 @@ const PLAYER_TEAM_CHANGE = '/player-team-change'
 const REMOVE_PLAYER_FROM_SQUAD = '/remove-player-from-squad'
 const DISBAND_SQUAD = '/disband-squad'
 const CHANGE_CURRENT_LAYER = '/change-current-layer-PROTECT'
-const CHANGE_NEXT_LAYER = '/change-next-layer-PROTECT'
+const CHANGE_NEXT_LAYER = '/change-next-layer'
 // const STEAM_KEY = 'D24E3D9EB90500EB1979B72B06B4D903'
 // const STEAM_INFO = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0001/?key=${STEAM_KEY}&steamids=`
 
@@ -42,6 +43,7 @@ export {
   GET_PLAYER_KICKS,
   GET_PLAYER_BANS,
   GET_SERVER_INFO,
+  GET_CHAT_MESSAGES,
   BAN_PLAYER,
   KICK_PLAYER,
   WARN_PLAYER,

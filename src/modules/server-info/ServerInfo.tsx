@@ -6,13 +6,18 @@ interface Props {
 }
 
 export function ServerInfo({ server }: Props) {
-  const [layerImg, setLayerImg] = useState(null)
+  const [layerImg, setLayerImg] = useState('')
 
   useEffect(() => {
     const getImg = async () => {
+      const mapName = server.currentLayer.split(' ')[0].startsWith('Fool')
+        ? 'Fool'
+        : server.currentLayer.split(' ')[0]
+
       const { default: layerImg } = await import(
-        `assets/img/bg-layers/${server.currentLayer.split(' ')[0]}.png`
+        `assets/img/bg-layers/${mapName}.png`
       )
+
       setLayerImg(layerImg)
     }
     getImg()
@@ -24,14 +29,13 @@ export function ServerInfo({ server }: Props) {
   }
 
   return (
-    <div
-      className={styles.wrapper}
-      style={{
-        backgroundImage: `url(${layerImg})`,
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-      }}
-    >
+    <div className={styles.wrapper}>
+      <div
+        className={styles.background}
+        style={{
+          backgroundImage: `url(${layerImg})`,
+        }}
+      />
       <div className={styles.item}>
         <span className={styles.text}>Текущий TPS</span>
         <span className={styles.text}>{`${server.serverTickRate} ${

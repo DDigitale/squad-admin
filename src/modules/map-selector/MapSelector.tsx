@@ -15,9 +15,11 @@ export function MapSelector({ nextLayer }: Props) {
 
   useEffect(() => {
     const getImg = async () => {
+      const mapName = nextLayer.split(' ')[0].startsWith('Fool')
+        ? 'Fool'
+        : nextLayer.split(' ')[0]
       const { default: layerImg } = await import(
-        // `assets/img/kits/${player.role.split('_')[1]}.png`
-        `assets/img/bg-layers/${nextLayer.split(' ')[0]}.png`
+        `assets/img/bg-layers/${mapName}.png`
       )
       setLayerImg(layerImg)
     }
@@ -28,15 +30,16 @@ export function MapSelector({ nextLayer }: Props) {
     <>
       <div
         className={styles.wrapper}
-        style={{
-          backgroundImage: `url(${layerImg})`,
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-        }}
         onClick={() => setLayerModal(!layerModal)}
       >
         <p className={styles.title}>Следующая карта</p>
         <p className={styles.nextMap}>{nextLayer}</p>
+        <div
+          className={styles.background}
+          style={{
+            backgroundImage: `url(${layerImg})`,
+          }}
+        />
       </div>
     </>
   )

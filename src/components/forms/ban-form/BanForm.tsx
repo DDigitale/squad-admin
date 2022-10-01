@@ -13,85 +13,60 @@ export function BanForm({ steamId }: Props) {
 
   const [banReason, setBanReason] = useState('')
   const [banLength, setBanLength] = useState('')
+  const [banLengthInTimeStamp, setBanLengthInTimeStamp] = useState('')
 
   const reasonOptions = [
     {
-      value: '1.1. В отряде всегда должен быть сквадной с китом SL',
-      label: '1.1. В отряде всегда должен быть сквадной с китом SL',
+      value: `В отряде всегда должен быть сквадной с китом SL.`,
+      label: 'В отряде всегда должен быть сквадной с китом SL',
     },
     {
-      value:
-        '1.2. SL должны иметь микрофон и поддерживать связь с другими игроками',
-      label:
-        '1.2. SL должны иметь микрофон и поддерживать связь с другими игроками',
+      value: `Политика.`,
+      label: 'Политика',
     },
     {
-      value:
-        '1.3. Запрещено передавать сквадного другому игроку, если об этом не было договоренности. Выход из отряда приравнивается к передаче сквадного',
-      label:
-        '1.3. Запрещено передавать сквадного другому игроку, если об этом не было договоренности. Выход из отряда приравнивается к передаче сквадного',
+      value: `Оскорбления в командирском чате.`,
+      label: 'Оскорбления в командирском чате',
     },
     {
-      value:
-        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
-      label:
-        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
+      value: `Оскорбления в чате.`,
+      label: 'Оскорбления в чате',
     },
     {
-      value:
-        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
-      label:
-        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
-    },
-    {
-      value:
-        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
-      label:
-        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
-    },
-    {
-      value:
-        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
-      label:
-        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
-    },
-    {
-      value:
-        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
-      label:
-        '1.4. Сквадному запрещено открывать технику требующую 2 кита crewman, если экипаж для нее не полный',
+      value: `Перекинул СЛ.`,
+      label: 'Перекинул СЛ',
     },
   ]
 
   const lengthOptions = [
     {
-      value: '1d',
+      value: { banLengthInTimeStamp: 86400000, banLength: '1d' },
       label: '1 день',
     },
     {
-      value: '3d',
+      value: { banLengthInTimeStamp: 259200000, banLength: '3d' },
       label: '3 дня',
     },
     {
-      value: '7d',
+      value: { banLengthInTimeStamp: 604800000, banLength: '7d' },
       label: '7 дней',
     },
     {
-      value: '14d',
+      value: { banLengthInTimeStamp: 1209600000, banLength: '14d' },
       label: '14 дней',
     },
     {
-      value: '30d',
+      value: { banLengthInTimeStamp: 2592000000, banLength: '30d' },
       label: '30 дней',
     },
     {
-      value: '0',
-      label: '8 лет',
+      value: { banLengthInTimeStamp: 90061000000, banLength: '0' },
+      label: 'Пермбан',
     },
   ]
 
   const banPlayerMutation = useMutation(
-    () => banPlayer(steamId, banLength, banReason),
+    () => banPlayer(steamId, banLength, banLengthInTimeStamp, banReason),
     {
       onSuccess: () => queryClient.invalidateQueries(['players']),
     }
@@ -102,7 +77,8 @@ export function BanForm({ steamId }: Props) {
   }
 
   const handleChangeLength = (selectedOption: any) => {
-    setBanLength(selectedOption.value)
+    setBanLength(selectedOption.value.banLength)
+    setBanLengthInTimeStamp(selectedOption.value.banLengthInTimeStamp)
   }
 
   const customStyles = {

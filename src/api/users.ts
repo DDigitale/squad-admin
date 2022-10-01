@@ -5,6 +5,7 @@ import {
   DISBAND_SQUAD,
   GET_ADMIN_ACTIONS,
   GET_ADMINS,
+  GET_CHAT_MESSAGES,
   GET_DISCONNECTED_PLAYERS,
   GET_ONLINE_PLAYERS,
   GET_PLAYER,
@@ -21,19 +22,44 @@ import {
 // @ts-ignore
 import jsonBigInt from 'json-bigint'
 import { extendData } from 'utils'
-import { Ban, DisconnectedPlayer, Message, Player, Team } from 'types/players'
+import {
+  Ban,
+  Chat,
+  DisconnectedPlayer,
+  Message,
+  Player,
+  Team,
+} from 'types/players'
 
 export const JSONbig = jsonBigInt({ storeAsString: true })
+
+export const fetchChatMessages = async () => {
+  try {
+    const response = await axios.get<Chat[]>(API_URL + GET_CHAT_MESSAGES, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      transformResponse: [
+        (data) => {
+          return JSONbig.parse(data)
+        },
+      ],
+    })
+    return response.data
+  } catch (e) {
+    throw new Error('Ошибка в получении данных')
+  }
+}
 
 export const fetchServerInfo = async () => {
   try {
     const response = await axios.get(API_URL + GET_SERVER_INFO, {
       withCredentials: true,
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
     })
-    console.log('servinfo', response.data)
     return response.data
   } catch (e) {
     throw new Error('Ошибка в получении данных')
@@ -111,7 +137,7 @@ export interface IFetchPlayers {
   hasMore: any
 }
 
-export const fetchPlayers = async (page: any): Promise<IFetchPlayers> => {
+export const fetchPlayers = async (page: number): Promise<IFetchPlayers> => {
   const response = await axios.post<IFetchPlayers>(
     API_URL + GET_PLAYERS,
     {
@@ -151,7 +177,6 @@ export const fetchTeams = async (): Promise<Team[]> => {
     ],
   })
   extendData(response.data)
-  console.log(response.data)
   return response.data.teams
 }
 
@@ -310,6 +335,7 @@ export const kickPlayer = async (playerSteamId: string, kickReason: string) => {
 export const banPlayer = async (
   playerSteamId: string,
   banLength: string,
+  banLengthInTimeStamp: string,
   banReason: string
 ) => {
   try {
@@ -318,6 +344,7 @@ export const banPlayer = async (
       {
         playerSteamId,
         banLength,
+        banLengthInTimeStamp,
         banReason,
       },
       {

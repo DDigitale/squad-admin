@@ -13,6 +13,7 @@ import {
 } from 'modules'
 import { Layers } from 'modules/layers/Layers'
 import { LayersContext, LayersContextType } from 'contexts/layers-context'
+import { Chat } from 'modules/chat/Chat'
 
 export function Panel() {
   const [layersMenu, setLayersMenu] = useContext(
@@ -41,7 +42,8 @@ export function Panel() {
 
   return (
     <div className={styles.wrapper}>
-      <SearchPlayer />
+      {/*<SearchPlayer />*/}
+      <Chat />
       <ServerInfo server={server} />
       <main className={styles.main}>
         <Teams teams={teams} />
