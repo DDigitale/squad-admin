@@ -1,18 +1,27 @@
-.wrapper {
+.chatCard {
   grid-column-start: aside-left-start;
   grid-column-end: aside-left-end;
   grid-row: 1/-1;
-  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
   padding: 1rem;
-  background-color: var(--color-dark2);
 }
 
-.content {
+.wrapper {
   display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-end;
-  border: 1px solid var(--color-gray1);
-  border-radius: 5px;
+  flex-direction: column;
+  background-color: var(--color-dark2);
   height: 100%;
   overflow-y: auto;
+  border: 1px solid var(--color-gray2);
+  border-radius: 0.3rem;
+
+  & > * {
+    border-bottom-width: 1px;
+    border-style: solid;
+    border-color: var(--color-gray2);
+  }
+  & > :last-child {
+    border: none;
+  }
 }

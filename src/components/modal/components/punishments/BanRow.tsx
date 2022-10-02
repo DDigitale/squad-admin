@@ -19,7 +19,12 @@ export function BanRow({
   return (
     <div className={styles.row}>
       <div className={styles.up}>
-        <span className={styles.adminName}>{adminsBySteamId.name}</span>
+        <div>
+          <span className={styles.creationTime}>
+            {creationTime.toLocaleString('ru-RU')}
+          </span>
+          <span className={styles.adminName}>{adminsBySteamId.name}</span>
+        </div>
         {unbannedTime ? (
           <span className={styles.unbannedTime}>
             Разбанен {unbannedTime.toLocaleString()}
@@ -31,10 +36,7 @@ export function BanRow({
         )}
       </div>
       <div className={styles.down}>
-        <span className={styles.creationTime}>
-          {creationTime.toLocaleString('ru-RU')}
-        </span>
-        <span className={styles.reason}>{reason}</span>
+        <span className={styles.reason}>{reason.split('.')[0]}</span>
       </div>
     </div>
   )

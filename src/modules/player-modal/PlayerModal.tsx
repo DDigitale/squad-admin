@@ -2,7 +2,14 @@ import React, { useRef, useState } from 'react'
 import styles from './PlayerModal.module.scss'
 import { steamId } from 'types/players'
 import { Card, Modal } from 'components'
-import { ActionBtn, Actions, Bans, Chat, Title } from 'components/modal'
+import {
+  ActionBtn,
+  Actions,
+  Punishments,
+  Chat,
+  Notes,
+  Title,
+} from 'components/modal'
 import { useQuery } from '@tanstack/react-query'
 import { fetchPlayer } from 'api/users'
 
@@ -60,7 +67,7 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
                 backgroundColor:
                   selectedTab === 2 ? 'rgba(51,253,217,0.2)' : null,
               }}
-              text={'Баны'}
+              text={'Наказания'}
               onClick={() => setSelectedTab(2)}
             />
             <ActionBtn
@@ -68,13 +75,13 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
                 backgroundColor:
                   selectedTab === 3 ? 'rgba(51,253,217,0.2)' : null,
               }}
-              text={'Тимкиллы'}
+              text={'Заметки'}
               onClick={() => setSelectedTab(3)}
             />
           </div>
           {selectedTab === 1 && <Chat playerSteamId={playerSteamId} />}
-          {selectedTab === 2 && <Bans playerSteamId={playerSteamId} />}
-          {selectedTab === 3 && <h1>ТИМКИЛЛЫ</h1>}
+          {selectedTab === 2 && <Punishments playerSteamId={playerSteamId} />}
+          {selectedTab === 3 && <Notes playerSteamId={playerSteamId} />}
         </Card>
       )}
 

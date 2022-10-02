@@ -5,7 +5,8 @@
 
 .button {
   all: unset;
-  height: 60px;
+  height: max-content;
+  padding: 0.6rem;
   width: 100%;
   font-size: 18px;
   text-align: center;

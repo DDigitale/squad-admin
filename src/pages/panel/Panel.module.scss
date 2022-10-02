@@ -5,16 +5,12 @@
     [aside-left-end main-start] 2fr
     [main-end aside-right-start] 1fr
     [aside-right-end];
-  grid-template-rows: 1fr 7fr 1fr;
+  grid-template-rows: 1fr 7fr 3fr;
   gap: 1rem;
   margin: auto;
   height: 100%;
   overflow-y: hidden;
-
-  filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.3));
-  & > * {
-    border-radius: 8px;
-  }
+  padding: 0.5rem;
 }
 
 .main {
@@ -23,5 +19,4 @@
   grid-column-start: main-start;
   grid-column-end: main-end;
   grid-row: 2/-1;
-  background-color: var(--color-dark2);
 }

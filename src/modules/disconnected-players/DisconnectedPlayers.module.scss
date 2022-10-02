@@ -2,8 +2,10 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 1.5rem;
+  padding: 1rem;
   background-color: var(--color-dark2);
+  box-shadow: var(--shadow-1);
+  border-radius: var(--radius-1);
 }
 
 .title {
@@ -14,9 +16,11 @@
 .item {
   cursor: pointer;
   display: flex;
+  align-items: center;
+  padding: 0.3rem;
   justify-content: space-between;
   transition: 0.3s;
-
+  font-weight: 300;
   &:hover {
     background-color: var(--color-gray1);
   }

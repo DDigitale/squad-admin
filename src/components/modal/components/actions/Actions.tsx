@@ -6,6 +6,7 @@ import { KickForm } from 'components/forms'
 import { WarnForm } from 'components/forms'
 import { TeamChangeForm } from 'components/forms'
 import { RemovePlayerFromSquadForm } from 'components/forms'
+import { NoteForm } from 'components/forms/note-form/NoteForm'
 
 interface Props {
   player: any
@@ -52,6 +53,13 @@ export function Actions({ player }: Props) {
           text={'Выгнать из отряда'}
           onClick={() => setSelectedTab(5)}
         />
+        <ActionBtn
+          style={{
+            backgroundColor: selectedTab === 6 ? 'rgba(253,172,52,0.4)' : null,
+          }}
+          text={'Добавить заметку'}
+          onClick={() => setSelectedTab(6)}
+        />
       </div>
       <div className={styles.actionForms}>
         {selectedTab === 1 && <BanForm steamId={player.steamId} />}
@@ -66,6 +74,7 @@ export function Actions({ player }: Props) {
             name={player.name}
           />
         )}
+        {selectedTab === 6 && <NoteForm steamId={player.steamId} />}
       </div>
     </div>
   )

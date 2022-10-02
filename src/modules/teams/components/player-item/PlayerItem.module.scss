@@ -3,9 +3,10 @@
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 0.2rem;
-  margin-left: 2rem;
+  padding: 0.3rem;
+  margin-left: 1.25rem;
   transition: 0.3s;
+  font-size: 1.2rem;
   &:hover {
     background-color: var(--color-gray1);
   }
@@ -17,7 +18,9 @@
 }
 
 .name {
-  font-size: 16px;
-  line-height: 16px;
-  color: var(--color-main2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3rem;
+  color: var(--color-gray3);
 }

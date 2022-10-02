@@ -1,29 +1,39 @@
+//.row {
+//  display: grid;
+//  grid-template-columns: 4fr 1fr;
+//  grid-template-rows: 1em 1fr;
+//  align-items: center;
+//  padding: 0.6rem;
+//  gap: 0.6rem;
+//  border-bottom: 1px solid var(--color-gray1);
+//}
+
 .row {
   display: grid;
-  grid-template-columns: 3fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: auto 5em;
+  grid-template-rows: 1em 1fr;
   align-items: center;
-  padding: 0.5rem;
-  gap: 0.5rem;
-  border-bottom: 1px solid var(--color-gray1);
-  //&:last-child {
-  //  border: none;
-  //}
+  padding: 0.6rem;
+  gap: 0.6rem;
 }
 
 .name{
+  cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 1rem;
   transition: 0.3s;
+  color: var(--color-gray3);
   &:hover {
     color: var(--color-orange);
   }
 }
 
 .time {
+  font-weight: 300;
   white-space: nowrap;
+  align-self: start;
   text-align: center;
   font-size: 0.85rem;
   color: var(--color-gray3);
@@ -33,6 +43,8 @@
 }
 
 .type {
+  min-width: 0;
+  font-weight: 300;
   font-size: 0.85rem;
   text-align: center;
   color: var(--color-gray3);
@@ -42,6 +54,9 @@
 }
 
 .message {
+  word-wrap: anywhere;
+  overflow-wrap: break-word;
+  min-width: 0;
   font-size: 1rem;
-  color: var(--color-gray3);
+  color: var(--color-gray2);
 }

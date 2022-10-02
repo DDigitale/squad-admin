@@ -1,6 +1,11 @@
 .wrapper {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
+  //display: grid;
+  //grid-template-columns: repeat(2, 1fr);
+  //gap: 0.5rem;
+  display: flex;
+
   overflow-y: auto;
+  box-shadow: var(--shadow-1);
+  border-radius: var(--radius-1);
+  background-color: var(--color-dark2);
 }

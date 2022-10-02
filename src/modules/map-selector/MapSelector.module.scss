@@ -8,9 +8,10 @@
   gap: 0.25rem;
   transition: 0.3s;
   position: relative;
+  box-shadow: var(--shadow-1);
+  border-radius: var(--radius-1);
   &:hover {
     filter: brightness(80%);
-    box-shadow: 0 0 6px 0 #000 inset;
   }
 }
 

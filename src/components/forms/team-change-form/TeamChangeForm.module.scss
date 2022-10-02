@@ -5,11 +5,12 @@
 
 .button {
   all: unset;
-  height: 60px;
+  height: max-content;
   width: 100%;
-  font-size: 18px;
+  padding: 0.6rem;
+  font-size: 1.15rem;
   text-align: center;
-  border-radius: 5px;
+  border-radius: 0.3rem;
   transition: 0.2s;
   cursor: pointer;
   background-color: var(--color-gray1);
@@ -17,6 +18,5 @@
   &:hover {
     background-color: var(--color-red);
     color: var(--color-main);
-    font-weight: 700;
   }
 }

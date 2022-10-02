@@ -1,13 +1,9 @@
 .wrapper {
-  width: 60%;
-  margin: auto;
   display: flex;
   flex-direction: column;
+  gap: 0.2rem;
   border: 1px solid var(--color-gray1);
   border-radius: 0.5rem;
+  //height: 100%;
   overflow-y: auto;
 }
-
-
-
-

@@ -3,14 +3,12 @@ import {
   API_URL,
   BAN_PLAYER,
   DISBAND_SQUAD,
-  GET_ADMIN_ACTIONS,
+  GET_ADMINS_ACTIONS,
   GET_ADMINS,
   GET_CHAT_MESSAGES,
   GET_DISCONNECTED_PLAYERS,
   GET_ONLINE_PLAYERS,
   GET_PLAYER,
-  GET_PLAYER_BANS,
-  GET_PLAYER_KICKS,
   GET_PLAYER_MESSAGES,
   GET_PLAYERS,
   GET_SERVER_INFO,
@@ -18,13 +16,17 @@ import {
   PLAYER_TEAM_CHANGE,
   REMOVE_PLAYER_FROM_SQUAD,
   WARN_PLAYER,
+  GET_PLAYER_NOTES,
+  NOTE_PLAYER,
+  DELETE_PLAYER_NOTE,
+  GET_PLAYER_PUNISHMENT_HISTORY,
 } from 'config'
 // @ts-ignore
 import jsonBigInt from 'json-bigint'
 import { extendData } from 'utils'
 import {
   Ban,
-  Chat,
+  ChatMessage,
   DisconnectedPlayer,
   Message,
   Player,
@@ -33,9 +35,9 @@ import {
 
 export const JSONbig = jsonBigInt({ storeAsString: true })
 
-export const fetchChatMessages = async () => {
+export const fetchChatMessages = async (): Promise<ChatMessage[]> => {
   try {
-    const response = await axios.get<Chat[]>(API_URL + GET_CHAT_MESSAGES, {
+    const response = await axios.get(API_URL + GET_CHAT_MESSAGES, {
       withCredentials: true,
       headers: {
         'Content-Type': 'application/json',
@@ -46,11 +48,22 @@ export const fetchChatMessages = async () => {
         },
       ],
     })
-    return response.data
+    const transformedData = response.data.map((message: any) => ({
+      ...message,
+      time: new Date(Date.parse(message.time)),
+    }))
+    return transformedData
   } catch (e) {
     throw new Error('Ошибка в получении данных')
   }
 }
+
+// transformResponse: (data) => {
+//   return JSON.parse(data, (key, value) => {
+//     if (key === 'creationTime') return new Date(Date.parse(value))
+//     return value
+//   })
+// },
 
 export const fetchServerInfo = async () => {
   try {
@@ -66,19 +79,49 @@ export const fetchServerInfo = async () => {
   }
 }
 
-export const fetchAdminsLog = async () => {
-  const response = await axios.post(
-    API_URL + GET_ADMIN_ACTIONS,
+export interface IFetchAdminsLog {
+  previousPage: number
+  nextPage: number
+  totalPages: number
+  totalElements: number
+  hasPrevious: boolean
+  hasNext: boolean
+  currentPage: number
+  content: any
+  reason: string
+  createTime: string
+  action: string
+  playerByAdminId: {
+    steamId: string
+    createTime: string
+    playersNotesBySteamId: number
+    name: string
+    playersBansBySteamId: number
+    playersKicksBySteamId: number
+    playersMessagesBySteamId: number
+  }
+  id: number
+}
+
+export const fetchAdminsLog = async (
+  page: number
+): Promise<IFetchAdminsLog> => {
+  const response = await axios.post<IFetchAdminsLog>(
+    API_URL + GET_ADMINS_ACTIONS,
     {
-      adminSteamId: 76561198054690038,
-      page: 0,
-      size: 100,
+      page,
+      size: 20,
     },
     {
       withCredentials: true,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+      transformResponse: [
+        (data) => {
+          return JSONbig.parse(data)
+        },
+      ],
     }
   )
   return response.data
@@ -142,7 +185,7 @@ export const fetchPlayers = async (page: number): Promise<IFetchPlayers> => {
     API_URL + GET_PLAYERS,
     {
       page,
-      size: 30,
+      size: 40,
     },
     {
       withCredentials: true,
@@ -194,7 +237,34 @@ export const fetchDisconnectedPlayers = async (): Promise<
       },
     ],
   })
-  return response.data
+  return response.data.reverse()
+}
+
+export const fetchPlayerNotes = async (playerSteamId: string) => {
+  try {
+    const response = await axios.post(
+      API_URL + GET_PLAYER_NOTES,
+      { playerSteamId },
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        transformResponse: [
+          (data) => {
+            return JSONbig.parse(data)
+          },
+        ],
+      }
+    )
+    if (!Array.isArray(response.data)) {
+      throw new Error('Ошибка в получении данных')
+    }
+
+    return response.data.reverse()
+  } catch (e) {
+    throw new Error('Ошибка в получении данных')
+  }
 }
 
 export const fetchPlayerMessages = async (playerSteamId: string) => {
@@ -219,18 +289,30 @@ export const fetchPlayerMessages = async (playerSteamId: string) => {
       throw new Error('Ошибка в получении данных')
     }
 
-    return response.data
+    return response.data.reverse()
   } catch (e) {
     throw new Error('Ошибка в получении данных')
   }
 }
 
-export const fetchPlayerBans = async (
-  playerSteamId: string
-): Promise<Ban[]> => {
+// transformResponse: (data) => {
+//   return JSON.parse(data, (key, value) => {
+//     const dateStrings = [
+//       'creationTime',
+//       'expirationTime',
+//       'unbannedTime',
+//     ]
+//
+//     if (dateStrings.includes(key) && value !== null)
+//       return new Date(Date.parse(value))
+//     return value
+//   })
+// },
+
+export const fetchPlayerPunishmentHistory = async (playerSteamId: string) => {
   try {
     const response = await axios.post(
-      API_URL + GET_PLAYER_BANS,
+      API_URL + GET_PLAYER_PUNISHMENT_HISTORY,
       { playerSteamId },
       {
         withCredentials: true,
@@ -252,36 +334,66 @@ export const fetchPlayerBans = async (
         },
       }
     )
-
-    if (!Array.isArray(response.data)) {
-      throw new Error('Ошибка в получении данных')
-    }
-
     return response.data
   } catch (e) {
     throw new Error('Ошибка в получении данных')
   }
 }
 
-const fetchPlayerKicks = async (playerSteamId: string) => {
+export const deletePlayerNote = async (
+  noteId: number,
+  playerSteamId: string
+) => {
   try {
     const response = await axios.post(
-      API_URL + GET_PLAYER_KICKS,
-      { playerSteamId },
+      API_URL + DELETE_PLAYER_NOTE,
+      {
+        playerSteamId,
+        noteId,
+      },
       {
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        transformResponse: [
+          (data) => {
+            return JSONbig.parse(data)
+          },
+        ],
       }
     )
-    if (!Array.isArray(response.data)) {
-      throw new Error('Ошибка в получении данных')
-    }
+    console.log(
+      `delete note ${noteId} from player ${playerSteamId}`,
+      response.data
+    )
     return response.data
-  } catch (e) {
-    throw new Error('Ошибка в получении данных')
-  }
+  } catch (e) {}
+}
+
+export const notePlayer = async (playerSteamId: string, note: string) => {
+  try {
+    const response = await axios.post(
+      API_URL + NOTE_PLAYER,
+      {
+        playerSteamId,
+        note,
+      },
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        transformResponse: [
+          (data) => {
+            return JSONbig.parse(data)
+          },
+        ],
+      }
+    )
+    console.log(`note ${playerSteamId} with string ${note}`, response.data)
+    return response.data
+  } catch (e) {}
 }
 
 export const warnPlayer = async (playerSteamId: string, warnReason: string) => {

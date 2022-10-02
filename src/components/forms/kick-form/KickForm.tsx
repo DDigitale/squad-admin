@@ -53,7 +53,7 @@ export function KickForm({ steamId }: Props) {
       ...provided,
       backgroundColor: '#3c3f41',
       border: 'none',
-      height: 50,
+      height: '2.5rem',
     }),
     placeholder: (provided: any, state: any) => ({
       ...provided,

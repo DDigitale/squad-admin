@@ -8,6 +8,8 @@
   align-items: center;
   gap: 1rem;
   padding: 1.5rem;
+  box-shadow: var(--shadow-1);
+  border-radius: var(--radius-1);
   animation: myAnim 300ms linear 0s 1 normal none;
 }
 

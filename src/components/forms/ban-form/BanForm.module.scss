@@ -13,15 +13,15 @@
 }
 
 .length {
-  width: 80%;
+  width: 40%;
 }
 
 .button {
   all: unset;
-  height: 50px;
+  height: 2.5rem;
   text-align: center;
-  width: 80%;
-  border-radius: 5px;
+  width: 60%;
+  border-radius: 0.3rem;
   transition: 0.2s;
   cursor: pointer;
   background-color: var(--color-gray1);
@@ -29,6 +29,5 @@
   &:hover {
     background-color: var(--color-red);
     color: var(--color-main);
-    font-weight: 700;
   }
 }

@@ -13,20 +13,23 @@
 .up {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .adminName {
-  font-size: 20px;
+  font-size: 1.3rem;
   color: var(--color-main2);
+  margin-right: 0.5rem;
 }
 
 .creationTime {
   white-space: nowrap;
   color: var(--color-main2);
-  font-size: 14px;
+  font-size: 0.85rem;
   padding: 0.3rem;
+  margin-right: 0.5rem;
   background-color: var(--color-gray1);
-  border-radius: 5px;
+  border-radius: 0.3rem;
 }
 
 .down {
@@ -43,17 +46,16 @@
   color: var(--color-red);
   display: flex;
   justify-content: space-between;
-  font-size: 15px;
+  font-size: 0.85rem;
   padding: 0.3rem;
   background-color: var(--color-gray1);
-  border-radius: 5px;
+  border-radius: 0.3rem;
 }
 
 .unbannedTime {
   color: var(--color-dark1);
   padding: 0.3rem;
   background-color: #62862a;
-  height: 1.5rem;
-  border-radius: 5px;
+  border-radius: 0.3rem;
 }
 

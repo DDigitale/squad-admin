@@ -82,8 +82,8 @@ export interface Player extends PlayerBase {
 
 export type steamId = string
 
-export interface Chat {
-  time: string
+export interface ChatMessage {
+  time: Date
   type: string
   chainID: bigint
   chatType: string

@@ -13,8 +13,8 @@ export function Navbar() {
   return (
     <div className={styles.wrapper}>
       {links.map(([title, link], index) => (
-        <NavLink key={index} to={link}>
-          <span className={styles.name}>{title}</span>
+        <NavLink className={styles.link} key={index} to={link}>
+          <span>{title}</span>
         </NavLink>
       ))}
     </div>

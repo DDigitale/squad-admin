@@ -10,9 +10,9 @@ export function ServerInfo({ server }: Props) {
 
   useEffect(() => {
     const getImg = async () => {
-      const mapName = server.currentLayer.split(' ')[0].startsWith('Fool')
+      const mapName = server?.currentLayer?.split(' ')[0].startsWith('Fool')
         ? 'Fool'
-        : server.currentLayer.split(' ')[0]
+        : server?.currentLayer?.split(' ')[0]
 
       const { default: layerImg } = await import(
         `assets/img/bg-layers/${mapName}.png`
@@ -38,21 +38,19 @@ export function ServerInfo({ server }: Props) {
       />
       <div className={styles.item}>
         <span className={styles.text}>Текущий TPS</span>
-        <span className={styles.text}>{`${server.serverTickRate} ${
-          server.maxTickRate === null ? '' : `(${server.maxTickRate})`
-        }`}</span>
+        <span className={styles.text}>{server?.serverTickRate}</span>
       </div>
       <div className={styles.item}>
         <span className={styles.text}>Игроков на сервере</span>
         <span className={styles.text}>
-          {server.playerCount}/{server.maxPlayers} (+{server.publicQueue})
+          {server?.playerCount}/{server?.maxPlayers} (+{server?.publicQueue})
         </span>
       </div>
       <div className={styles.item}>
         <span className={styles.text}>
-          Время игры {formattedTime(server.playTime)} мин
+          Время игры {formattedTime(server?.playTime)} мин
         </span>
-        <span className={styles.text}>{server.currentLayer}</span>
+        <span className={styles.text}>{server?.currentLayer}</span>
       </div>
     </div>
   )

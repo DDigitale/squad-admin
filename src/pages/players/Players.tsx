@@ -75,6 +75,7 @@ export function Players() {
     <div className={styles.wrapper}>
       <div className={styles.tableWrapper}>
         <PlayersTable content={players.content} />
+
         <div className={styles.pagination}>
           <button
             className={styles.pageNumberBtn}

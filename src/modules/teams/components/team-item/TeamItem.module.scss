@@ -1,8 +1,9 @@
 .teamWrapper {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   padding: 1rem;
+  width: 0;
+  flex: 1 0 0;
 }
 
 .flagWrapper {
@@ -10,8 +11,8 @@
   flex-direction: column;
   align-items: flex-start;
   padding: 0;
-  gap: 12px;
-  margin-bottom: 30px;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .flagContent {
@@ -21,18 +22,21 @@
   gap: 1rem;
   & img {
     width: 5em;
+    border-radius: 0.3rem;
+  }
+
+  & p {
+    color: var(--color-main2)
   }
 }
 
 .generatedName {
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 28px;
+  font-weight: 500;
+  font-size: 1.85rem;
 }
 
 .defaultName {
-  line-height: 19px;
-  color: var(--color-gray3);
+  color: var(--color-gray2);
 }
 
 .title {
@@ -40,6 +44,8 @@
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  height: 40px;
+  padding: 0.6rem;
+  background-color: rgba(33, 33, 34, 0.55);
+  border-radius: 0.3rem;
   color: var(--color-gray3);
 }

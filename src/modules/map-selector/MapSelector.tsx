@@ -15,9 +15,9 @@ export function MapSelector({ nextLayer }: Props) {
 
   useEffect(() => {
     const getImg = async () => {
-      const mapName = nextLayer.split(' ')[0].startsWith('Fool')
+      const mapName = nextLayer?.split(' ')[0].startsWith('Fool')
         ? 'Fool'
-        : nextLayer.split(' ')[0]
+        : nextLayer?.split(' ')[0]
       const { default: layerImg } = await import(
         `assets/img/bg-layers/${mapName}.png`
       )
