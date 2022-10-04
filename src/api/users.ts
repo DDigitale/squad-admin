@@ -20,6 +20,7 @@ import {
   NOTE_PLAYER,
   DELETE_PLAYER_NOTE,
   GET_PLAYER_PUNISHMENT_HISTORY,
+  GET_PLAYERS_BY_CONTAINS_TEXT,
 } from 'config'
 // @ts-ignore
 import jsonBigInt from 'json-bigint'
@@ -34,6 +35,28 @@ import {
 } from 'types/players'
 
 export const JSONbig = jsonBigInt({ storeAsString: true })
+
+export const fetchPlayerSearch = async (text: string) => {
+  const response = await axios.post(
+    API_URL + GET_PLAYERS_BY_CONTAINS_TEXT,
+    {
+      text,
+      maxSize: 10,
+    },
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      transformResponse: [
+        (data) => {
+          return JSONbig.parse(data)
+        },
+      ],
+    }
+  )
+  return response.data
+}
 
 export const fetchChatMessages = async (): Promise<ChatMessage[]> => {
   try {
@@ -57,13 +80,6 @@ export const fetchChatMessages = async (): Promise<ChatMessage[]> => {
     throw new Error('Ошибка в получении данных')
   }
 }
-
-// transformResponse: (data) => {
-//   return JSON.parse(data, (key, value) => {
-//     if (key === 'creationTime') return new Date(Date.parse(value))
-//     return value
-//   })
-// },
 
 export const fetchServerInfo = async () => {
   try {

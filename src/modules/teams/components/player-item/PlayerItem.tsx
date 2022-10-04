@@ -22,14 +22,14 @@ export function PlayerItem({ player }: Props) {
       setKitImg(kitImg)
     }
     getImg()
-  }, [])
+  }, [player.role])
 
   return (
     <>
       <div
         style={{
           backgroundColor:
-            player.violations.length > 0 ? 'rgba(253,75,76,0.07)' : '',
+            player.violations.length > 0 ? 'rgba(253,75,76,0.05)' : '',
         }}
         className={styles.wrapper}
         onClick={() => setPlayerModal(player.steamId)}

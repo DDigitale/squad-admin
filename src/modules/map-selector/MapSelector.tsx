@@ -24,7 +24,7 @@ export function MapSelector({ nextLayer }: Props) {
       setLayerImg(layerImg)
     }
     getImg()
-  }, [])
+  }, [nextLayer])
 
   return (
     <>

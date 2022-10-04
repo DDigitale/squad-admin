@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from 'pages/players/Players.module.scss'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { fetchPlayers } from 'api/users'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { fetchPlayers, fetchPlayerSearch } from 'api/users'
 import { PlayersTable } from 'pages/players/PlayersTable'
 import { useSearchParams } from 'react-router-dom'
+import { Layout } from 'layout'
 
 type pageNumbers = number[]
 
@@ -25,7 +26,6 @@ export function Players() {
   const setPage = (page: number) => {
     setSearchParams({ page: page.toString() })
   }
-
   const nextPage = () => {
     setPage(page + 1)
   }
@@ -75,7 +75,6 @@ export function Players() {
     <div className={styles.wrapper}>
       <div className={styles.tableWrapper}>
         <PlayersTable content={players.content} />
-
         <div className={styles.pagination}>
           <button
             className={styles.pageNumberBtn}

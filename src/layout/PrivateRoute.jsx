@@ -1,8 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
+import styles from './PrivateRoute.module.scss'
 import { selectVerifyInfo, verifySteam } from 'store'
 import React, { useEffect } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { Layout } from 'layout'
+import Header from 'components/header/Header'
 
 const urlSearchParams = new URLSearchParams(window.location.search)
 export const openidParams = Object.fromEntries(urlSearchParams.entries())
@@ -24,9 +26,12 @@ export const PrivateRoutes = () => {
     <>
       {isLoading && <h1>LOADING</h1>}
       {token && (
-        <Layout>
-          <Outlet />
-        </Layout>
+        <div className={styles.wrapper}>
+          <Header />
+          <Layout>
+            <Outlet />
+          </Layout>
+        </div>
       )}
       {isError && <Navigate to="/login" />}
     </>

@@ -21,11 +21,10 @@ export function ServerInfo({ server }: Props) {
       setLayerImg(layerImg)
     }
     getImg()
-  }, [])
+  }, [server])
 
   const formattedTime = (time: number) => {
-    const m = Math.floor(time / 60)
-    return m
+    return Math.floor(time / 60)
   }
 
   return (

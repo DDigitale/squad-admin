@@ -3,7 +3,7 @@
   grid-column-end: main-end;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  padding: 1.5rem;
+  padding: 1rem;
   position: relative;
   box-shadow: var(--shadow-1);
   border-radius: var(--radius-1);
@@ -33,6 +33,9 @@
 }
 
 .text:nth-child(2) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 1.75rem;
   font-weight: bold;
   text-shadow: 0 4px 10px rgba(0, 0, 0, 1);

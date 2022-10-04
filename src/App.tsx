@@ -10,6 +10,7 @@ import { LayersContext } from 'contexts/layers-context'
 import { LayerActionsContext } from 'contexts/layer-actions-contex'
 import { layer } from 'types/layers'
 import { LayerModal } from 'modules/layers/LayerModal'
+import Header from 'components/header/Header'
 
 function App() {
   const [playerInModal, setPlayerInModal] = useState<steamId | null>(null)
@@ -25,7 +26,6 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route element={<PrivateRoutes />}>
                 <Route path="/" element={<Panel />} />
-
                 <Route path="/players" element={<Players />} />
                 <Route path="/admins" element={<Admins />} />
                 <Route path="/admins-log" element={<AdminsLog />} />

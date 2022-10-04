@@ -4,7 +4,9 @@
   flex-direction: row;
   align-items: center;
   gap: 0.3rem;
-  margin-left: 2.25rem;
+  padding: 0.25rem;
+  margin-left: 1.25rem;
+  font-size: 1.2rem;
   transition: 0.3s;
   &:hover {
     background-color: var(--color-gray1);

@@ -1,10 +1,12 @@
 .layout {
   display: flex;
   max-width: 1980px;
-  padding: 1.5rem 170px 1.5rem 20px;
+  padding: 1rem 10rem 1rem 1rem;
+  max-height: 100%;
   gap: 1rem;
   margin: auto;
-  height: 100vh;
+  overflow-y: hidden;
+
   & main {
     flex-grow: 1;
   }

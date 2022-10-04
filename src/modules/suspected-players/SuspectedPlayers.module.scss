@@ -1,11 +1,13 @@
 .wrapper {
   display: flex;
   flex-direction: column;
+  max-height: 100%;
   flex-grow: 3;
   padding: 1rem;
   background-color: var(--color-dark2);
   box-shadow: var(--shadow-1);
   border-radius: var(--radius-1);
+  overflow-y: auto;
 }
 
 

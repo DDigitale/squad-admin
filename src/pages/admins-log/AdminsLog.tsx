@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../players/Players.module.scss'
+import styles from './AdminsLog.module.scss'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchAdminsLog } from 'api/users'
 import { useSearchParams } from 'react-router-dom'

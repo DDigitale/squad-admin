@@ -19,7 +19,7 @@ export function TeamItem({ team }: Props) {
       setFlagImg(flagImg)
     }
     getImg()
-  }, [])
+  }, [team])
 
   let team1: any
   switch (team.teamNameShort) {
@@ -63,7 +63,7 @@ export function TeamItem({ team }: Props) {
             <img src={flagImg!} alt="" />
             <p className={styles.generatedName}>{team1}</p>
           </div>
-          <span className={styles.defaultName}>{team.teamName}</span>
+          {/*<span className={styles.defaultName}>{team.teamName}</span>*/}
         </div>
         {team.squads.map((squad) => (
           <SquadItem key={squad.id} squad={squad} />
