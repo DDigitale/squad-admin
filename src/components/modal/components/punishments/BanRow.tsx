@@ -1,6 +1,8 @@
 import React from 'react'
 import styles from './BansRow.module.scss'
 import { Ban } from 'types/players'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { unbanPlayer } from 'api/users'
 
 interface Props {
   ban: Ban
@@ -14,8 +16,14 @@ export function BanRow({
     isUnbannedManually,
     reason,
     adminsBySteamId,
+    id,
   },
 }: Props) {
+  const queryClient = useQueryClient()
+  const unbanPlayerMutation = useMutation(() => unbanPlayer(id), {
+    onSuccess: () => queryClient.invalidateQueries(['players']),
+  })
+
   return (
     <div className={styles.row}>
       <div className={styles.up}>
@@ -36,7 +44,15 @@ export function BanRow({
         )}
       </div>
       <div className={styles.down}>
-        <span className={styles.reason}>{reason.split('.')[0]}</span>
+        <span className={styles.reason}>Бан: {reason.split('.')[0]}</span>
+        {!isUnbannedManually && (
+          <button
+            className={styles.unbanBtn}
+            onClick={() => unbanPlayerMutation.mutate()}
+          >
+            Разбанить
+          </button>
+        )}
       </div>
     </div>
   )

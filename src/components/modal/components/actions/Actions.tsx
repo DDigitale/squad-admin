@@ -20,51 +20,57 @@ export function Actions({ player }: Props) {
       <div className={styles.actionBtns}>
         <ActionBtn
           style={{
-            backgroundColor: selectedTab === 1 ? 'rgba(253,75,76,0.4)' : null,
+            backgroundColor: selectedTab === 1 ? 'rgba(51,253,217,0.2)' : null,
           }}
           text={'Забанить'}
           onClick={() => setSelectedTab(1)}
         />
         <ActionBtn
           style={{
-            backgroundColor: selectedTab === 2 ? 'rgba(253,75,76,0.4)' : null,
+            backgroundColor: selectedTab === 2 ? 'rgba(51,253,217,0.2)' : null,
           }}
           text={'Кикнуть'}
           onClick={() => setSelectedTab(2)}
         />
         <ActionBtn
           style={{
-            backgroundColor: selectedTab === 3 ? 'rgba(253,172,52,0.4)' : null,
+            backgroundColor: selectedTab === 3 ? 'rgba(51,253,217,0.2)' : null,
           }}
           text={'Сообщение'}
           onClick={() => setSelectedTab(3)}
         />
         <ActionBtn
           style={{
-            backgroundColor: selectedTab === 4 ? 'rgba(253,172,52,0.4)' : null,
+            backgroundColor: selectedTab === 4 ? 'rgba(51,253,217,0.2)' : null,
           }}
           text={'Сменить команду'}
           onClick={() => setSelectedTab(4)}
         />
         <ActionBtn
           style={{
-            backgroundColor: selectedTab === 5 ? 'rgba(253,172,52,0.4)' : null,
+            backgroundColor: selectedTab === 5 ? 'rgba(51,253,217,0.2)' : null,
           }}
           text={'Выгнать из отряда'}
           onClick={() => setSelectedTab(5)}
         />
         <ActionBtn
           style={{
-            backgroundColor: selectedTab === 6 ? 'rgba(253,172,52,0.4)' : null,
+            backgroundColor: selectedTab === 6 ? 'rgba(51,253,217,0.2)' : null,
           }}
           text={'Добавить заметку'}
           onClick={() => setSelectedTab(6)}
         />
       </div>
       <div className={styles.actionForms}>
-        {selectedTab === 1 && <BanForm steamId={player.steamId} />}
-        {selectedTab === 2 && <KickForm steamId={player.steamId} />}
-        {selectedTab === 3 && <WarnForm steamId={player.steamId} />}
+        {selectedTab === 1 && (
+          <BanForm steamId={player.steamId} name={player.name} />
+        )}
+        {selectedTab === 2 && (
+          <KickForm steamId={player.steamId} name={player.name} />
+        )}
+        {selectedTab === 3 && (
+          <WarnForm steamId={player.steamId} name={player.name} />
+        )}
         {selectedTab === 4 && (
           <TeamChangeForm steamId={player.steamId} name={player.name} />
         )}

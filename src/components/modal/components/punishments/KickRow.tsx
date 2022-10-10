@@ -19,7 +19,7 @@ export function KickRow({
         </div>
       </div>
 
-      <span className={styles.reason}>{reason}</span>
+      <span className={styles.reason}>Кик: {reason}</span>
     </div>
   )
 }

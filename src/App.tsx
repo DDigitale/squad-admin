@@ -10,7 +10,7 @@ import { LayersContext } from 'contexts/layers-context'
 import { LayerActionsContext } from 'contexts/layer-actions-contex'
 import { layer } from 'types/layers'
 import { LayerModal } from 'modules/layers/LayerModal'
-import Header from 'components/header/Header'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   const [playerInModal, setPlayerInModal] = useState<steamId | null>(null)
@@ -42,6 +42,31 @@ function App() {
               onClose={() => setPlayerInModal(null)}
             />
           )}
+          <Toaster
+            position="top-right"
+            reverseOrder={false}
+            gutter={5}
+            containerClassName=""
+            containerStyle={{}}
+            toastOptions={{
+              // Define default options
+              className: '',
+              duration: 4000,
+              style: {
+                background: '#434343',
+                color: '#b1b1b1',
+              },
+
+              // Default options for specific types
+              success: {
+                duration: 3000,
+                theme: {
+                  primary: 'green',
+                  secondary: 'black',
+                },
+              },
+            }}
+          />
         </LayerActionsContext.Provider>
       </LayersContext.Provider>
     </PlayerModalContext.Provider>

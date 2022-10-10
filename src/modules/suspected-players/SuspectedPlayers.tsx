@@ -13,7 +13,7 @@ export function SuspectedPlayers({ players }: Props) {
     PlayerModalContext
   ) as PlayerModalContextType
 
-  const playersWithViolations = players.filter(
+  const playersWithViolations = players?.filter(
     (player) => player.violations.length > 0
   )
 
@@ -21,7 +21,7 @@ export function SuspectedPlayers({ players }: Props) {
     <>
       <div className={styles.wrapper}>
         <span className={styles.title}>Нарушители</span>
-        {playersWithViolations.map((player) => (
+        {playersWithViolations?.map((player) => (
           <div
             key={player.id}
             onClick={() => setPlayerModal(player.steamId)}

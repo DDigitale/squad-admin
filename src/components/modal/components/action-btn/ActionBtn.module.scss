@@ -7,9 +7,12 @@
   height: 2.5rem;
   background-color: var(--color-gray1);
   border-radius: 0.3rem;
-
+  box-shadow: 0 0.3em 5px var(--color-dark1);
   &:hover {
-    background-color: var(--color-gray3);
-    color: var(--color-dark1);
+    background-color: var(--color-gray2);
+  }
+  &:active {
+    transform: translateY(0.2em);
+    box-shadow: 0 0.2em var(--color-dark1);
   }
 }

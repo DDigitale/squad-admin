@@ -8,26 +8,32 @@
 .container {
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: stretch;
   gap: 1rem;
 }
 
 .length {
-  width: 40%;
+  width: 60%;
 }
+
 
 .button {
   all: unset;
   height: 2.5rem;
+  width: 40%;
   text-align: center;
-  width: 60%;
   border-radius: 0.3rem;
+  padding: 0 0.3rem;
   transition: 0.2s;
   cursor: pointer;
   background-color: var(--color-gray1);
-
+  box-shadow: var(--shadow-1);
   &:hover {
     background-color: var(--color-red);
     color: var(--color-main);
+  }
+  &:active {
+    transform: translateY(0.2em);
+    box-shadow: 0 0.2em var(--color-dark1);
   }
 }

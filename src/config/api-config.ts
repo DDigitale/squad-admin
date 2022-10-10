@@ -1,5 +1,6 @@
 const API_URL = 'http://localhost:8000'
 const CALLBACK_URL = 'http://localhost:3000/'
+const STEAM_KEY = 'D24E3D9EB90500EB1979B72B06B4D903'
 const GET_STEAM_LINK = '/get-steam-link'
 const VERIFY_STEAM = '/verify-steam'
 const AUTH = '/auth'
@@ -16,7 +17,9 @@ const GET_PLAYER_PUNISHMENT_HISTORY = '/get-player-punishment-history'
 const GET_PLAYERS_BY_CONTAINS_TEXT = '/get-players-by-contains-text'
 const GET_SERVER_INFO = '/get-server-info'
 const GET_CHAT_MESSAGES = '/get-chat-messages'
+const GET_STEAM_INFO = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${STEAM_KEY}&steamids=`
 const BAN_PLAYER = '/ban-player'
+const UNBAN_PLAYER = '/unban-player'
 const KICK_PLAYER = '/kick-player'
 const WARN_PLAYER = '/warn-player'
 const NOTE_PLAYER = '/add-player-note'
@@ -26,8 +29,7 @@ const REMOVE_PLAYER_FROM_SQUAD = '/remove-player-from-squad'
 const DISBAND_SQUAD = '/disband-squad'
 const CHANGE_CURRENT_LAYER = '/change-current-layer'
 const CHANGE_NEXT_LAYER = '/change-next-layer'
-// const STEAM_KEY = 'D24E3D9EB90500EB1979B72B06B4D903'
-// const STEAM_INFO = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0001/?key=${STEAM_KEY}&steamids=`
+const SEND_BROADCAST = '/send-broadcast'
 
 export {
   API_URL,
@@ -48,7 +50,9 @@ export {
   GET_PLAYERS_BY_CONTAINS_TEXT,
   GET_SERVER_INFO,
   GET_CHAT_MESSAGES,
+  GET_STEAM_INFO,
   BAN_PLAYER,
+  UNBAN_PLAYER,
   KICK_PLAYER,
   WARN_PLAYER,
   NOTE_PLAYER,
@@ -58,4 +62,5 @@ export {
   DISBAND_SQUAD,
   CHANGE_CURRENT_LAYER,
   CHANGE_NEXT_LAYER,
+  SEND_BROADCAST,
 }

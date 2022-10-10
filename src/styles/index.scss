@@ -46,6 +46,7 @@
 }
 
 body {
+  user-select: none;
   color: var(--color-main);
   font-family: Roboto, serif;
   background: var(--color-dark1);

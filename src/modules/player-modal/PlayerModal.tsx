@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import styles from './PlayerModal.module.scss'
+import btnStyles from '../../components/modal/components/action-btn/ActionBtn.module.scss'
 import { steamId } from 'types/players'
 import { Card, Modal } from 'components'
 import {
@@ -30,19 +31,20 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
 
   const [toggle, setToggle] = useState(false)
   const [selectedTab, setSelectedTab] = useState(1)
+  const [activeBtn, setActiveBtn] = useState(false)
 
   const infoRef = useRef<HTMLDivElement | null>(null)
   const actionsRef = useRef<HTMLDivElement | null>(null)
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log(e)
-    if (!infoRef.current || !actionsRef.current) return
-    if (
-      !infoRef.current.contains(e.target as Node) &&
-      !actionsRef.current.contains(e.target as Node)
-    )
-      onClose()
-  }
+  // const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  //   console.log(e)
+  //   if (!infoRef.current || !actionsRef.current) return
+  //   if (
+  //     !infoRef.current.contains(e.target as Node) &&
+  //     !actionsRef.current.contains(e.target as Node)
+  //   )
+  //     onClose()
+  // }
 
   return (
     <Modal
@@ -76,7 +78,9 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
                   selectedTab === 3 ? 'rgba(51,253,217,0.2)' : null,
               }}
               text={'Заметки'}
-              onClick={() => setSelectedTab(3)}
+              onClick={() => {
+                setSelectedTab(3)
+              }}
             />
           </div>
           {selectedTab === 1 && <Chat playerSteamId={playerSteamId} />}

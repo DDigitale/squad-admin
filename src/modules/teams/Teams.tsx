@@ -12,7 +12,7 @@ export function Teams({ teams }: Props) {
   return (
     <>
       <div className={styles.wrapper}>
-        {teams.map((team) => (
+        {teams?.map((team) => (
           <TeamItem key={team.id} team={team} />
         ))}
       </div>

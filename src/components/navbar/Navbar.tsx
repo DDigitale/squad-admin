@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom'
 
 const links: [string, string][] = [
   ['панель', '/'],
-  ['игроки', '/players'],
-  ['админы', '/admins'],
+  // ['игроки', '/players'],
+  // ['админы', '/admins'],
   ['админ лог', '/admins-log'],
 ]
 

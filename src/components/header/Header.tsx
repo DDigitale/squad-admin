@@ -3,6 +3,8 @@ import styles from './Header.module.scss'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { fetchPlayerSearch } from 'api/users'
 import { PlayerModalContext, PlayerModalContextType } from 'contexts'
+import { LogoutBtn } from 'components/buttons'
+import { Navbar } from 'components/navbar/Navbar'
 
 function Header() {
   const [playerModal, setPlayerModal] = useContext(
@@ -33,10 +35,11 @@ function Header() {
     setSearchPlayer('')
   }
 
-  console.log(foundPlayers)
-
   return (
     <div className={styles.wrapper}>
+      <div className={styles.nav}>
+        <Navbar />
+      </div>
       <div className={styles.search}>
         <input
           className={styles.input}
@@ -54,11 +57,13 @@ function Header() {
                 onClick={() => handleClick(player.steamId)}
               >
                 <span>{player.name}</span>
-                <span>{player.steamId}</span>
               </div>
             ))}
           </div>
         )}
+      </div>
+      <div className={styles.logout}>
+        <LogoutBtn />
       </div>
     </div>
   )

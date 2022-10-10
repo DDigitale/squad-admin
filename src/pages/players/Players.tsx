@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from 'pages/players/Players.module.scss'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { fetchPlayers, fetchPlayerSearch } from 'api/users'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { fetchPlayers } from 'api/users'
 import { PlayersTable } from 'pages/players/PlayersTable'
 import { useSearchParams } from 'react-router-dom'
-import { Layout } from 'layout'
+import { loadingToast } from 'utils/toasts'
+import toast from 'react-hot-toast'
 
 type pageNumbers = number[]
 
@@ -17,8 +18,15 @@ export function Players() {
     data: players,
     isSuccess,
     isError,
+    status,
   } = useQuery(['players', page - 1], () => fetchPlayers(page - 1), {
     keepPreviousData: true,
+  })
+
+  toast.promise(Promise.all(status), {
+    loading: 'Loading',
+    success: 'Got the data',
+    error: 'Error when fetching',
   })
 
   queryClient.prefetchQuery([players, page], () => fetchPlayers(page))

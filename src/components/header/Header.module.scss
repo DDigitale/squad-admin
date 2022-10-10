@@ -1,10 +1,14 @@
 .wrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 0.5rem;
   background-color: var(--color-dark2);
   box-shadow: var(--shadow-1);
+}
+
+.nav {
+  width: 30%;
 }
 
 .search {
@@ -40,10 +44,17 @@
 }
 
 .item {
+  cursor: pointer;
   display: flex;
-  justify-content: space-between;
   padding: 0.6rem;
   &:hover {
+    color: var(--color-orange);
     background-color: var(--color-gray2);
   }
+}
+
+.logout {
+  width: 30%;
+  display: flex;
+  justify-content: flex-end;
 }

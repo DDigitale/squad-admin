@@ -25,10 +25,13 @@
   }
 }
 
-
-
 .actionsWrapper {
   display: flex;
   justify-content: center;
   gap: 1rem;
+  width: 100%;
+}
+
+.select {
+  width: 100%;
 }

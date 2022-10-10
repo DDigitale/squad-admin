@@ -1,6 +1,6 @@
 .row {
   display: grid;
-  grid-template-columns: 1fr 2fr 12fr;
+  grid-template-columns: 1fr 5em 12fr;
   align-items: center;
   padding: 0.5rem;
   gap: 0.5rem;
@@ -29,9 +29,9 @@
 }
 
 .message {
+  color: var(--color-main2);
   word-wrap: anywhere;
   hyphens: auto;
-  font-size: 1rem;
-  color: var(--color-main1);
+  font-size: 0.85rem;
 }
 

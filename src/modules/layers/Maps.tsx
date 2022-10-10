@@ -39,7 +39,7 @@ export function Maps({ selectedMap, selectedMode }: Props) {
       {selectedMap || selectedMode ? (
         filteredData.map((layer) => <MapCard layer={layer} />)
       ) : (
-        <h1>Выберите карту</h1>
+        <h1>выберите карту</h1>
       )}
     </div>
   )

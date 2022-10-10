@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styles from './NoteForm.module.scss'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { notePlayer } from 'api/users'
+import { successToast } from 'utils/toasts'
 
 interface Props {
   steamId: string
@@ -12,7 +13,7 @@ export function NoteForm({ steamId }: Props) {
   const [note, setNote] = useState('')
 
   const notePlayerMutation = useMutation(() => notePlayer(steamId, note), {
-    onSuccess: () => queryClient.invalidateQueries(['players']),
+    onSuccess: () => queryClient.invalidateQueries(['player-notes']),
   })
 
   const handleNote = (e: any) => {

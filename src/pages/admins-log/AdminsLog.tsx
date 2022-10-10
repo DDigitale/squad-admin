@@ -132,7 +132,7 @@ export function AdminsLog() {
           </button>
         </div>
         <div className={styles.counter}>
-          Всего наказаний: {admins?.totalElements}
+          Всего действий: {admins?.totalElements}
         </div>
       </div>
     </div>

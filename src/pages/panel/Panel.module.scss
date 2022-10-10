@@ -1,9 +1,9 @@
 .wrapper {
   display: grid;
   grid-template-columns:
-    [menu-end aside-left-start] 1fr
-    [aside-left-end main-start] 2fr
-    [main-end aside-right-start] 1fr
+    [menu-end aside-left-start] 1.25fr
+    [aside-left-end main-start] 3fr
+    [main-end aside-right-start] 1.25fr
     [aside-right-end];
   grid-template-rows: 1fr 7fr 3fr;
   gap: 1rem;

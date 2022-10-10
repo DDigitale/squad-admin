@@ -2,39 +2,64 @@ import axios from 'axios'
 import {
   API_URL,
   BAN_PLAYER,
+  DELETE_PLAYER_NOTE,
   DISBAND_SQUAD,
-  GET_ADMINS_ACTIONS,
   GET_ADMINS,
+  GET_ADMINS_ACTIONS,
   GET_CHAT_MESSAGES,
   GET_DISCONNECTED_PLAYERS,
   GET_ONLINE_PLAYERS,
   GET_PLAYER,
   GET_PLAYER_MESSAGES,
+  GET_PLAYER_NOTES,
+  GET_PLAYER_PUNISHMENT_HISTORY,
   GET_PLAYERS,
+  GET_PLAYERS_BY_CONTAINS_TEXT,
   GET_SERVER_INFO,
+  GET_STEAM_INFO,
   KICK_PLAYER,
+  NOTE_PLAYER,
   PLAYER_TEAM_CHANGE,
   REMOVE_PLAYER_FROM_SQUAD,
+  SEND_BROADCAST,
+  UNBAN_PLAYER,
   WARN_PLAYER,
-  GET_PLAYER_NOTES,
-  NOTE_PLAYER,
-  DELETE_PLAYER_NOTE,
-  GET_PLAYER_PUNISHMENT_HISTORY,
-  GET_PLAYERS_BY_CONTAINS_TEXT,
 } from 'config'
 // @ts-ignore
 import jsonBigInt from 'json-bigint'
 import { extendData } from 'utils'
 import {
-  Ban,
   ChatMessage,
   DisconnectedPlayer,
   Message,
   Player,
   Team,
 } from 'types/players'
+import { errorToast, successToast } from 'utils/toasts'
+import toast from 'react-hot-toast'
 
 export const JSONbig = jsonBigInt({ storeAsString: true })
+
+export const sendBroadcastMessage = async (broadcastMessage: string) => {
+  try {
+    const response = await axios.post(
+      API_URL + SEND_BROADCAST,
+      {
+        broadcastMessage,
+      },
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    )
+    successToast(`Сообщение ${broadcastMessage} отправлено`)
+    return response.data
+  } catch (e: any) {
+    errorToast(`Ошибка отправки сообщения: ${e.message}`)
+  }
+}
 
 export const fetchPlayerSearch = async (text: string) => {
   const response = await axios.post(
@@ -58,7 +83,9 @@ export const fetchPlayerSearch = async (text: string) => {
   return response.data
 }
 
-export const fetchChatMessages = async (): Promise<ChatMessage[]> => {
+export const fetchChatMessages = async (): Promise<
+  ChatMessage[] | undefined
+> => {
   try {
     const response = await axios.get(API_URL + GET_CHAT_MESSAGES, {
       withCredentials: true,
@@ -71,14 +98,11 @@ export const fetchChatMessages = async (): Promise<ChatMessage[]> => {
         },
       ],
     })
-    const transformedData = response.data.map((message: any) => ({
+    return response.data.map((message: any) => ({
       ...message,
       time: new Date(Date.parse(message.time)),
     }))
-    return transformedData
-  } catch (e) {
-    throw new Error('Ошибка в получении данных')
-  }
+  } catch (e: any) {}
 }
 
 export const fetchServerInfo = async () => {
@@ -90,9 +114,7 @@ export const fetchServerInfo = async () => {
       },
     })
     return response.data
-  } catch (e) {
-    throw new Error('Ошибка в получении данных')
-  }
+  } catch (e: any) {}
 }
 
 export interface IFetchAdminsLog {
@@ -126,7 +148,7 @@ export const fetchAdminsLog = async (
     API_URL + GET_ADMINS_ACTIONS,
     {
       page,
-      size: 20,
+      size: 50,
     },
     {
       withCredentials: true,
@@ -216,6 +238,8 @@ export const fetchPlayers = async (page: number): Promise<IFetchPlayers> => {
     }
   )
 
+  console.log(response)
+
   return response.data
 }
 
@@ -266,20 +290,16 @@ export const fetchPlayerNotes = async (playerSteamId: string) => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        transformResponse: [
-          (data) => {
-            return JSONbig.parse(data)
-          },
-        ],
       }
     )
-    if (!Array.isArray(response.data)) {
-      throw new Error('Ошибка в получении данных')
-    }
+
+    // if (!Array.isArray(response.data)) {
+    //   throw new Error('Ошибка в получении данных')
+    // }
 
     return response.data.reverse()
-  } catch (e) {
-    throw new Error('Ошибка в получении данных')
+  } catch (e: any) {
+    errorToast(`Запрос заметок: ${e.message}`)
   }
 }
 
@@ -301,13 +321,13 @@ export const fetchPlayerMessages = async (playerSteamId: string) => {
         },
       }
     )
-    if (!Array.isArray(response.data)) {
-      throw new Error('Ошибка в получении данных')
-    }
+    // if (!Array.isArray(response.data)) {
+    //   errorToast(`Запрос сообщений игрока`)
+    // }
 
     return response.data.reverse()
-  } catch (e) {
-    throw new Error('Ошибка в получении данных')
+  } catch (e: any) {
+    errorToast(`Запрос сообщений игрока: ${e.message}`)
   }
 }
 
@@ -351,8 +371,8 @@ export const fetchPlayerPunishmentHistory = async (playerSteamId: string) => {
       }
     )
     return response.data
-  } catch (e) {
-    throw new Error('Ошибка в получении данных')
+  } catch (e: any) {
+    errorToast(`Запрос наказаний игрока: ${e.message}`)
   }
 }
 
@@ -372,19 +392,13 @@ export const deletePlayerNote = async (
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        transformResponse: [
-          (data) => {
-            return JSONbig.parse(data)
-          },
-        ],
       }
     )
-    console.log(
-      `delete note ${noteId} from player ${playerSteamId}`,
-      response.data
-    )
+    successToast(`Заметка удалена`)
     return response.data
-  } catch (e) {}
+  } catch (e: any) {
+    errorToast(`Ошибка удаления заметки`)
+  }
 }
 
 export const notePlayer = async (playerSteamId: string, note: string) => {
@@ -400,19 +414,21 @@ export const notePlayer = async (playerSteamId: string, note: string) => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        transformResponse: [
-          (data) => {
-            return JSONbig.parse(data)
-          },
-        ],
       }
     )
-    console.log(`note ${playerSteamId} with string ${note}`, response.data)
+    successToast(`Заметка добавлена`)
     return response.data
-  } catch (e) {}
+  } catch (e: any) {
+    console.log(e)
+    errorToast(`Ошибка добавления заметки`)
+  }
 }
 
-export const warnPlayer = async (playerSteamId: string, warnReason: string) => {
+export const warnPlayer = async (
+  playerSteamId: string,
+  warnReason: string,
+  name: string
+) => {
   try {
     const response = await axios.post(
       API_URL + WARN_PLAYER,
@@ -427,15 +443,18 @@ export const warnPlayer = async (playerSteamId: string, warnReason: string) => {
         },
       }
     )
-    console.log(
-      `WARN ${playerSteamId} with reason ${warnReason}`,
-      response.data
-    )
+    successToast(`Сообщение игроку ${name} с текстом ${warnReason} отправлено`)
     return response.data
-  } catch (e) {}
+  } catch (e: any) {
+    errorToast(`Сообщение игроку: ${e.message}`)
+  }
 }
 
-export const kickPlayer = async (playerSteamId: string, kickReason: string) => {
+export const kickPlayer = async (
+  playerSteamId: string,
+  kickReason: string,
+  name: string
+) => {
   try {
     const response = await axios.post(
       API_URL + KICK_PLAYER,
@@ -450,13 +469,10 @@ export const kickPlayer = async (playerSteamId: string, kickReason: string) => {
         },
       }
     )
-    console.log(
-      `KICK ${playerSteamId} with reason ${kickReason}`,
-      response.data
-    )
+    successToast(`Вы кикнули игрока ${name} по причине "${kickReason}"`)
     return response.data
-  } catch (e) {
-    throw new Error('Ошибка в отправке данных')
+  } catch (e: any) {
+    errorToast(`Кик игрока: ${e.message}`)
   }
 }
 
@@ -464,7 +480,8 @@ export const banPlayer = async (
   playerSteamId: string,
   banLength: string,
   banLengthInTimeStamp: string,
-  banReason: string
+  banReason: string,
+  name: string
 ) => {
   try {
     const response = await axios.post(
@@ -482,17 +499,37 @@ export const banPlayer = async (
         },
       }
     )
-    console.log(
-      `BAN ${playerSteamId} with reason ${banReason} and length ${banLength}`,
-      response.data
+    successToast(
+      `Вы забанили игрока ${name} на срок ${banLength} по причине "${banReason}"`
     )
     return response.data
-  } catch (e) {
-    throw new Error('Ошибка в отправке данных')
+  } catch (e: any) {
+    errorToast(`Бан игрока: ${e.message}`)
   }
 }
 
-export const teamChangePlayer = async (playerSteamId: string) => {
+export const unbanPlayer = async (banId: number) => {
+  try {
+    const response = await axios.post(
+      API_URL + UNBAN_PLAYER,
+      {
+        banId,
+      },
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    )
+    successToast(`Игрок разбанен`)
+    return response.data
+  } catch (e: any) {
+    errorToast(`Разбан игрока: ${e.message}`)
+  }
+}
+
+export const teamChangePlayer = async (playerSteamId: string, name: string) => {
   try {
     const response = await axios.post(
       API_URL + PLAYER_TEAM_CHANGE,
@@ -506,14 +543,17 @@ export const teamChangePlayer = async (playerSteamId: string) => {
         },
       }
     )
-    console.log(`TEAM CHANGED ${playerSteamId}`, response.data)
+    successToast(`Вы сменили команду игроку ${name}`)
     return response.data
-  } catch (e) {
-    throw new Error('Ошибка в отправке данных')
+  } catch (e: any) {
+    errorToast(`Смена команды: ${e.message}`)
   }
 }
 
-export const removePlayerFromSquad = async (playerSteamId: string) => {
+export const removePlayerFromSquad = async (
+  playerSteamId: string,
+  name: string
+) => {
   try {
     const response = await axios.post(
       API_URL + REMOVE_PLAYER_FROM_SQUAD,
@@ -527,10 +567,10 @@ export const removePlayerFromSquad = async (playerSteamId: string) => {
         },
       }
     )
-    console.log(`REMOVE FROM SQUAD ${playerSteamId}`, response.data)
+    successToast(`Вы выгнали из отряда игрока ${name}`)
     return response.data
-  } catch (e) {
-    throw new Error('Ошибка в отправке данных')
+  } catch (e: any) {
+    errorToast(`Выгнать игрока из отряда: ${e.message}`)
   }
 }
 
@@ -554,9 +594,11 @@ export const disbandSquad = async (
         },
       }
     )
-    console.log(`DISBAND SQUAD ${squadId} FROM ${teamId} TEAM`, response.data)
+    successToast(
+      `Вы расформировали отряд ${squadId}: ${squadName} в команде ${teamId}`
+    )
     return response.data
-  } catch (e) {
-    throw new Error('Ошибка в отправке данных')
+  } catch (e: any) {
+    errorToast(`Расформирование отряда: ${e.message}`)
   }
 }

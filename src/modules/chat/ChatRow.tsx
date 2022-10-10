@@ -17,6 +17,9 @@ export const ChatRow = forwardRef<HTMLDivElement, Props>(function ChatRow(
 
   return (
     <div className={styles.row} ref={ref}>
+      <span className={styles.time}>
+        {message.time.toLocaleTimeString('ru')}
+      </span>
       <span
         className={styles.name}
         onClick={() => setPlayerModal(message.steamId)}
@@ -25,9 +28,6 @@ export const ChatRow = forwardRef<HTMLDivElement, Props>(function ChatRow(
       </span>
       <span className={styles.type}>{message.chatType}</span>
       <span className={styles.message}>{message.message}</span>
-      <span className={styles.time}>
-        {message.time.toLocaleTimeString('ru')}
-      </span>
     </div>
   )
 })

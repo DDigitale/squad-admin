@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './Title.module.scss'
+import { TbCopy } from 'react-icons/tb'
 import { MdNavigateNext } from 'react-icons/md'
 
 interface Props {
@@ -19,22 +20,28 @@ export function Title({ player, showActions }: Props) {
           alt=""
         />
         <div className={styles.info}>
-          <p className={styles.name}>{player.name}</p>
+          <span className={styles.name}>{player.name}</span>
           {player.isOnline ? (
             <>
-              <p>В команде {player.isOnline?.teamId}</p>
-              <p>В отряде {player.isOnline?.squadID}</p>
+              <span>В команде {player.isOnline?.teamId}</span>
+              <span>В отряде {player.isOnline?.squadID}</span>
             </>
           ) : (
-            <p>Игрок оффлайн</p>
+            <span>Игрок оффлайн</span>
           )}
-          <a
-            className={styles.link}
-            href={`http://steamcommunity.com/profiles/${player.steamId}`}
-            target="_blank"
-          >
-            ID: {player.steamId}
-          </a>
+          <div className={styles.steamLink}>
+            <a
+              className={styles.link}
+              href={`http://steamcommunity.com/profiles/${player.steamId}`}
+              target="_blank"
+            >
+              ID: {player.steamId}
+            </a>
+            <TbCopy
+              className={styles.copy}
+              onClick={() => navigator.clipboard.writeText(player.steamId)}
+            />
+          </div>
         </div>
       </div>
       <div className={styles.moveButton} onClick={() => showActions()}>

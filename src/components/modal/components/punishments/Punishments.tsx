@@ -16,16 +16,14 @@ export function Punishments({ playerSteamId }: Props) {
     () => fetchPlayerPunishmentHistory(playerSteamId)
   )
 
-  console.log(punishments)
-
   return (
     <div className={styles.wrapper}>
       {isSuccess && (
         <>
-          {punishments.bans.map((ban: Ban) => (
+          {punishments.bans?.map((ban: Ban) => (
             <BanRow key={ban.id} ban={ban} />
           ))}
-          {punishments.kicks.map((kick: any) => (
+          {punishments.kicks?.map((kick: any) => (
             <KickRow key={kick.id} kick={kick} />
           ))}
         </>

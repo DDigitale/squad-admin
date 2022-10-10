@@ -14,7 +14,7 @@ export function NoteRow({ note, steamId }: Props) {
   const deletePlayerNoteMutation = useMutation(
     () => deletePlayerNote(note.id, steamId),
     {
-      onSuccess: () => queryClient.invalidateQueries(['players']),
+      onSuccess: () => queryClient.invalidateQueries(['player-notes']),
     }
   )
 

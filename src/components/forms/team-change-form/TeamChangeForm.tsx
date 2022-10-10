@@ -11,9 +11,12 @@ interface Props {
 export function TeamChangeForm({ steamId, name }: Props) {
   const queryClient = useQueryClient()
 
-  const teamChangeMutation = useMutation(() => teamChangePlayer(steamId), {
-    onSuccess: () => queryClient.invalidateQueries(['players']),
-  })
+  const teamChangeMutation = useMutation(
+    () => teamChangePlayer(steamId, name),
+    {
+      onSuccess: () => queryClient.invalidateQueries(['players']),
+    }
+  )
 
   return (
     <div className={styles.wrapper}>

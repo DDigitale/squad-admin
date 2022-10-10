@@ -10,7 +10,7 @@ interface Props {
 
 export function Notes({ playerSteamId }: Props) {
   const { data: notes, isSuccess } = useQuery(
-    ['players', playerSteamId, 'notes'],
+    ['player-notes', playerSteamId],
     () => fetchPlayerNotes(playerSteamId)
   )
 
@@ -18,7 +18,7 @@ export function Notes({ playerSteamId }: Props) {
     <div className={styles.wrapper}>
       {isSuccess && (
         <>
-          {notes.map((note) => (
+          {notes?.map((note: any) => (
             <NoteRow key={note.id} note={note} steamId={playerSteamId} />
           ))}
         </>

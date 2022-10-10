@@ -22,10 +22,13 @@
   transition: 0.2s;
   cursor: pointer;
   background-color: var(--color-gray1);
-
+  box-shadow: var(--shadow-1);
   &:hover {
     background-color: var(--color-red);
     color: var(--color-main);
-    font-weight: 700;
+  }
+  &:active {
+    transform: translateY(0.2em);
+    box-shadow: 0 0.2em var(--color-dark1);
   }
 }

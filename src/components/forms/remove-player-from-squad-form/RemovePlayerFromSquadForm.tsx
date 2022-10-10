@@ -12,7 +12,7 @@ export function RemovePlayerFromSquadForm({ steamId, name }: Props) {
   const queryClient = useQueryClient()
 
   const removePlayerFromSquadMutation = useMutation(
-    () => removePlayerFromSquad(steamId),
+    () => removePlayerFromSquad(steamId, name),
     {
       onSuccess: () => queryClient.invalidateQueries(['players']),
     }

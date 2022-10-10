@@ -1,20 +1,30 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styles from './SquadItem.module.scss'
 import { VscLock, VscUnlock } from 'react-icons/vsc'
 import { Squad } from 'types/players'
 import { PlayerItem } from '../player-item'
 import { DisbandSquadBtn } from '../disband-squad-btn'
+import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 
 interface Props {
   squad: Squad
 }
 
 export function SquadItem({ squad }: Props) {
+  const [playerModal, setPlayerModal] = useContext(
+    PlayerModalContext
+  ) as PlayerModalContextType
+
   return (
     <>
       <div className={styles.wrapper}>
         <div className={styles.title}>
-          <span className={styles.id}>{squad.id}</span>
+          <button
+            className={styles.id}
+            onClick={() => setPlayerModal(squad.creatorSteam64id)}
+          >
+            {squad.id}
+          </button>
           <span className={styles.name}>{squad.name}</span>
           <div className={styles.size}>{squad.size}/9</div>
           <div className={styles.lock}>
