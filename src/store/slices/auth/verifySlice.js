@@ -49,7 +49,6 @@ export const verifyAuthSteam = createAsyncThunk(
         withCredentials: 'true',
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': 'http://192.168.1.150:3000',
         },
       })
       return response.status
