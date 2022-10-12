@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { API_URL, AUTH, VERIFY_STEAM } from 'config/api-config'
+import { API_URL, AUTH, CALLBACK_URL, VERIFY_STEAM } from 'config/api-config'
 import { openidParams } from 'layout/PrivateRoute'
 
 const initialState = {
@@ -17,7 +17,7 @@ export const verifySteam = createAsyncThunk(
       const response = await axios.post(
         API_URL + VERIFY_STEAM,
         {
-          callbackURL: 'http://localhost:3000/',
+          callbackURL: CALLBACK_URL,
           openIdInfo: openidParams,
         },
         {
@@ -49,6 +49,7 @@ export const verifyAuthSteam = createAsyncThunk(
         withCredentials: 'true',
         headers: {
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'http://192.168.1.150:3000',
         },
       })
       return response.status
