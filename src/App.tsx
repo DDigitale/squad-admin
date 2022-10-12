@@ -46,18 +46,14 @@ function App() {
             position="top-right"
             reverseOrder={false}
             gutter={5}
-            containerClassName=""
-            containerStyle={{}}
             toastOptions={{
-              // Define default options
               className: '',
-              duration: 4000,
+              duration: 5000,
               style: {
-                background: '#434343',
-                color: '#b1b1b1',
+                background: '#363636',
+                color: '#fff',
               },
 
-              // Default options for specific types
               success: {
                 duration: 3000,
                 theme: {

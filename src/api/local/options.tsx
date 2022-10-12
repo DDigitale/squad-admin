@@ -17,8 +17,6 @@ export const broadcastOptions = [
   },
 ]
 
-// На английском 210
-// На русском
 export const warnOptions = [
   {
     value: 'В отряде всегда должен быть сквадной с китом SL',

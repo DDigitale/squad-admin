@@ -4,6 +4,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchAdminsLog } from 'api/users'
 import { useSearchParams } from 'react-router-dom'
 import { AdminsLogTable } from 'pages/admins-log/AdminsLogTable'
+import { Spinner } from 'components/spinner/Spinner'
+import { loadingToast } from 'utils/toasts'
 
 type pageNumbers = number[]
 
@@ -15,6 +17,7 @@ export function AdminsLog() {
 
   const {
     data: admins,
+    isLoading,
     isSuccess,
     isError,
   } = useQuery(['admins', page - 1], () => fetchAdminsLog(page - 1), {
@@ -64,11 +67,7 @@ export function AdminsLog() {
   }
 
   if (!isSuccess) {
-    return <h1>Загрузка игроков</h1>
-  }
-
-  if (isError) {
-    return <h1>Ошибка загрузки игроков</h1>
+    return <Spinner />
   }
 
   const pageNumbers = generatePageNumbers(page, 11)
@@ -76,7 +75,7 @@ export function AdminsLog() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.tableWrapper}>
-        <AdminsLogTable content={admins.content} />
+        <AdminsLogTable content={admins?.content} />
         <div className={styles.pagination}>
           <button
             className={styles.pageNumberBtn}

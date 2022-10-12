@@ -37,7 +37,9 @@ export function Maps({ selectedMap, selectedMode }: Props) {
   return (
     <div className={styles.wrapper}>
       {selectedMap || selectedMode ? (
-        filteredData.map((layer) => <MapCard layer={layer} />)
+        filteredData.map((layer) => (
+          <MapCard key={layer.rawName} layer={layer} />
+        ))
       ) : (
         <h1>выберите карту</h1>
       )}

@@ -3,6 +3,7 @@ import styles from './Login.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { getSteamLink } from 'store/slices/auth/authSlice'
+import { Spinner } from 'components/spinner/Spinner'
 
 export function Login() {
   const dispatch = useDispatch()
@@ -17,12 +18,12 @@ export function Login() {
 
   return (
     <div className={styles.loginPage}>
-      {isLoading && <h1>Loading...</h1>}
+      {isLoading && <Spinner />}
       {isError && <h1>Response error</h1>}
       {isSuccess && (
-        <div className={styles.loginBtn}>
+        <button className={styles.loginBtn}>
           <a href={link}>войти</a>
-        </div>
+        </button>
       )}
     </div>
   )

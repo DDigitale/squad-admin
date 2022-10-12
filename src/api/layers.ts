@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { API_URL, CHANGE_CURRENT_LAYER, CHANGE_NEXT_LAYER } from 'config'
+import { errorToast, successToast } from 'utils/toasts'
 
 export const changeCurrentLayer = async (layerName: any) => {
   try {
@@ -15,10 +16,10 @@ export const changeCurrentLayer = async (layerName: any) => {
         },
       }
     )
-    console.log(`CURRENT LAYER CHANGED ON ${layerName}`, response.data)
+    successToast(`Вы сменили текущий леер на ${layerName}`)
     return response.data
   } catch (e) {
-    throw new Error('Ошибка в отправке данных')
+    errorToast(`Ошибка смены карты`)
   }
 }
 
@@ -36,9 +37,9 @@ export const changeNextLayer = async (layerName: any) => {
         },
       }
     )
-    console.log(`NEXT LAYER CHANGED ON ${layerName}`, response.data)
+    successToast(`Вы сменили следующий леер на ${layerName}`)
     return response.data
   } catch (e) {
-    throw new Error('Ошибка в отправке данных')
+    errorToast(`Ошибка смены карты`)
   }
 }

@@ -148,7 +148,7 @@ export const fetchAdminsLog = async (
     API_URL + GET_ADMINS_ACTIONS,
     {
       page,
-      size: 50,
+      size: 80,
     },
     {
       withCredentials: true,
@@ -237,9 +237,6 @@ export const fetchPlayers = async (page: number): Promise<IFetchPlayers> => {
       ],
     }
   )
-
-  console.log(response)
-
   return response.data
 }
 
@@ -299,7 +296,7 @@ export const fetchPlayerNotes = async (playerSteamId: string) => {
 
     return response.data.reverse()
   } catch (e: any) {
-    errorToast(`Запрос заметок: ${e.message}`)
+    // errorToast(`Запрос заметок: ${e.message}`)
   }
 }
 
@@ -327,7 +324,7 @@ export const fetchPlayerMessages = async (playerSteamId: string) => {
 
     return response.data.reverse()
   } catch (e: any) {
-    errorToast(`Запрос сообщений игрока: ${e.message}`)
+    // errorToast(`Запрос сообщений игрока: ${e.message}`)
   }
 }
 
@@ -372,7 +369,7 @@ export const fetchPlayerPunishmentHistory = async (playerSteamId: string) => {
     )
     return response.data
   } catch (e: any) {
-    errorToast(`Запрос наказаний игрока: ${e.message}`)
+    // errorToast(`Запрос наказаний игрока: ${e.message}`)
   }
 }
 
@@ -419,7 +416,6 @@ export const notePlayer = async (playerSteamId: string, note: string) => {
     successToast(`Заметка добавлена`)
     return response.data
   } catch (e: any) {
-    console.log(e)
     errorToast(`Ошибка добавления заметки`)
   }
 }

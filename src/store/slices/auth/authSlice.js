@@ -24,7 +24,6 @@ export const getSteamLink = createAsyncThunk(
           },
         }
       )
-      console.log('ЗАПРОС ССЫЛКИ', response)
       // localStorage.setItem('token', response.request.response)
       return response.data
     } catch (error) {

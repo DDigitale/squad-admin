@@ -20,7 +20,6 @@ export const logoutResponse = createAsyncThunk(
           'Access-Control-Allow-Origin': 'http://localhost:3000',
         },
       })
-      console.log('ВЫХОД', response)
       localStorage.clear()
       return response.data
     } catch (error) {

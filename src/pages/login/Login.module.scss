@@ -3,13 +3,27 @@
   background-size: cover;
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .loginBtn {
-  margin: 0 auto;
-  top: 0;
-  left: 0;
+  all: unset;
+  width: 10%;
+  height: 5%;
+  background-color: #4ba8fe;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: var(--radius-1);
+  box-shadow: var(--shadow-1);
+  transition: 0.3s;
+  a {
+    all: unset;
+    color: var(--color-dark1);
+  }
+  &:hover {
+    background-color: #7cb9ff;
+  }
 }

@@ -5,6 +5,7 @@ import React, { useEffect } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { Layout } from 'layout'
 import Header from 'components/header/Header'
+import { Spinner } from 'components/spinner/Spinner'
 
 const urlSearchParams = new URLSearchParams(window.location.search)
 export const openidParams = Object.fromEntries(urlSearchParams.entries())
@@ -24,7 +25,7 @@ export const PrivateRoutes = () => {
 
   return (
     <>
-      {isLoading && <h1>LOADING</h1>}
+      {isLoading && <Spinner />}
       {token && (
         <div className={styles.wrapper}>
           <Header />

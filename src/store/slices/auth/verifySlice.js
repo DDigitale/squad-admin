@@ -27,7 +27,6 @@ export const verifySteam = createAsyncThunk(
           },
         }
       )
-      console.log('ВЕРИФИКАЦИЯ', response)
       localStorage.setItem('token', response.data)
       return response.status
     } catch (error) {
@@ -52,7 +51,6 @@ export const verifyAuthSteam = createAsyncThunk(
           'Content-Type': 'application/json',
         },
       })
-      console.log('ПРОВЕРКА АУТЕНТИФИКАЦИИ', response)
       return response.status
     } catch (error) {
       const message =
