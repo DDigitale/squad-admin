@@ -5,7 +5,7 @@ import CreatableSelect from 'react-select/creatable'
 import { customSelectorStyles } from 'components/forms/SelectorStyles'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { sendBroadcastMessage, warnPlayer } from 'api/users'
-import { broadcastOptions } from 'api/local/options'
+import { broadcastOptions, groupedOptions } from 'api/local/options'
 
 export function Broadcast() {
   const queryClient = useQueryClient()
@@ -25,7 +25,7 @@ export function Broadcast() {
   return (
     <div className={styles.wrapper}>
       <CreatableSelect
-        options={broadcastOptions}
+        options={groupedOptions}
         className={styles.input}
         onChange={handleChange}
         styles={customSelectorStyles}

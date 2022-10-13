@@ -6,9 +6,5 @@ interface Props {
 }
 
 export function Layout({ children }: Props) {
-  return (
-    <div className={styles.layout}>
-      <main>{children}</main>
-    </div>
-  )
+  return <main className={styles.layout}>{children}</main>
 }

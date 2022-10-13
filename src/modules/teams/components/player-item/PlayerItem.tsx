@@ -28,8 +28,7 @@ export function PlayerItem({ player }: Props) {
     <>
       <div
         style={{
-          backgroundColor:
-            player.violations.length > 0 ? 'rgba(253,75,76,0.05)' : '',
+          color: player.violations.length > 0 ? '#fd4b4c' : '#939394',
         }}
         className={styles.wrapper}
         onClick={() => setPlayerModal(player.steamId)}

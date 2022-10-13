@@ -1,4 +1,14 @@
 export const customSelectorStyles = {
+  groupHeading: (provided: any, state: any) => ({
+    ...provided,
+    backgroundColor: '#575b5d',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    fontSize: '1.3rem',
+    height: '3rem',
+  }),
   control: (provided: any, state: any) => ({
     ...provided,
     backgroundColor: '#3c3f41',
@@ -24,6 +34,10 @@ export const customSelectorStyles = {
   menu: (provided: any, state: any) => ({
     ...provided,
     backgroundColor: '#3c3f41',
+  }),
+  selectContainer: (provided: any, state: any) => ({
+    ...provided,
+    height: '20vh',
   }),
   singleValue: (provided: any, state: any) => ({
     ...provided,

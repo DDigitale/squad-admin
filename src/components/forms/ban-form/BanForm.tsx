@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { banPlayer } from 'api/users'
 import Select from 'react-select'
 import { customSelectorStyles } from 'components/forms/SelectorStyles'
-import { banLengthOptions, banOptions } from 'api/local/options'
+import { banLengthOptions, groupedOptions } from 'api/local/options'
 
 interface Props {
   steamId: string
@@ -39,7 +39,7 @@ export function BanForm({ steamId, name }: Props) {
       <div>
         <Select
           styles={customSelectorStyles}
-          options={banOptions}
+          options={groupedOptions}
           onChange={handleChangeReason}
           placeholder={'Выберите причину'}
         />

@@ -17,14 +17,14 @@
   background-color: var(--color-dark2);
   height: 100%;
   overflow-y: auto;
-  border: 1px solid var(--color-gray2);
-  border-radius: 0.3rem;
-  box-shadow: var(--shadow-1);
+  //border: 1px solid var(--color-gray2);
+  //border-radius: 0.3rem;
+  //box-shadow: var(--shadow-1);
 
   & > * {
-    border-bottom-width: 1px;
-    border-style: solid;
-    border-color: var(--color-gray2);
+    //border-bottom-width: 1px;
+    //border-style: solid;
+    //border-color: var(--color-gray2);
   }
   & > :last-child {
     border: none;

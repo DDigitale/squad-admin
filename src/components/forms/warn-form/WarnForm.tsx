@@ -4,7 +4,7 @@ import { warnPlayer } from 'api/users'
 import styles from './WarnForm.module.scss'
 import CreatableSelect from 'react-select/creatable'
 import { customSelectorStyles } from 'components/forms/SelectorStyles'
-import { warnOptions } from 'api/local/options'
+import { groupedOptions } from 'api/local/options'
 
 interface Props {
   steamId: string
@@ -29,7 +29,7 @@ export function WarnForm({ steamId, name }: Props) {
   return (
     <div className={styles.wrapper}>
       <CreatableSelect
-        options={warnOptions}
+        options={groupedOptions}
         onChange={handleChange}
         styles={customSelectorStyles}
         placeholder={'Выберите или введите сообщение'}

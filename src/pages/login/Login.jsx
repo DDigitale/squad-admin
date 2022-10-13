@@ -21,9 +21,9 @@ export function Login() {
       {isLoading && <Spinner />}
       {isError && <h1>Response error</h1>}
       {isSuccess && (
-        <button className={styles.loginBtn}>
-          <a href={link}>войти</a>
-        </button>
+        <a className={styles.loginBtn} href={link}>
+          войти
+        </a>
       )}
     </div>
   )

@@ -4,7 +4,7 @@ import { kickPlayer } from 'api/users'
 import styles from './KickForm.module.scss'
 import Select from 'react-select'
 import { customSelectorStyles } from 'components/forms/SelectorStyles'
-import { kickOptions } from 'api/local/options'
+import { groupedOptions } from 'api/local/options'
 
 interface Props {
   steamId: string
@@ -29,7 +29,7 @@ export function KickForm({ steamId, name }: Props) {
   return (
     <div className={styles.wrapper}>
       <Select
-        options={kickOptions}
+        options={groupedOptions}
         onChange={handleChange}
         styles={customSelectorStyles}
         placeholder={'Выберите причину'}

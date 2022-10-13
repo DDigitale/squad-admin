@@ -15,8 +15,15 @@ export const ChatRow = forwardRef<HTMLDivElement, Props>(function ChatRow(
     PlayerModalContext
   ) as PlayerModalContextType
 
+  const rowColor = () => {
+    if (message.chatType === 'ChatAll') return '#4ba8fe'
+    if (message.chatType === 'ChatTeam') return '#4ba8fe'
+    if (message.chatType === 'ChatSquad') return '#33fd55'
+    if (message.chatType === 'ChatAdmin') return '#33fdd9'
+  }
+
   return (
-    <div className={styles.row} ref={ref}>
+    <div className={styles.row} ref={ref} style={{ color: `${rowColor()}` }}>
       <span className={styles.time}>
         {message.time.toLocaleTimeString('ru')}
       </span>
