@@ -3,7 +3,7 @@ import styles from 'modules/layers/LayerModal.module.scss'
 import {
   LayerActionsContext,
   LayerActionsContextType,
-} from 'contexts/layer-actions-contex'
+} from 'contexts/layer-actions-context'
 import { LayerInfo } from 'modules/layers/LayerInfo'
 import { Card, Modal } from 'components'
 

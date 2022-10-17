@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './BansRow.module.scss'
 import { Ban } from 'types/players'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -24,6 +24,8 @@ export function BanRow({
     onSuccess: () => queryClient.invalidateQueries(['players']),
   })
 
+  const banExpired = expirationTime < new Date() || isUnbannedManually
+
   return (
     <div className={styles.row}>
       <div className={styles.up}>
@@ -39,13 +41,13 @@ export function BanRow({
           </span>
         ) : (
           <span className={styles.expirationTime}>
-            До {expirationTime.toLocaleString()}
+            {banExpired ? `Бан истёк` : `До ${expirationTime.toLocaleString()}`}
           </span>
         )}
       </div>
       <div className={styles.down}>
         <span className={styles.reason}>Бан: {reason.split('.')[0]}</span>
-        {!isUnbannedManually && (
+        {!banExpired && (
           <button
             className={styles.unbanBtn}
             onClick={() => unbanPlayerMutation.mutate()}

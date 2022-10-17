@@ -3,7 +3,7 @@ import styles from './MapCart.module.scss'
 import {
   LayerActionsContext,
   LayerActionsContextType,
-} from 'contexts/layer-actions-contex'
+} from 'contexts/layer-actions-context'
 
 interface Props {
   layer: any
