@@ -39,7 +39,9 @@ export function Title({ player, showActions }: Props) {
             </a>
             <TbCopy
               className={styles.copy}
-              onClick={() => navigator.clipboard.writeText(player.steamId)}
+              onClick={async () =>
+                await navigator['clipboard'].writeText(`${player.steamId}`)
+              }
             />
           </div>
         </div>
