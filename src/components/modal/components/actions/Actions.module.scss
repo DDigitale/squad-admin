@@ -1,38 +1,17 @@
 .actionBtns {
   cursor: pointer;
   display: flex;
-  flex-direction: column;
   gap: 1rem;
-  animation: fade 0.3s ease-out;
-}
-
-@keyframes fade {
-  0% {
-    transform: translateY(-1500px);
-  }
-  100% {
-    transform: translateY(0);;
-  }
 }
 
 .actionForms {
   display: flex;
   min-width: 70%;
-  animation: fade 0.5s ease-in;
   flex: 1;
 }
 
-@keyframes fade {
-  0% {
-    transform: translateY(-1500px);
-  }
-  100% {
-    transform: translateY(0);;
-  }
-}
-
-
 .wrapper {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
 }

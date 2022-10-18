@@ -33,6 +33,7 @@ export function WarnForm({ steamId, name }: Props) {
         onChange={handleChange}
         styles={customSelectorStyles}
         placeholder={'Выберите или введите сообщение'}
+        menuPlacement={'top'}
       />
       <div className={styles.container}>
         <button

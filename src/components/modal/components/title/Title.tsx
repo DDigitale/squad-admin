@@ -5,10 +5,9 @@ import { MdNavigateNext } from 'react-icons/md'
 
 interface Props {
   player: any
-  showActions: Function
 }
 
-export function Title({ player, showActions }: Props) {
+export function Title({ player }: Props) {
   return (
     <div className={styles.title}>
       <div className={styles.container}>
@@ -45,9 +44,6 @@ export function Title({ player, showActions }: Props) {
             />
           </div>
         </div>
-      </div>
-      <div className={styles.moveButton} onClick={() => showActions()}>
-        <MdNavigateNext />
       </div>
     </div>
   )

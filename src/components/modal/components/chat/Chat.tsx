@@ -18,12 +18,9 @@ export function Chat({ playerSteamId }: Props) {
     fetchPlayerMessages(playerSteamId)
   )
 
-  if (isLoading) {
-    return <Spinner />
-  }
-
   return (
     <div className={styles.wrapper}>
+      {isLoading && <Spinner />}
       {isSuccess && (
         <>
           {messages?.map((message) => (

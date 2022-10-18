@@ -20,12 +20,9 @@ export function Punishments({ playerSteamId }: Props) {
     fetchPlayerPunishmentHistory(playerSteamId)
   )
 
-  if (isLoading) {
-    return <Spinner />
-  }
-
   return (
     <div className={styles.wrapper}>
+      {isLoading && <Spinner />}
       {isSuccess && (
         <>
           {punishments.bans?.map((ban: Ban) => (

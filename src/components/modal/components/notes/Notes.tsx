@@ -18,12 +18,9 @@ export function Notes({ playerSteamId }: Props) {
     fetchPlayerNotes(playerSteamId)
   )
 
-  if (isLoading) {
-    return <Spinner />
-  }
-
   return (
     <div className={styles.wrapper}>
+      {isLoading && <Spinner />}
       {isSuccess && (
         <>
           {notes?.map((note: any) => (

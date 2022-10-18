@@ -33,6 +33,7 @@ export function KickForm({ steamId, name }: Props) {
         onChange={handleChange}
         styles={customSelectorStyles}
         placeholder={'Выберите причину'}
+        menuPlacement={'top'}
       />
       <div className={styles.container}>
         <button

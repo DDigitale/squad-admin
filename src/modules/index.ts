@@ -1,7 +1,6 @@
 export * from 'modules/disconnected-players/DisconnectedPlayers'
 export * from 'modules/map-selector/MapSelector'
 export * from 'modules/player-modal/PlayerModal'
-export * from 'modules/search-player/SearchPlayer'
 export * from 'modules/server-info/ServerInfo'
 export * from 'modules/suspected-players/SuspectedPlayers'
 export * from 'modules/teams/Teams'

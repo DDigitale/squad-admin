@@ -25,7 +25,7 @@ export function Broadcast() {
   return (
     <div className={styles.wrapper}>
       <CreatableSelect
-        options={groupedOptions}
+        options={broadcastOptions}
         className={styles.input}
         onChange={handleChange}
         styles={customSelectorStyles}
