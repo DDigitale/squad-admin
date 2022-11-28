@@ -42,7 +42,7 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
   const soundClickDD = () => {
     const audio = new Audio()
     audio.src = playerModalSoundDD
-    // audio.play()
+    audio.play()
   }
 
   const soundClickBR = () => {
