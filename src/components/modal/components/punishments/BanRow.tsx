@@ -41,13 +41,23 @@ export function BanRow({
           </span>
         ) : (
           <span className={styles.expirationTime}>
-            {banExpired ? `Бан истёк` : `До ${expirationTime.toLocaleString()}`}
+            {banExpired
+              ? `${unbannedTime === null ? 'Перманентный бан' : 'Бан истёк'}`
+              : `До ${expirationTime.toLocaleString()}`}
           </span>
         )}
       </div>
       <div className={styles.down}>
-        <span className={styles.reason}>Бан: {reason.split('.')[0]}</span>
+        <span className={styles.reason}>Бан: {reason.split('До 20')[0]}</span>
         {!banExpired && (
+          <button
+            className={styles.unbanBtn}
+            onClick={() => unbanPlayerMutation.mutate()}
+          >
+            Разбанить
+          </button>
+        )}
+        {expirationTime === null && unbannedTime === null && (
           <button
             className={styles.unbanBtn}
             onClick={() => unbanPlayerMutation.mutate()}

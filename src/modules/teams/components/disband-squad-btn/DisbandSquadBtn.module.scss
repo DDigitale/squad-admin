@@ -22,13 +22,13 @@
   width: 2em;
   height: 1.5em;
   cursor: pointer;
-  background-color: #33fd55;
+  background-color: rgba(51, 253, 85, 0.5);
   color: var(--color-gray1);
   padding: 0.3rem;
   border-radius: var(--radius-1);
   box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.15);
   &:hover {
-    background-color: rgba(51, 253, 217, 0.5);
+    background-color: #33fd55;
   }
 }
 
@@ -38,12 +38,12 @@
   width: 2em;
   height: 1.5em;
   cursor: pointer;
-  background-color: #fd4b4c;
+  background-color: rgba(253, 75, 76, 0.5);
   color: var(--color-gray1);
   padding: 0.3rem;
   border-radius: var(--radius-1);
   box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.15);
   &:hover {
-    background-color: rgba(253, 75, 76, 0.5);
+    background-color: #fd4b4c;
   }
 }

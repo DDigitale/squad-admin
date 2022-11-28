@@ -10,7 +10,7 @@
   border-radius: var(--radius-1);
 }
 
-.name{
+.name {
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
@@ -36,10 +36,12 @@
 }
 
 .type {
-  min-width: 0;
+  display: flex;
+  gap: 0.25rem;
   font-weight: 300;
-  font-size: 0.85rem;
+  font-size: 1rem;
   text-align: center;
+  align-items: center;
   //color: var(--color-gray3);
   padding: 0.25rem;
   background-color: var(--color-gray1);
@@ -52,5 +54,12 @@
   overflow-wrap: break-word;
   min-width: 0;
   font-size: 1rem;
-  //color: var(--color-gray2);
+}
+
+.warn {
+  color: var(--color-gray2);
+  transition: 0.3s;
+  &:hover {
+    color: var(--color-red);
+  }
 }

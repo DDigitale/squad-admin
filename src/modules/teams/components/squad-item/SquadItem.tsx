@@ -15,6 +15,10 @@ export function SquadItem({ squad }: Props) {
     PlayerModalContext
   ) as PlayerModalContextType
 
+  const colorizeCmdSquad = () => {
+    if (squad.name === 'CMD Squad') return 'rgba(255,217,63,0.52)'
+  }
+
   return (
     <>
       <div className={styles.wrapper}>
@@ -22,12 +26,34 @@ export function SquadItem({ squad }: Props) {
           <button
             className={styles.id}
             onClick={() => setPlayerModal(squad.creatorSteam64id)}
+            style={{
+              backgroundColor: colorizeCmdSquad(),
+            }}
           >
             {squad.id}
           </button>
-          <span className={styles.name}>{squad.name}</span>
-          <div className={styles.size}>{squad.size}/9</div>
-          <div className={styles.lock}>
+          <span
+            className={styles.name}
+            style={{
+              color: colorizeCmdSquad(),
+            }}
+          >
+            {squad.name}
+          </span>
+          <div
+            className={styles.size}
+            style={{
+              color: colorizeCmdSquad(),
+            }}
+          >
+            {squad.size}/9
+          </div>
+          <div
+            className={styles.lock}
+            style={{
+              color: squad.isLocked ? 'rgba(255,114,114,0.7)' : '',
+            }}
+          >
             {squad.isLocked ? <VscLock /> : <VscUnlock />}
           </div>
           <DisbandSquadBtn

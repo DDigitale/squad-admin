@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styles from './Header.module.scss'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { fetchPlayerSearch } from 'api/users'
 import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 import { LogoutBtn } from 'components/buttons'
 import { Navbar } from 'components/navbar/Navbar'
+import useDebounce from 'components/debounce/useDebounce'
 
 function Header() {
   const [playerModal, setPlayerModal] = useContext(
@@ -16,18 +17,27 @@ function Header() {
   const [foundPlayers, setFoundPlayers] = useState<{
     foundPlayers: any
   }>()
+  const [isSearching, setIsSearching] = useState(false)
+
+  const debouncedSearch = useDebounce(searchPlayer, 300)
 
   const searchPlayerMutation = useMutation(
-    () => fetchPlayerSearch(searchPlayer),
+    () => fetchPlayerSearch(searchPlayer.toString()),
     {
       // onSuccess: () => queryClient.invalidateQueries(['players']),
       onSuccess: (data) => setFoundPlayers(data),
     }
   )
 
+  useEffect(() => {
+    if (debouncedSearch) {
+      setIsSearching(true)
+      searchPlayerMutation.mutate()
+    }
+  }, [debouncedSearch])
+
   const handleSearch = (e: any) => {
     setSearchPlayer(e.target.value.toLowerCase())
-    searchPlayerMutation.mutate()
   }
 
   const handleClick = (steamId: string) => {
@@ -56,7 +66,9 @@ function Header() {
                 className={styles.item}
                 onClick={() => handleClick(player.steamId)}
               >
-                <span>{player.name}</span>
+                <span>
+                  {player.name} {player.steamId}
+                </span>
               </div>
             ))}
           </div>

@@ -1,0 +1,9 @@
+.wrapper {
+  width: 1000px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-gray1);
+  border-radius: 0.5rem;
+  overflow-y: auto;
+}

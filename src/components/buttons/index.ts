@@ -1,1 +1,1 @@
-export * from './LogoutBtn'
+export * from 'components/buttons/LogoutBtn'

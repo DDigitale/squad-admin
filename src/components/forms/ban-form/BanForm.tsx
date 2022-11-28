@@ -53,10 +53,6 @@ export function BanForm({ steamId, name }: Props) {
           onChange={handleChangeLength}
           placeholder={'Выберите срок'}
           menuPlacement={'top'}
-          defaultValue={{
-            label: '1 день',
-            value: { banLengthInTimeStamp: 86400000, banLength: '1d' },
-          }}
         />
         <button
           className={styles.button}

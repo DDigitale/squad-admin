@@ -29,6 +29,8 @@ export interface Players extends PlayerBase {
   isSquadLeader: boolean
   role: string
   violations: Violation[]
+  isAdmin: boolean
+  isOnControl: boolean
 }
 
 export interface PlayerWithoutSquad extends Omit<Players, 'squadID'> {

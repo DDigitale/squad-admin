@@ -13,6 +13,10 @@ import {
 } from 'components/modal'
 import { useQuery } from '@tanstack/react-query'
 import { fetchPlayer } from 'api/users'
+import playerModalSoundDD from 'assets/sound/player-modal-dd.wav'
+import playerModalSoundBR from 'assets/sound/player-modal-br.mp3'
+import playerModalSoundVS from 'assets/sound/player-modal-vs.wav'
+import playerModalSoundRS from 'assets/sound/player-modal-rs.wav'
 
 interface Props {
   playerSteamId: steamId
@@ -34,6 +38,46 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
   const [activeBtn, setActiveBtn] = useState(false)
 
   const infoRef = useRef<HTMLDivElement | null>(null)
+
+  const soundClickDD = () => {
+    const audio = new Audio()
+    audio.src = playerModalSoundDD
+    // audio.play()
+  }
+
+  const soundClickBR = () => {
+    const audio = new Audio()
+    audio.src = playerModalSoundBR
+    audio.play()
+  }
+
+  const soundClickVS = () => {
+    const audio = new Audio()
+    audio.src = playerModalSoundVS
+    audio.play()
+  }
+
+  const soundClickRS = () => {
+    const audio = new Audio()
+    audio.src = playerModalSoundRS
+    audio.play()
+  }
+
+  if (playerSteamId === '76561198054690038') {
+    player && soundClickDD()
+  }
+
+  if (playerSteamId === '76561198017819600') {
+    player && soundClickBR()
+  }
+
+  if (playerSteamId === '76561198069397368') {
+    player && soundClickVS()
+  }
+
+  if (playerSteamId === '76561198114468080') {
+    player && soundClickRS()
+  }
 
   return (
     <Modal onClose={onClose} className={styles.modal} innerElRefs={[infoRef]}>
@@ -68,6 +112,7 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
               }}
             />
           </div>
+
           {selectedTab === 1 && <Punishments playerSteamId={playerSteamId} />}
           {selectedTab === 2 && <Chat playerSteamId={playerSteamId} />}
           {selectedTab === 3 && <Notes playerSteamId={playerSteamId} />}

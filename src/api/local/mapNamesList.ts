@@ -7,6 +7,7 @@ export const mapNamesList = [
   'FoolsRoad',
   'GooseBay',
   'Gorodok',
+  'Harju',
   'Kamdesh',
   'Kohat',
   'Kokan',

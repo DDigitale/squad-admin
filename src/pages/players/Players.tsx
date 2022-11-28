@@ -23,11 +23,11 @@ export function Players() {
     keepPreviousData: true,
   })
 
-  toast.promise(Promise.all(status), {
-    loading: 'Loading',
-    success: 'Got the data',
-    error: 'Error when fetching',
-  })
+  // toast.promise(Promise.all(status), {
+  //   loading: 'Loading',
+  //   success: 'Got the data',
+  //   error: 'Error when fetching',
+  // })
 
   queryClient.prefetchQuery([players, page], () => fetchPlayers(page))
 

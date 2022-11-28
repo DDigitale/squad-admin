@@ -1,5 +1,6 @@
 import React, { forwardRef, useContext } from 'react'
 import styles from './ChatRow.module.scss'
+import { TbMessageReport } from 'react-icons/tb'
 import { ChatMessage } from 'types/players'
 import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 
@@ -33,7 +34,9 @@ export const ChatRow = forwardRef<HTMLDivElement, Props>(function ChatRow(
       >
         {message.playerName}
       </span>
-      <span className={styles.type}>{message.chatType}</span>
+      <span className={styles.type}>
+        {message.chatType} <TbMessageReport className={styles.warn} />
+      </span>
       <span className={styles.message}>{message.message}</span>
     </div>
   )

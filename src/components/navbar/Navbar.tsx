@@ -3,10 +3,11 @@ import styles from './Navbar.module.scss'
 import { NavLink } from 'react-router-dom'
 
 const links: [string, string][] = [
-  ['панель', '/'],
-  // ['игроки', '/players'],
   // ['админы', '/admins'],
+  ['панель', '/'],
   ['админ лог', '/admins-log'],
+  ['баны', '/bans-log'],
+  ['игроки', '/players'],
 ]
 
 export function Navbar() {

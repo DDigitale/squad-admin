@@ -13,6 +13,9 @@
   &:hover {
     filter: brightness(80%);
   }
+  &:active {
+    transform: translateY(0.2em);
+  }
 }
 
 .background {
@@ -31,7 +34,7 @@
 
 .title {
   font-size: 1.25rem;
-  text-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+  text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5), 3px 2px 2px rgba(206,89,55,0);
 }
 
 .nextMap {
@@ -43,5 +46,5 @@
   line-height: 2rem;
   display: flex;
   align-items: center;
-  text-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+  text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5), 3px 2px 2px rgba(206,89,55,0);
 }

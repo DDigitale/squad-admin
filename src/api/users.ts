@@ -6,6 +6,7 @@ import {
   DISBAND_SQUAD,
   GET_ADMINS,
   GET_ADMINS_ACTIONS,
+  GET_BANS,
   GET_CHAT_MESSAGES,
   GET_DISCONNECTED_PLAYERS,
   GET_ONLINE_PLAYERS,
@@ -16,8 +17,8 @@ import {
   GET_PLAYERS,
   GET_PLAYERS_BY_CONTAINS_TEXT,
   GET_SERVER_INFO,
-  GET_STEAM_INFO,
   KICK_PLAYER,
+  LOGOUT,
   NOTE_PLAYER,
   PLAYER_TEAM_CHANGE,
   REMOVE_PLAYER_FROM_SQUAD,
@@ -36,7 +37,6 @@ import {
   Team,
 } from 'types/players'
 import { errorToast, successToast } from 'utils/toasts'
-import toast from 'react-hot-toast'
 
 export const JSONbig = jsonBigInt({ storeAsString: true })
 
@@ -596,5 +596,47 @@ export const disbandSquad = async (
     return response.data
   } catch (e: any) {
     errorToast(`Расформирование отряда: ${e.message}`)
+  }
+}
+
+export const fetchAllBans = async (page: number, activeBans: boolean) => {
+  const response = await axios.post(
+    API_URL + GET_BANS,
+    {
+      showOnlyActiveBans: activeBans,
+      page,
+      size: 80,
+    },
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      transformResponse: (data) => {
+        return JSON.parse(data, (key, value) => {
+          const dateStrings = [
+            'creationTime',
+            'expirationTime',
+            'manualUnbannedTime',
+          ]
+
+          if (dateStrings.includes(key) && value !== null) {
+            return new Date(Date.parse(value))
+          }
+          return value
+        })
+      },
+    }
+  )
+  return response.data
+}
+
+export const fetchLogout = async () => {
+  try {
+    const response = await axios.get(API_URL + LOGOUT, {
+      withCredentials: true,
+    })
+  } catch (e: any) {
+    console.log(e)
   }
 }

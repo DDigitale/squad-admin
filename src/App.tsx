@@ -11,6 +11,8 @@ import { LayerActionsContext } from 'contexts/layer-actions-context'
 import { layer } from 'types/layers'
 import { LayerModal } from 'modules/layers/LayerModal'
 import { Toaster } from 'react-hot-toast'
+import AdminRoute from 'pages/admin-route/AdminRoute'
+import Bans from 'pages/bans/Bans'
 
 function App() {
   const [playerInModal, setPlayerInModal] = useState<steamId | null>(null)
@@ -29,6 +31,11 @@ function App() {
                 <Route path="/players" element={<Players />} />
                 <Route path="/admins" element={<Admins />} />
                 <Route path="/admins-log" element={<AdminsLog />} />
+                <Route path="/bans-log" element={<Bans />} />
+                <Route
+                  path="/privet-voskresene/admin"
+                  element={<AdminRoute />}
+                />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

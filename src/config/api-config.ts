@@ -4,11 +4,12 @@ const STEAM_KEY = 'D24E3D9EB90500EB1979B72B06B4D903'
 const GET_STEAM_LINK = '/get-steam-link'
 const VERIFY_STEAM = '/verify-steam'
 const AUTH = '/auth'
-const LOGOUT = '/logout'
+const LOGOUT = '/user-logout'
 const GET_ONLINE_PLAYERS = '/get-online-players'
 const GET_DISCONNECTED_PLAYERS = '/get-disconnected-players'
 const GET_ADMINS = '/get-admins'
 const GET_ADMINS_ACTIONS = '/get-admins-actions'
+const GET_BANS = '/get-bans'
 const GET_PLAYER = '/get-player'
 const GET_PLAYERS = '/get-players'
 const GET_PLAYER_MESSAGES = '/get-player-messages'
@@ -30,6 +31,8 @@ const DISBAND_SQUAD = '/disband-squad'
 const CHANGE_CURRENT_LAYER = '/change-current-layer'
 const CHANGE_NEXT_LAYER = '/change-next-layer'
 const SEND_BROADCAST = '/send-broadcast'
+const ADD_ADMIN = '/add-admin'
+const DELETE_ADMIN = '/deactivate-admin'
 
 export {
   API_URL,
@@ -42,6 +45,7 @@ export {
   GET_DISCONNECTED_PLAYERS,
   GET_ADMINS,
   GET_ADMINS_ACTIONS,
+  GET_BANS,
   GET_PLAYER,
   GET_PLAYERS,
   GET_PLAYER_MESSAGES,
@@ -63,4 +67,6 @@ export {
   CHANGE_CURRENT_LAYER,
   CHANGE_NEXT_LAYER,
   SEND_BROADCAST,
+  ADD_ADMIN,
+  DELETE_ADMIN,
 }

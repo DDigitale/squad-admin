@@ -7,7 +7,7 @@ export const customSelectorStyles = {
     alignItems: 'center',
     textAlign: 'center',
     fontSize: '1.3rem',
-    height: '3rem',
+    height: '4rem',
   }),
   control: (provided: any, state: any) => ({
     ...provided,
@@ -35,12 +35,12 @@ export const customSelectorStyles = {
     ...provided,
     backgroundColor: '#3c3f41',
   }),
-  selectContainer: (provided: any, state: any) => ({
-    ...provided,
-    height: '20vh',
-  }),
   singleValue: (provided: any, state: any) => ({
     ...provided,
     color: '#ffffff',
+  }),
+  menuPortal: (provided: any, state: any) => ({
+    ...provided,
+    height: '50rem',
   }),
 }

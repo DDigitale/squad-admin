@@ -29,7 +29,6 @@ export function Panel() {
     data: teams,
     isSuccess,
     isLoading,
-    isError,
   } = useQuery(['teams'], fetchTeams, {
     onError: (e: any) => errorToast('Ошибка загрузки онлайн игроков'),
     keepPreviousData: true,

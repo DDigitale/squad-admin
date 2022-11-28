@@ -16,7 +16,7 @@ export function AdminsLogRow({ admin }: Props) {
   return (
     <div className={styles.row}>
       <span className={styles.time}>{time}</span>
-      <span>{admin.adminsByAdminId}</span>
+      <span style={{ whiteSpace: 'nowrap' }}>{admin.adminsByAdminId}</span>
       <span className={styles.action}>{admin.action}</span>
       <span
         className={styles.name}

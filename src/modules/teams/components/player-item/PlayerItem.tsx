@@ -24,17 +24,28 @@ export function PlayerItem({ player }: Props) {
     getImg()
   }, [player.role])
 
+  const colorizePlayers = () => {
+    if (player.violations.length > 0) {
+      return 'rgba(253,75,76,0.5)'
+    }
+
+    if (player.isAdmin) {
+      return 'rgba(251,211,1,0.7)'
+    }
+  }
+
   return (
     <>
       <div
-        style={{
-          color: player.violations.length > 0 ? '#fd4b4c' : '#939394',
-        }}
         className={styles.wrapper}
         onClick={() => setPlayerModal(player.steamId)}
       >
-        {kitImg && <img className={styles.icon} src={kitImg} alt="kit-icon" />}
-        <span className={styles.name}>{player.name}</span>
+        {kitImg && (
+          <img className={styles.icon} src={kitImg} alt={player.role} />
+        )}
+        <span className={styles.name} style={{ color: colorizePlayers() }}>
+          {player.name}
+        </span>
       </div>
     </>
   )

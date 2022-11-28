@@ -23,7 +23,7 @@ export function NoteRow({ note, steamId }: Props) {
   return (
     <div className={styles.row}>
       <span className={styles.time}>{time}</span>
-      <span>{note.adminsBySteamId.name}:</span>
+      <span style={{ whiteSpace: 'nowrap' }}>{note.adminsBySteamId.name}:</span>
       <span className={styles.message}>{note.note}</span>
       <span
         className={styles.delete}
