@@ -41,7 +41,9 @@ export function Maps({ selectedMap, selectedMode }: Props) {
           <MapCard key={layer.rawName} layer={layer} />
         ))
       ) : (
-        <h1>выберите карту</h1>
+        <span style={{ fontSize: '1.5rem', marginTop: '2rem' }}>
+          выберите карту
+        </span>
       )}
     </div>
   )
