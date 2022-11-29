@@ -34,9 +34,8 @@ export const ChatRow = forwardRef<HTMLDivElement, Props>(function ChatRow(
       >
         {message.playerName}
       </span>
-      <span className={styles.type}>
-        {message.chatType} <TbMessageReport className={styles.warn} />
-      </span>
+      <span className={styles.type}>{message.chatType}</span>
+      {/*<TbMessageReport className={styles.warn} />*/}
       <span className={styles.message}>{message.message}</span>
     </div>
   )

@@ -36,11 +36,8 @@ export function MapSelector({ nextLayer }: Props) {
     }
     getImg()
 
-    console.log(nextLayer)
-
     const layer = mapsNormalized.find((map) => {
       if (map.Name === nextLayer) {
-        console.log('asd')
         setLayerData(map)
       }
     })
