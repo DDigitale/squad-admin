@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ADD_ADMIN, API_URL, DELETE_ADMIN } from 'config'
+import { ADD_ADMIN, API_URL, DELETE_ADMIN, GET_BACKEND_STATUS } from 'config'
 import { errorToast, successToast } from 'utils/toasts'
 
 export const fetchAddAdmin = async (adminSteamId: number) => {
@@ -33,6 +33,20 @@ export const fetchDeactivateAdmin = async (adminSteamId: number) => {
       }
     )
     successToast(`Админ удалён`)
+  } catch (e: any) {
+    errorToast(`Не удалось удалить админа: ${e.message}`)
+  }
+}
+
+export const fetchBackendStatus = async () => {
+  try {
+    const response = await axios.get(API_URL + GET_BACKEND_STATUS, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return response.data
   } catch (e: any) {
     errorToast(`Не удалось удалить админа: ${e.message}`)
   }

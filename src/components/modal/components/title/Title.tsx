@@ -1,12 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Title.module.scss'
+import { RiErrorWarningFill } from 'react-icons/ri'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { addPlayerOnControl, removePlayerOnControl } from 'api/users'
 
 interface Props {
   player: any
+  refetch: () => void
 }
 
-export function Title({ player }: Props) {
+export function Title({ player, refetch }: Props) {
+  const queryClient = useQueryClient()
   const [kitImg, setKitImg] = useState<string | null>(null)
+
+  const addPlayerOnControlMutation = useMutation(
+    () => addPlayerOnControl(player.steamId),
+    {
+      onSuccess: () => queryClient.invalidateQueries(['players']),
+    }
+  )
+
+  const removePlayerOnControlMutation = useMutation(
+    () => removePlayerOnControl(player.steamId),
+    {
+      onSuccess: () => queryClient.invalidateQueries(['players']),
+    }
+  )
 
   useEffect(() => {
     const getImg = async () => {
@@ -19,6 +38,16 @@ export function Title({ player }: Props) {
     }
     getImg()
   }, [player.isOnline?.role])
+
+  const onControlHandler = () => {
+    player.isOnControl
+      ? removePlayerOnControlMutation.mutate(undefined, {
+          onSuccess: () => refetch(),
+        })
+      : addPlayerOnControlMutation.mutate(undefined, {
+          onSuccess: () => refetch(),
+        })
+  }
 
   return (
     <div
@@ -39,6 +68,13 @@ export function Title({ player }: Props) {
           >
             {kitImg && <img src={kitImg} alt={player.role} />}
             {player.isOnline?.name || player.name}
+            <RiErrorWarningFill
+              className={`${styles.controlIcon} ${
+                player.isOnControl && styles.onControl
+              }`}
+              style={{ marginLeft: '0.5rem' }}
+              onClick={onControlHandler}
+            />
           </span>
           {player.isOnline ? (
             <>
@@ -48,7 +84,6 @@ export function Title({ player }: Props) {
                   ? `в отряде ${player.isOnline?.squadID}`
                   : 'без отряда'}
               </span>
-              {/*<span>В отряде {player.isOnline?.squadID}</span>*/}
             </>
           ) : (
             <span>
@@ -61,7 +96,7 @@ export function Title({ player }: Props) {
               href={`http://steamcommunity.com/profiles/${player.steamId}`}
               target="_blank"
             >
-              ID: {player.steamId}{' '}
+              ID: {player.steamId}
             </a>
             {/*<TbCopy*/}
             {/*  className={styles.copy}*/}

@@ -17,6 +17,7 @@
 }
 
 .name {
+  flex-grow: 1;
   color: var(--color-main2);
   white-space: nowrap;
   overflow: hidden;

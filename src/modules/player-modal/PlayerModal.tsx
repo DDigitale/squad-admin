@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './PlayerModal.module.scss'
 import btnStyles from '../../components/modal/components/action-btn/ActionBtn.module.scss'
 import { steamId } from 'types/players'
@@ -29,6 +29,7 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
     isLoading,
     isError,
     isSuccess,
+    refetch,
   } = useQuery(['player', playerSteamId, 'get-player'], () =>
     fetchPlayer(playerSteamId)
   )
@@ -83,7 +84,7 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
     <Modal onClose={onClose} className={styles.modal} innerElRefs={[infoRef]}>
       {isSuccess && (
         <Card className={styles.info} ref={infoRef}>
-          <Title player={player} />
+          <Title player={player} refetch={refetch} />
           <div className={styles.tablesBtn}>
             <ActionBtn
               style={{

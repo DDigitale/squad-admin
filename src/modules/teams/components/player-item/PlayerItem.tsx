@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styles from './PlayerItem.module.scss'
+import { RiErrorWarningFill } from 'react-icons/ri'
 import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 import { Players, PlayerWithoutSquad } from 'types/players'
 
@@ -46,6 +47,11 @@ export function PlayerItem({ player }: Props) {
         <span className={styles.name} style={{ color: colorizePlayers() }}>
           {player.name}
         </span>
+        {player.isOnControl && (
+          <RiErrorWarningFill
+            style={{ color: '#FD4B4CFF', fontSize: '2rem' }}
+          />
+        )}
       </div>
     </>
   )

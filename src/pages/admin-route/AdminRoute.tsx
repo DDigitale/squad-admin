@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
-import { fetchAddAdmin, fetchDeactivateAdmin } from 'api/admins'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import {
+  fetchAddAdmin,
+  fetchBackendStatus,
+  fetchDeactivateAdmin,
+} from 'api/admins'
 import styles from 'components/modal/components/title/Title.module.scss'
 import backend from 'assets/sound/backend.mp3'
 import plus from 'assets/sound/click-plus.wav'
 import minus from 'assets/sound/click-minus.wav'
+import { errorToast } from 'utils/toasts'
 
 function AdminRoute() {
   const [adminSteamId, setAdminSteamId] = useState(0)
@@ -13,6 +18,17 @@ function AdminRoute() {
   const deactivateAdminMutation = useMutation(() =>
     fetchDeactivateAdmin(adminSteamId)
   )
+
+  const {
+    data: backendData,
+    isSuccess,
+    isError,
+  } = useQuery(['chatMessages'], fetchBackendStatus, {
+    onError: (e: any) => errorToast('Ошибка загрузки чата'),
+    // refetchInterval: 3000,
+  })
+
+  console.log(backendData)
 
   const soundClick1 = () => {
     const audio = new Audio()

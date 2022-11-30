@@ -16,6 +16,8 @@ const GET_PLAYER_MESSAGES = '/get-player-messages'
 const GET_PLAYER_NOTES = '/get-player-notes'
 const GET_PLAYER_PUNISHMENT_HISTORY = '/get-player-punishment-history'
 const GET_PLAYERS_BY_CONTAINS_TEXT = '/get-players-by-contains-text'
+const ADD_PLAYER_ON_CONTROL = '/add-player-on-control'
+const REMOVE_PLAYER_ON_CONTROL = '/remove-player-from-control'
 const GET_SERVER_INFO = '/get-server-info'
 const GET_CHAT_MESSAGES = '/get-chat-messages'
 const GET_STEAM_INFO = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${STEAM_KEY}&steamids=`
@@ -23,6 +25,7 @@ const BAN_PLAYER = '/ban-player'
 const UNBAN_PLAYER = '/unban-player'
 const KICK_PLAYER = '/kick-player'
 const WARN_PLAYER = '/warn-player'
+const WARN_SQUAD = '/warn-squad'
 const NOTE_PLAYER = '/add-player-note'
 const DELETE_PLAYER_NOTE = '/delete-player-note'
 const PLAYER_TEAM_CHANGE = '/player-team-change'
@@ -33,6 +36,7 @@ const CHANGE_NEXT_LAYER = '/change-next-layer'
 const SEND_BROADCAST = '/send-broadcast'
 const ADD_ADMIN = '/add-admin'
 const DELETE_ADMIN = '/deactivate-admin'
+const GET_BACKEND_STATUS = '/get-backend-status'
 
 export {
   API_URL,
@@ -59,6 +63,7 @@ export {
   UNBAN_PLAYER,
   KICK_PLAYER,
   WARN_PLAYER,
+  WARN_SQUAD,
   NOTE_PLAYER,
   DELETE_PLAYER_NOTE,
   PLAYER_TEAM_CHANGE,
@@ -69,4 +74,7 @@ export {
   SEND_BROADCAST,
   ADD_ADMIN,
   DELETE_ADMIN,
+  ADD_PLAYER_ON_CONTROL,
+  REMOVE_PLAYER_ON_CONTROL,
+  GET_BACKEND_STATUS,
 }

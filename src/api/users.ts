@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {
+  ADD_PLAYER_ON_CONTROL,
   API_URL,
   BAN_PLAYER,
   DELETE_PLAYER_NOTE,
@@ -22,9 +23,11 @@ import {
   NOTE_PLAYER,
   PLAYER_TEAM_CHANGE,
   REMOVE_PLAYER_FROM_SQUAD,
+  REMOVE_PLAYER_ON_CONTROL,
   SEND_BROADCAST,
   UNBAN_PLAYER,
   WARN_PLAYER,
+  WARN_SQUAD,
 } from 'config'
 // @ts-ignore
 import jsonBigInt from 'json-bigint'
@@ -420,6 +423,48 @@ export const notePlayer = async (playerSteamId: string, note: string) => {
   }
 }
 
+export const addPlayerOnControl = async (playerSteamId: string) => {
+  try {
+    const response = await axios.post(
+      API_URL + ADD_PLAYER_ON_CONTROL,
+      {
+        playerSteamId,
+      },
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    )
+    successToast(`Добавлена пометка`)
+    return response.data
+  } catch (e: any) {
+    errorToast(`Ошибка добавления пометки`)
+  }
+}
+
+export const removePlayerOnControl = async (playerSteamId: string) => {
+  try {
+    const response = await axios.post(
+      API_URL + REMOVE_PLAYER_ON_CONTROL,
+      {
+        playerSteamId,
+      },
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    )
+    successToast(`Пометка удалена`)
+    return response.data
+  } catch (e: any) {
+    errorToast(`Ошибка удаления пометки`)
+  }
+}
+
 export const warnPlayer = async (
   playerSteamId: string,
   warnReason: string,
@@ -443,6 +488,33 @@ export const warnPlayer = async (
     return response.data
   } catch (e: any) {
     errorToast(`Сообщение игроку: ${e.message}`)
+  }
+}
+
+export const warnSquad = async (
+  squadId: number,
+  teamId: number,
+  warnReason: string
+) => {
+  try {
+    const response = await axios.post(
+      API_URL + WARN_SQUAD,
+      {
+        squadId,
+        teamId,
+        warnReason,
+      },
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    )
+    successToast(`Сообщение отряду ${squadId} в команде ${teamId} отправлено`)
+    return response.data
+  } catch (e: any) {
+    errorToast(`Сообщение отряду: ${e.message}`)
   }
 }
 

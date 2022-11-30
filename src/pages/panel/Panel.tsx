@@ -37,6 +37,7 @@ export function Panel() {
 
   const { data: server } = useQuery(['server'], fetchServerInfo, {
     onError: (e: any) => errorToast('Ошибка загрузки данных о сервере'),
+    keepPreviousData: true,
     refetchInterval: 3000,
   })
 
@@ -45,6 +46,7 @@ export function Panel() {
     fetchDisconnectedPlayers,
     {
       onError: (e: any) => errorToast(`Ошибка загрузки отключившихся игроков`),
+      keepPreviousData: true,
       refetchInterval: 3000,
     }
   )

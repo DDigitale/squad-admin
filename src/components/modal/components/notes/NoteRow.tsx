@@ -25,12 +25,14 @@ export function NoteRow({ note, steamId }: Props) {
       <span className={styles.time}>{time}</span>
       <span style={{ whiteSpace: 'nowrap' }}>{note.adminsBySteamId.name}:</span>
       <span className={styles.message}>{note.note}</span>
-      <span
-        className={styles.delete}
-        onClick={() => deletePlayerNoteMutation.mutate()}
-      >
-        <IoCloseCircleOutline />
-      </span>
+      {!note.note.includes('игрока') && (
+        <span
+          className={styles.delete}
+          onClick={() => deletePlayerNoteMutation.mutate()}
+        >
+          <IoCloseCircleOutline />
+        </span>
+      )}
     </div>
   )
 }
