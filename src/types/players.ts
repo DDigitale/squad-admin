@@ -57,7 +57,8 @@ export interface Message {
   id: number
   chatType: string
   message: string
-  creationTime: Date
+  createTime: Date
+  content: any[][]
 }
 
 export interface Ban {

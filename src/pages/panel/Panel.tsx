@@ -19,6 +19,7 @@ import { LayersContext, LayersContextType } from 'contexts/layers-context'
 import { Chat } from 'modules/chat/Chat'
 import { errorToast } from 'utils/toasts'
 import { Spinner } from 'components/spinner/Spinner'
+import LayersHistory from 'modules/layers/LayersHistory'
 
 export function Panel() {
   const [layersMenu, setLayersMenu] = useContext(
@@ -57,7 +58,8 @@ export function Panel() {
 
   return (
     <div className={styles.wrapper}>
-      <Chat />
+      {layersMenu ? <LayersHistory /> : <Chat />}
+
       <ServerInfo server={server} />
       <main className={styles.main}>
         {isSuccess && <Teams teams={teams} />}

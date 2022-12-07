@@ -6,10 +6,10 @@ import { fetchLogout } from 'api/users'
 export function LogoutBtn() {
   const dispatch = useDispatch()
 
-  const logoutHandler = () => {
-    localStorage.clear()
-    fetchLogout()
-    document.location.reload()
+  const logoutHandler = async () => {
+    await fetchLogout()
+    await localStorage.clear()
+    await document.location.reload()
   }
 
   return (

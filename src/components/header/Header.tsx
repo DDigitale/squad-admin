@@ -1,11 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styles from './Header.module.scss'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { VscServer } from 'react-icons/vsc'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchPlayerSearch } from 'api/users'
 import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 import { LogoutBtn } from 'components/buttons'
 import { Navbar } from 'components/navbar/Navbar'
 import useDebounce from 'components/debounce/useDebounce'
+import toast from 'react-hot-toast'
+import BackendStatusItem from 'components/header/BackendStatusItem'
+import { fetchBackendStatus } from 'api/admins'
+import { errorToast } from 'utils/toasts'
 
 function Header() {
   const [playerModal, setPlayerModal] = useContext(
@@ -14,9 +19,7 @@ function Header() {
 
   const queryClient = useQueryClient()
   const [searchPlayer, setSearchPlayer] = useState('')
-  const [foundPlayers, setFoundPlayers] = useState<{
-    foundPlayers: any
-  }>()
+  const [foundPlayers, setFoundPlayers] = useState([])
   const [isSearching, setIsSearching] = useState(false)
 
   const debouncedSearch = useDebounce(searchPlayer, 300)
@@ -28,6 +31,12 @@ function Header() {
       onSuccess: (data) => setFoundPlayers(data),
     }
   )
+
+  const { data: backend } = useQuery(['backend'], fetchBackendStatus, {
+    onError: (e) => errorToast('Ошибка загрузки статуса работы бекенда'),
+    keepPreviousData: true,
+    refetchInterval: 3000,
+  })
 
   useEffect(() => {
     if (debouncedSearch) {
@@ -60,7 +69,7 @@ function Header() {
         />
         {searchPlayer && (
           <div className={styles.data}>
-            {foundPlayers?.foundPlayers.map((player: any, index: number) => (
+            {foundPlayers?.map((player: any, index: number) => (
               <div
                 key={index}
                 className={styles.item}
@@ -75,6 +84,40 @@ function Header() {
         )}
       </div>
       <div className={styles.logout}>
+        <VscServer
+          style={{
+            marginRight: '1rem',
+            fontSize: '2rem',
+            opacity: 0.5,
+            cursor: 'pointer',
+          }}
+          onClick={() =>
+            toast(
+              (t) => (
+                <div className={styles.backend}>
+                  <BackendStatusItem backendInfo={backend.FtpBanService}>
+                    FtpBanService
+                  </BackendStatusItem>
+                  <BackendStatusItem backendInfo={backend.FtpLogTailer}>
+                    FtpLogTailer
+                  </BackendStatusItem>
+                  <BackendStatusItem backendInfo={backend.QueryUpdater}>
+                    QueryUpdater
+                  </BackendStatusItem>
+                  <BackendStatusItem backendInfo={backend.RconUpdater}>
+                    RconUpdater
+                  </BackendStatusItem>
+                </div>
+              ),
+              {
+                position: 'top-right',
+                style: {
+                  marginTop: '3rem',
+                },
+              }
+            )
+          }
+        />
         <LogoutBtn />
       </div>
     </div>

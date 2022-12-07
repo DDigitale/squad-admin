@@ -1,0 +1,21 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  background-color: #353535;
+  border-radius: var(--radius-1);
+}
+
+.layer {
+  font-size: 1.25rem;
+  color: var(--color-gray3);
+}
+
+.time {
+  margin-left: auto;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-gray2);
+}

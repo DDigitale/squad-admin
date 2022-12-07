@@ -1,0 +1,132 @@
+[
+  {
+    "position": 1,
+    "name": "broadcastOptions",
+    "rules": [
+      {
+        "position": 1,
+        "name": "rule1"
+      },
+      {
+        "position": 2,
+        "name": "rule2"
+      },
+      {
+        "position": 3,
+        "name": "rule3"
+      },
+      {
+        "position": 4,
+        "name": "rule4"
+      },
+      {
+        "position": 5,
+        "name": "rule5"
+      }
+    ]
+  },
+  {
+    "position": 2,
+    "name": "squadLeadersOptions",
+    "rules": [
+      {
+        "position": 1,
+        "name": "rule1"
+      },
+      {
+        "position": 2,
+        "name": "rule2"
+      },
+      {
+        "position": 3,
+        "name": "rule3"
+      },
+      {
+        "position": 4,
+        "name": "rule4"
+      },
+      {
+        "position": 5,
+        "name": "rule5"
+      }
+    ]
+  },
+  {
+    "position": 3,
+    "name": "technicalOptions",
+    "rules": [
+      {
+        "position": 1,
+        "name": "rule1"
+      },
+      {
+        "position": 2,
+        "name": "rule2"
+      },
+      {
+        "position": 3,
+        "name": "rule3"
+      },
+      {
+        "position": 4,
+        "name": "rule4"
+      },
+      {
+        "position": 5,
+        "name": "rule5"
+      }
+    ]
+  },
+  {
+    "position": 4,
+    "name": "allPlayersOptions",
+    "rules": [
+      {
+        "position": 1,
+        "name": "rule1"
+      },
+      {
+        "position": 2,
+        "name": "rule2"
+      },
+      {
+        "position": 3,
+        "name": "rule3"
+      },
+      {
+        "position": 4,
+        "name": "rule4"
+      },
+      {
+        "position": 5,
+        "name": "rule5"
+      }
+    ]
+  },
+  {
+    "position": 5,
+    "name": "banLengthOptions",
+    "rules": [
+      {
+        "position": 1,
+        "name": "rule1"
+      },
+      {
+        "position": 2,
+        "name": "rule2"
+      },
+      {
+        "position": 3,
+        "name": "rule3"
+      },
+      {
+        "position": 4,
+        "name": "rule4"
+      },
+      {
+        "position": 5,
+        "name": "rule5"
+      }
+    ]
+  }
+]

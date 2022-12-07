@@ -10,6 +10,7 @@ import {
   GET_BANS,
   GET_CHAT_MESSAGES,
   GET_DISCONNECTED_PLAYERS,
+  GET_MESSAGES,
   GET_ONLINE_PLAYERS,
   GET_PLAYER,
   GET_PLAYER_MESSAGES,
@@ -131,7 +132,7 @@ export interface IFetchAdminsLog {
   content: any
   reason: string
   createTime: string
-  action: string
+  actions: string
   playerByAdminId: {
     steamId: string
     createTime: string
@@ -145,11 +146,21 @@ export interface IFetchAdminsLog {
 }
 
 export const fetchAdminsLog = async (
-  page: number
-): Promise<IFetchAdminsLog> => {
+  page: number,
+  searchAdmin: any,
+  searchPlayer: any,
+  searchAction: string[],
+  searchDateFrom: any,
+  searchDateTo: any
+) => {
   const response = await axios.post<IFetchAdminsLog>(
     API_URL + GET_ADMINS_ACTIONS,
     {
+      adminSteamId: searchAdmin,
+      playerSteamId: searchPlayer,
+      actions: `${searchAction}`,
+      dateFrom: searchDateFrom,
+      dateTo: searchDateTo,
       page,
       size: 80,
     },
@@ -180,6 +191,11 @@ export const fetchAdmins = async () => {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+      transformResponse: [
+        (data) => {
+          return JSONbig.parse(data)
+        },
+      ],
     }
   )
   return response.data
@@ -284,7 +300,7 @@ export const fetchPlayerNotes = async (playerSteamId: string) => {
   try {
     const response = await axios.post(
       API_URL + GET_PLAYER_NOTES,
-      { playerSteamId },
+      { playerSteamId, page: 0, size: 99 },
       {
         withCredentials: true,
         headers: {
@@ -293,11 +309,7 @@ export const fetchPlayerNotes = async (playerSteamId: string) => {
       }
     )
 
-    // if (!Array.isArray(response.data)) {
-    //   throw new Error('Ошибка в получении данных')
-    // }
-
-    return response.data.reverse()
+    return response.data
   } catch (e: any) {
     // errorToast(`Запрос заметок: ${e.message}`)
   }
@@ -305,9 +317,9 @@ export const fetchPlayerNotes = async (playerSteamId: string) => {
 
 export const fetchPlayerMessages = async (playerSteamId: string) => {
   try {
-    const response = await axios.post<Message[]>(
+    const response = await axios.post(
       API_URL + GET_PLAYER_MESSAGES,
-      { playerSteamId },
+      { playerSteamId, page: 0, size: 99 },
       {
         withCredentials: true,
         headers: {
@@ -315,7 +327,7 @@ export const fetchPlayerMessages = async (playerSteamId: string) => {
         },
         transformResponse: (data) => {
           return JSON.parse(data, (key, value) => {
-            if (key === 'creationTime') return new Date(Date.parse(value))
+            if (key === 'createTime') return new Date(Date.parse(value))
             return value
           })
         },
@@ -324,8 +336,7 @@ export const fetchPlayerMessages = async (playerSteamId: string) => {
     // if (!Array.isArray(response.data)) {
     //   errorToast(`Запрос сообщений игрока`)
     // }
-
-    return response.data.reverse()
+    return response.data
   } catch (e: any) {
     // errorToast(`Запрос сообщений игрока: ${e.message}`)
   }
@@ -691,6 +702,34 @@ export const fetchAllBans = async (page: number, activeBans: boolean) => {
             'expirationTime',
             'manualUnbannedTime',
           ]
+
+          if (dateStrings.includes(key) && value !== null) {
+            return new Date(Date.parse(value))
+          }
+          return value
+        })
+      },
+    }
+  )
+  return response.data
+}
+
+export const fetchChatHistory = async (page: number, searchParam: string) => {
+  const response = await axios.post(
+    API_URL + GET_MESSAGES,
+    {
+      text: searchParam,
+      page,
+      size: 80,
+    },
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      transformResponse: (data) => {
+        return JSON.parse(data, (key, value) => {
+          const dateStrings = ['creationTime']
 
           if (dateStrings.includes(key) && value !== null) {
             return new Date(Date.parse(value))

@@ -23,7 +23,7 @@ export function Chat({ playerSteamId }: Props) {
       {isLoading && <Spinner />}
       {isSuccess && (
         <>
-          {messages?.map((message) => (
+          {messages.content?.map((message: any) => (
             <ChatRow key={message.id} message={message} />
           ))}
         </>

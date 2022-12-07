@@ -43,6 +43,12 @@
 
 }
 
+.backend {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .item {
   cursor: pointer;
   display: flex;
@@ -57,4 +63,5 @@
   width: 30%;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }

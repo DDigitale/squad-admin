@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import styles from './PlayerModal.module.scss'
-import btnStyles from '../../components/modal/components/action-btn/ActionBtn.module.scss'
 import { steamId } from 'types/players'
 import { Card, Modal } from 'components'
 import {
@@ -26,59 +25,15 @@ interface Props {
 export function PlayerModal({ playerSteamId, onClose }: Props) {
   const {
     data: player,
-    isLoading,
-    isError,
     isSuccess,
     refetch,
   } = useQuery(['player', playerSteamId, 'get-player'], () =>
     fetchPlayer(playerSteamId)
   )
 
-  const [toggle, setToggle] = useState(false)
   const [selectedTab, setSelectedTab] = useState(1)
-  const [activeBtn, setActiveBtn] = useState(false)
 
   const infoRef = useRef<HTMLDivElement | null>(null)
-
-  const soundClickDD = () => {
-    const audio = new Audio()
-    audio.src = playerModalSoundDD
-    audio.play()
-  }
-
-  const soundClickBR = () => {
-    const audio = new Audio()
-    audio.src = playerModalSoundBR
-    audio.play()
-  }
-
-  const soundClickVS = () => {
-    const audio = new Audio()
-    audio.src = playerModalSoundVS
-    audio.play()
-  }
-
-  const soundClickRS = () => {
-    const audio = new Audio()
-    audio.src = playerModalSoundRS
-    audio.play()
-  }
-
-  if (playerSteamId === '76561198054690038') {
-    player && soundClickDD()
-  }
-
-  if (playerSteamId === '76561198017819600') {
-    player && soundClickBR()
-  }
-
-  if (playerSteamId === '76561198069397368') {
-    player && soundClickVS()
-  }
-
-  if (playerSteamId === '76561198114468080') {
-    player && soundClickRS()
-  }
 
   return (
     <Modal onClose={onClose} className={styles.modal} innerElRefs={[infoRef]}>

@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import styles from './PlayersWithoutSquad.module.scss'
 import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 import { PlayerWithoutSquad } from 'types/players'
+import { RiErrorWarningFill } from 'react-icons/ri'
 
 interface Props {
   player: PlayerWithoutSquad
@@ -28,6 +29,15 @@ export function PlayersWithoutSquad({ player }: Props) {
             alt="kit-icon"
           />
           <p className={styles.name}>{player.name}</p>
+          {player.isOnControl && (
+            <RiErrorWarningFill
+              style={{
+                color: '#FD4B4CFF',
+                fontSize: '2rem',
+                marginLeft: 'auto',
+              }}
+            />
+          )}
         </div>
       </div>
     </>

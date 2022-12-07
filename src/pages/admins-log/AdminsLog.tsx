@@ -1,17 +1,49 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './AdminsLog.module.scss'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { fetchAdminsLog } from 'api/users'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { fetchAdmins, fetchAdminsLog, fetchPlayerSearch } from 'api/users'
 import { useSearchParams } from 'react-router-dom'
 import { AdminsLogTable } from 'pages/admins-log/AdminsLogTable'
 import { Spinner } from 'components/spinner/Spinner'
-import { loadingToast } from 'utils/toasts'
+import useDebounce from 'components/debounce/useDebounce'
+import { CheckPicker, DatePicker, InputPicker, SelectPicker } from 'rsuite'
 
 type pageNumbers = number[]
 
+const listAсtions = [
+  { value: 'BanPlayer', label: 'BanPlayer' },
+  { value: 'Unban', label: 'Unban' },
+  { value: 'KickPlayer', label: 'KickPlayer' },
+  { value: 'WarnPlayer', label: 'WarnPlayer' },
+  { value: 'SendBroadcast', label: 'SendBroadcast' },
+  { value: 'DisbandSquad', label: 'DisbandSquad' },
+  { value: 'AddPlayerNote', label: 'AddPlayerNote' },
+  { value: 'DeletePlayerNote', label: 'DeletePlayerNote' },
+  { value: 'PlayerTeamChange', label: 'PlayerTeamChange' },
+]
+
+const initialStateActions = listAсtions.map((action) => action.value)
+const initialDateFrom = 1577826000000
+const initialDateTo = 1893445200000
+
 export function AdminsLog() {
-  const queryClient = useQueryClient()
   const [searchParams, setSearchParams] = useSearchParams()
+  const [searchPlayer, setSearchPlayer] = useState('')
+  const [searchPlayerInInput, setSearchPlayerInInput] = useState('')
+  const [searchAdmin, setSearchAdmin] = useState('')
+  const [foundPlayers, setFoundPlayers] = useState([])
+  const [searchAction, setSearchAction] = useState(initialStateActions)
+  const [searchDateFrom, setSearchDateFrom] = useState(initialDateFrom)
+  const [searchDateTo, setSearchDateTo] = useState(initialDateTo)
+  const debouncedSearch = useDebounce(
+    searchPlayer ||
+      searchAction ||
+      searchAdmin ||
+      searchPlayerInInput ||
+      searchDateFrom ||
+      searchDateTo,
+    300
+  )
 
   const page = +(searchParams.get('page') ?? 1)
 
@@ -20,11 +52,36 @@ export function AdminsLog() {
     isLoading,
     isSuccess,
     isError,
-  } = useQuery(['admins', page - 1], () => fetchAdminsLog(page - 1), {
-    keepPreviousData: true,
-  })
+    refetch,
+  } = useQuery(
+    ['admins', page - 1],
+    () =>
+      fetchAdminsLog(
+        page - 1,
+        searchAdmin,
+        searchPlayer,
+        searchAction,
+        searchDateFrom,
+        searchDateTo
+      ),
+    {
+      keepPreviousData: true,
+    }
+  )
 
-  queryClient.prefetchQuery([admins, page], () => fetchAdminsLog(page))
+  const searchPlayerMutation = useMutation(
+    () => fetchPlayerSearch(searchPlayerInInput.toString()),
+    {
+      onSuccess: (data) => setFoundPlayers(data),
+    }
+  )
+
+  const { data: adminsList } = useQuery(['admin-steamIds'], fetchAdmins)
+
+  const adminList = adminsList?.map((v: any) => ({
+    value: v.steamId,
+    label: v.name,
+  }))
 
   const setPage = (page: number) => {
     setSearchParams({ page: page.toString() })
@@ -66,6 +123,34 @@ export function AdminsLog() {
     return arr
   }
 
+  useEffect(() => {
+    if (debouncedSearch) {
+      refetch()
+    }
+    if (debouncedSearch === null) {
+      refetch()
+    }
+    if (searchAction.length === 0) {
+      setSearchAction(initialStateActions)
+      refetch()
+    }
+    if (!searchPlayer) {
+      refetch()
+    }
+
+    if (debouncedSearch) {
+      searchPlayerMutation.mutate()
+    }
+  }, [
+    debouncedSearch,
+    searchAdmin,
+    searchAction,
+    searchPlayerInInput,
+    searchPlayer,
+    searchDateFrom,
+    searchDateTo,
+  ])
+
   if (!isSuccess) {
     return <Spinner />
   }
@@ -74,6 +159,51 @@ export function AdminsLog() {
 
   return (
     <div className={styles.wrapper}>
+      <div className={styles.menuWrapper}>
+        <SelectPicker
+          style={{ width: '200px' }}
+          data={adminList}
+          value={searchAdmin}
+          onChange={(e: any) => setSearchAdmin(e)}
+          placeholder="Поиск по админам"
+          cleanable={true}
+        />
+        <CheckPicker
+          style={{ width: '200px' }}
+          data={listAсtions}
+          placeholder="Поиск по действиям"
+          onChange={(e: any) => setSearchAction(e)}
+        />
+
+        <InputPicker
+          data={foundPlayers}
+          labelKey="name"
+          valueKey="steamId"
+          onSearch={(e) => {
+            console.log(e)
+            setSearchPlayerInInput(e)
+            searchPlayerMutation.mutate()
+          }}
+          onChange={(e: any) => setSearchPlayer(e)}
+          placeholder="Поиск по игрокам"
+        />
+        <DatePicker
+          format="yyyy-MM-dd HH:mm"
+          style={{ width: 180, border: 'none' }}
+          cleanable={true}
+          placeholder="От..."
+          onOk={(e: any) => setSearchDateFrom(Date.parse(e))}
+          onClean={() => setSearchDateFrom(initialDateFrom)}
+        />
+        <DatePicker
+          format="yyyy-MM-dd HH:mm"
+          style={{ width: 180, border: 'none' }}
+          cleanable={true}
+          placeholder="До..."
+          onOk={(e: any) => setSearchDateTo(Date.parse(e))}
+          onClean={() => setSearchDateTo(initialDateTo)}
+        />
+      </div>
       <div className={styles.tableWrapper}>
         <AdminsLogTable content={admins?.content} />
         <div className={styles.pagination}>

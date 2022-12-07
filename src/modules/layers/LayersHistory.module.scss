@@ -1,0 +1,14 @@
+.historyCard {
+  display: flex;
+  flex-direction: column;
+  grid-column-start: aside-left-start;
+  grid-column-end: aside-left-end;
+  grid-row: 1/-1;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  gap: 1rem;
+  padding: 1rem;
+  overflow-y: auto;
+}
+

@@ -1,5 +1,5 @@
 const API_URL = 'http://localhost:8000'
-const CALLBACK_URL = 'http://localhost:3000/'
+const CALLBACK_URL = 'http://localhost:3000'
 const STEAM_KEY = 'D24E3D9EB90500EB1979B72B06B4D903'
 const GET_STEAM_LINK = '/get-steam-link'
 const VERIFY_STEAM = '/verify-steam'
@@ -8,7 +8,7 @@ const LOGOUT = '/user-logout'
 const GET_ONLINE_PLAYERS = '/get-online-players'
 const GET_DISCONNECTED_PLAYERS = '/get-disconnected-players'
 const GET_ADMINS = '/get-admins'
-const GET_ADMINS_ACTIONS = '/get-admins-actions'
+const GET_ADMINS_ACTIONS = '/get-admin-actions-with-params'
 const GET_BANS = '/get-bans'
 const GET_PLAYER = '/get-player'
 const GET_PLAYERS = '/get-players'
@@ -21,6 +21,8 @@ const REMOVE_PLAYER_ON_CONTROL = '/remove-player-from-control'
 const GET_SERVER_INFO = '/get-server-info'
 const GET_CHAT_MESSAGES = '/get-chat-messages'
 const GET_STEAM_INFO = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${STEAM_KEY}&steamids=`
+const GET_LAYERS_HISTORY = '/get-layers-history'
+const GET_MESSAGES = '/get-messages-by-contains-text'
 const BAN_PLAYER = '/ban-player'
 const UNBAN_PLAYER = '/unban-player'
 const KICK_PLAYER = '/kick-player'
@@ -37,6 +39,18 @@ const SEND_BROADCAST = '/send-broadcast'
 const ADD_ADMIN = '/add-admin'
 const DELETE_ADMIN = '/deactivate-admin'
 const GET_BACKEND_STATUS = '/get-backend-status'
+const GET_RULES = '/get-rules'
+const SET_RULES = '/set-rules'
+const GET_MY_ROLE_GROUP = '/get-my-role-group'
+const GET_ROLE_GROUP = '/get-role-group'
+const GET_ALL_ROLE_GROUPS = '/get-all-role-groups'
+const GET_ROLE = '/get-role'
+const GET_ALL_ROLES = '/get-all-roles'
+const ADD_ROLE_IN_ROLE_GROUP = '/add-role-in-role-group'
+const ADD_ROLE_GROUP = '/add-role-group'
+const REMOVE_ROLE_GROUP = '/remove-role-group'
+const REMOVE_ROLE_FROM_ROLE_GROUP = '/remove-role-from-role-group'
+const SET_ROLE_GROUP_TO_ADMIN = '/set-role-group-to-admin'
 
 export {
   API_URL,
@@ -77,4 +91,18 @@ export {
   ADD_PLAYER_ON_CONTROL,
   REMOVE_PLAYER_ON_CONTROL,
   GET_BACKEND_STATUS,
+  GET_LAYERS_HISTORY,
+  GET_MESSAGES,
+  GET_RULES,
+  SET_RULES,
+  GET_MY_ROLE_GROUP,
+  GET_ROLE_GROUP,
+  GET_ALL_ROLE_GROUPS,
+  GET_ROLE,
+  GET_ALL_ROLES,
+  ADD_ROLE_IN_ROLE_GROUP,
+  ADD_ROLE_GROUP,
+  REMOVE_ROLE_GROUP,
+  REMOVE_ROLE_FROM_ROLE_GROUP,
+  SET_ROLE_GROUP_TO_ADMIN,
 }

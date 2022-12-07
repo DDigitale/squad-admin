@@ -23,8 +23,8 @@ export function Notes({ playerSteamId }: Props) {
       {isLoading && <Spinner />}
       {isSuccess && (
         <>
-          {notes?.map((note: any) => (
-            <NoteRow key={note.id} note={note} steamId={playerSteamId} />
+          {notes.content?.map((note: any) => (
+            <NoteRow key={note.id} note={note} />
           ))}
         </>
       )}

@@ -11,6 +11,43 @@
   width: 100%;
 }
 
+.menuWrapper {
+  width: 1000px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border: 1px solid var(--color-gray1);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.searchPlayerInput {
+    all: unset;
+    height: 2.5rem;
+    background-color: var(--color-gray1);
+    border-radius: 0.3rem;
+    color: var(--color-main2);
+    padding-left: 0.6rem;
+    box-shadow: var(--shadow-1);
+    &::placeholder {
+      color: rgba(253, 253, 254, 0.65);
+    }
+}
+
+.timepicker {
+  all: unset;
+  display: flex;
+  align-items: center;
+  height: 2.5rem;
+  background-color: var(--color-gray1);
+  border-radius: 0.3rem;
+  color: var(--color-main2);
+  box-shadow: var(--shadow-1);
+}
+
 .tableWrapper {
   display: flex;
   flex-direction: column;

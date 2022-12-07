@@ -16,9 +16,7 @@ export function ChatRow({ message }: Props) {
 
   return (
     <div className={styles.row} style={{ color: `${rowColor()}` }}>
-      <span className={styles.time}>
-        {message.creationTime.toLocaleString()}
-      </span>
+      <span className={styles.time}>{message.createTime.toLocaleString()}</span>
       <span className={styles.type}>{message.chatType}</span>
       <span className={styles.message}>{message.message}</span>
     </div>

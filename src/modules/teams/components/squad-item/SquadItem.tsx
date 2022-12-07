@@ -6,12 +6,12 @@ import { Squad } from 'types/players'
 import { PlayerItem } from '../player-item'
 import { DisbandSquadBtn } from '../disband-squad-btn'
 import { PlayerModalContext, PlayerModalContextType } from 'contexts'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { warnSquad } from 'api/users'
 import toast from 'react-hot-toast'
-import { groupedOptions } from 'api/local/options'
 import { customSelectorStyles } from 'components/forms/SelectorStyles'
 import CreatableSelect from 'react-select/creatable'
+import { fetchGetRules } from 'api/admins'
 
 interface Props {
   squad: Squad
@@ -36,8 +36,62 @@ export function SquadItem({ squad }: Props) {
     }
   )
 
+  const { data: optionsData } = useQuery(['options'], fetchGetRules)
+
+  const squadLeadersOptions = optionsData
+    ?.find((group: any) => group.name === 'squadLeadersOptions')
+    ?.rules.map((rule: any) => ({
+      value: rule.name,
+      label: rule.name,
+    }))
+
+  const technicalOptions = optionsData
+    ?.find((group: any) => group.name === 'technicalOptions')
+    ?.rules.map((rule: any) => ({
+      value: rule.name,
+      label: rule.name,
+    }))
+
+  const allPlayersOptions = optionsData
+    ?.find((group: any) => group.name === 'allPlayersOptions')
+    ?.rules.map((rule: any) => ({
+      value: rule.name,
+      label: rule.name,
+    }))
+
+  const groupedOptions = [
+    {
+      label: 'Правила для сквадных',
+      options: squadLeadersOptions,
+    },
+    {
+      label: 'Правила для техники',
+      options: technicalOptions,
+    },
+    {
+      label: 'Правила для всех',
+      options: allPlayersOptions,
+    },
+  ]
+
   const handleChange = (selectedOption: any) => {
+    // const joinValues = selectedOption
+    //   .map((val: any) => val.value)
+    //   .join(' ')
+    //   .toString()
+    //
+    // console.log(joinValues)
+    // setWarnReason(joinValues)
+
     setWarnReason(selectedOption.value)
+  }
+
+  const handleMutate = () => {
+    warnSquadMutation.mutate()
+    const interval = setInterval(() => warnSquadMutation.mutate(), 10000)
+    setTimeout(function () {
+      clearInterval(interval)
+    }, 20000)
   }
 
   return (
@@ -50,6 +104,7 @@ export function SquadItem({ squad }: Props) {
             style={{
               backgroundColor: colorizeCmdSquad(),
             }}
+            title={squad.creatorName}
           >
             {squad.id}
           </button>
@@ -95,11 +150,7 @@ export function SquadItem({ squad }: Props) {
                       />
                       <VscCheck
                         className={styles.sendIcon}
-                        onClick={() =>
-                          warnSquadMutation.mutate(undefined, {
-                            onSuccess: () => toast.dismiss(t.id),
-                          })
-                        }
+                        onClick={handleMutate}
                       />
                       <VscChromeClose
                         className={styles.closeIcon}

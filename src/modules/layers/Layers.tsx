@@ -37,6 +37,7 @@ export function Layers() {
           options={mapNames}
           onChange={handleChangeMapName}
           placeholder={'Карта'}
+          isClearable
         />
         <Select
           className={styles.select}
@@ -44,6 +45,7 @@ export function Layers() {
           options={gameModes}
           onChange={handleChangeGameMode}
           placeholder={'Режим'}
+          isClearable
         />
       </div>
       <Maps selectedMap={selectedMapName} selectedMode={selectedGameMode} />

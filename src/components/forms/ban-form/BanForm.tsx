@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import styles from './BanForm.module.scss'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { banPlayer } from 'api/users'
 import Select from 'react-select'
 import { customSelectorStyles } from 'components/forms/SelectorStyles'
-import { banLengthOptions, groupedOptions } from 'api/local/options'
+import { fetchGetRules } from 'api/admins'
+import { banLengthOptions } from 'api/local/options'
 
 interface Props {
   steamId: string
@@ -24,6 +25,44 @@ export function BanForm({ steamId, name }: Props) {
       onSuccess: () => queryClient.invalidateQueries(['players']),
     }
   )
+
+  const { data: optionsData } = useQuery(['options'], fetchGetRules)
+
+  const squadLeadersOptions = optionsData
+    ?.find((group: any) => group.name === 'squadLeadersOptions')
+    ?.rules.map((rule: any) => ({
+      value: rule.name,
+      label: rule.name,
+    }))
+
+  const technicalOptions = optionsData
+    ?.find((group: any) => group.name === 'technicalOptions')
+    ?.rules.map((rule: any) => ({
+      value: rule.name,
+      label: rule.name,
+    }))
+
+  const allPlayersOptions = optionsData
+    ?.find((group: any) => group.name === 'allPlayersOptions')
+    ?.rules.map((rule: any) => ({
+      value: rule.name,
+      label: rule.name,
+    }))
+
+  const groupedOptions = [
+    {
+      label: 'Правила для сквадных',
+      options: squadLeadersOptions,
+    },
+    {
+      label: 'Правила для техники',
+      options: technicalOptions,
+    },
+    {
+      label: 'Правила для всех',
+      options: allPlayersOptions,
+    },
+  ]
 
   const handleChangeReason = (selectedOption: any) => {
     setBanReason(selectedOption.value)

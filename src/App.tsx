@@ -13,6 +13,9 @@ import { LayerModal } from 'modules/layers/LayerModal'
 import { Toaster } from 'react-hot-toast'
 import AdminRoute from 'pages/admin-route/AdminRoute'
 import Bans from 'pages/bans/Bans'
+import ChatHistory from 'pages/chat-history/ChatHistory'
+import { ruRU } from 'rsuite/locales'
+import { CustomProvider } from 'rsuite'
 
 function App() {
   const [playerInModal, setPlayerInModal] = useState<steamId | null>(null)
@@ -20,59 +23,62 @@ function App() {
   const [layerInModal, setLayerInModal] = useState<layer | undefined>(undefined)
 
   return (
-    <PlayerModalContext.Provider value={[playerInModal, setPlayerInModal]}>
-      <LayersContext.Provider value={[layersInMenu, setLayersInMenu]}>
-        <LayerActionsContext.Provider value={[layerInModal, setLayerInModal]}>
-          <Router>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route element={<PrivateRoutes />}>
-                <Route path="/" element={<Panel />} />
-                <Route path="/players" element={<Players />} />
-                <Route path="/admins" element={<Admins />} />
-                <Route path="/admins-log" element={<AdminsLog />} />
-                <Route path="/bans-log" element={<Bans />} />
-                <Route
-                  path="/privet-voskresene/admin"
-                  element={<AdminRoute />}
-                />
-              </Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Router>
-          {layerInModal && (
-            <LayerModal onClose={() => setLayerInModal(undefined)} />
-          )}
-          {playerInModal && (
-            <PlayerModal
-              playerSteamId={playerInModal}
-              onClose={() => setPlayerInModal(null)}
-            />
-          )}
-          <Toaster
-            position="top-right"
-            reverseOrder={false}
-            gutter={5}
-            toastOptions={{
-              className: '',
-              duration: 5000,
-              style: {
-                background: '#363636',
-                color: '#fff',
-              },
-
-              success: {
-                duration: 3000,
-                theme: {
-                  primary: 'green',
-                  secondary: 'black',
+    <CustomProvider theme="dark" locale={ruRU}>
+      <PlayerModalContext.Provider value={[playerInModal, setPlayerInModal]}>
+        <LayersContext.Provider value={[layersInMenu, setLayersInMenu]}>
+          <LayerActionsContext.Provider value={[layerInModal, setLayerInModal]}>
+            <Router>
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route element={<PrivateRoutes />}>
+                  <Route path="/" element={<Panel />} />
+                  <Route path="/players" element={<Players />} />
+                  <Route path="/admins" element={<Admins />} />
+                  <Route path="/admins-log" element={<AdminsLog />} />
+                  <Route path="/bans-log" element={<Bans />} />
+                  <Route path="/chat" element={<ChatHistory />} />
+                  <Route
+                    path="/privet-voskresene/admin"
+                    element={<AdminRoute />}
+                  />
+                </Route>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Router>
+            {layerInModal && (
+              <LayerModal onClose={() => setLayerInModal(undefined)} />
+            )}
+            {playerInModal && (
+              <PlayerModal
+                playerSteamId={playerInModal}
+                onClose={() => setPlayerInModal(null)}
+              />
+            )}
+            <Toaster
+              position="top-right"
+              reverseOrder={false}
+              gutter={5}
+              toastOptions={{
+                className: '',
+                duration: 5000,
+                style: {
+                  background: '#363636',
+                  color: '#fff',
                 },
-              },
-            }}
-          />
-        </LayerActionsContext.Provider>
-      </LayersContext.Provider>
-    </PlayerModalContext.Provider>
+
+                success: {
+                  duration: 3000,
+                  theme: {
+                    primary: 'green',
+                    secondary: 'black',
+                  },
+                },
+              }}
+            />
+          </LayerActionsContext.Provider>
+        </LayersContext.Provider>
+      </PlayerModalContext.Provider>
+    </CustomProvider>
   )
 }
 

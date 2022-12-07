@@ -19,7 +19,6 @@ export function Login() {
   return (
     <div className={styles.loginPage}>
       {isLoading && <Spinner />}
-      {isError && <h1>Response error</h1>}
       {isSuccess && (
         <a className={styles.loginBtn} href={link}>
           войти

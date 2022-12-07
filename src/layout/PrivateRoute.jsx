@@ -6,6 +6,9 @@ import { Navigate, Outlet } from 'react-router-dom'
 import { Layout } from 'layout'
 import Header from 'components/header/Header'
 import { Spinner } from 'components/spinner/Spinner'
+import { useQuery } from '@tanstack/react-query'
+import { fetchBackendStatus } from 'api/admins'
+import { errorToast } from 'utils/toasts'
 
 const urlSearchParams = new URLSearchParams(window.location.search)
 export const openidParams = Object.fromEntries(urlSearchParams.entries())

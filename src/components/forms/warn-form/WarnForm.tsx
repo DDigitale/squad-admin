@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { warnPlayer } from 'api/users'
 import styles from './WarnForm.module.scss'
 import CreatableSelect from 'react-select/creatable'
 import { customSelectorStyles } from 'components/forms/SelectorStyles'
-import { groupedOptions } from 'api/local/options'
+import { fetchGetRules } from 'api/admins'
 
 interface Props {
   steamId: string
@@ -22,8 +22,54 @@ export function WarnForm({ steamId, name }: Props) {
     }
   )
 
+  const { data: optionsData } = useQuery(['options'], fetchGetRules)
+
+  const squadLeadersOptions = optionsData
+    ?.find((group: any) => group.name === 'squadLeadersOptions')
+    ?.rules.map((rule: any) => ({
+      value: rule.name,
+      label: rule.name,
+    }))
+
+  const technicalOptions = optionsData
+    ?.find((group: any) => group.name === 'technicalOptions')
+    ?.rules.map((rule: any) => ({
+      value: rule.name,
+      label: rule.name,
+    }))
+
+  const allPlayersOptions = optionsData
+    ?.find((group: any) => group.name === 'allPlayersOptions')
+    ?.rules.map((rule: any) => ({
+      value: rule.name,
+      label: rule.name,
+    }))
+
+  const groupedOptions = [
+    {
+      label: 'Правила для сквадных',
+      options: squadLeadersOptions,
+    },
+    {
+      label: 'Правила для техники',
+      options: technicalOptions,
+    },
+    {
+      label: 'Правила для всех',
+      options: allPlayersOptions,
+    },
+  ]
+
   const handleChange = (selectedOption: any) => {
     setWarnReason(selectedOption.value)
+  }
+
+  const handleMutate = () => {
+    warnPlayerMutation.mutate()
+    const interval = setInterval(() => warnPlayerMutation.mutate(), 10000)
+    setTimeout(function () {
+      clearInterval(interval)
+    }, 20000)
   }
 
   return (
@@ -34,12 +80,10 @@ export function WarnForm({ steamId, name }: Props) {
         styles={customSelectorStyles}
         placeholder={'Выберите или введите сообщение'}
         menuPlacement={'top'}
+        isClearable
       />
       <div className={styles.container}>
-        <button
-          className={styles.button}
-          onClick={() => warnPlayerMutation.mutate()}
-        >
+        <button className={styles.button} onClick={handleMutate}>
           ОТПРАВИТЬ
         </button>
       </div>

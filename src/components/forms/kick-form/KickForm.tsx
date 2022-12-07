@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { kickPlayer } from 'api/users'
 import styles from './KickForm.module.scss'
 import Select from 'react-select'
 import { customSelectorStyles } from 'components/forms/SelectorStyles'
-import { groupedOptions } from 'api/local/options'
+import { fetchGetRules } from 'api/admins'
 
 interface Props {
   steamId: string
@@ -21,6 +21,44 @@ export function KickForm({ steamId, name }: Props) {
       onSuccess: () => queryClient.invalidateQueries(['players']),
     }
   )
+
+  const { data: optionsData } = useQuery(['options'], fetchGetRules)
+
+  const squadLeadersOptions = optionsData
+    ?.find((group: any) => group.name === 'squadLeadersOptions')
+    ?.rules.map((rule: any) => ({
+      value: rule.name,
+      label: rule.name,
+    }))
+
+  const technicalOptions = optionsData
+    ?.find((group: any) => group.name === 'technicalOptions')
+    ?.rules.map((rule: any) => ({
+      value: rule.name,
+      label: rule.name,
+    }))
+
+  const allPlayersOptions = optionsData
+    ?.find((group: any) => group.name === 'allPlayersOptions')
+    ?.rules.map((rule: any) => ({
+      value: rule.name,
+      label: rule.name,
+    }))
+
+  const groupedOptions = [
+    {
+      label: 'Правила для сквадных',
+      options: squadLeadersOptions,
+    },
+    {
+      label: 'Правила для техники',
+      options: technicalOptions,
+    },
+    {
+      label: 'Правила для всех',
+      options: allPlayersOptions,
+    },
+  ]
 
   const handleChange = (selectedOption: any) => {
     setKickReason(selectedOption.value)
