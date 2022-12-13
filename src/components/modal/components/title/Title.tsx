@@ -96,7 +96,7 @@ export function Title({ player, refetch }: Props) {
               href={`http://steamcommunity.com/profiles/${player.steamId}`}
               target="_blank"
             >
-              ID: {player.steamId}
+              {player.steamId}
             </a>
             {/*<TbCopy*/}
             {/*  className={styles.copy}*/}

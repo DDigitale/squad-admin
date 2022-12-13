@@ -22,6 +22,8 @@ function App() {
   const [layersInMenu, setLayersInMenu] = useState<boolean>(false)
   const [layerInModal, setLayerInModal] = useState<layer | undefined>(undefined)
 
+  const roles = localStorage.getItem('roles')
+
   return (
     <CustomProvider theme="dark" locale={ruRU}>
       <PlayerModalContext.Provider value={[playerInModal, setPlayerInModal]}>
@@ -32,15 +34,21 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route element={<PrivateRoutes />}>
                   <Route path="/" element={<Panel />} />
-                  <Route path="/players" element={<Players />} />
-                  <Route path="/admins" element={<Admins />} />
-                  <Route path="/admins-log" element={<AdminsLog />} />
-                  <Route path="/bans-log" element={<Bans />} />
-                  <Route path="/chat" element={<ChatHistory />} />
-                  <Route
-                    path="/privet-voskresene/admin"
-                    element={<AdminRoute />}
-                  />
+                  <Route path="/players-list" element={<Players />} />
+                  <Route path="/admins-list" element={<Admins />} />
+                  {roles?.includes('Admin log access') ? (
+                    <>
+                      <Route path="/admins-log" element={<AdminsLog />} />
+                      <Route path="/bans-log" element={<Bans />} />
+                      <Route path="/chat-log" element={<ChatHistory />} />
+                    </>
+                  ) : null}
+                  {/*{roles?.includes('Rotation Management') ? (*/}
+                  {/*  под управление ротацией*/}
+                  {/*) : null}*/}
+                  {roles?.includes('Admins Management') ? (
+                    <Route path="/admin-route" element={<AdminRoute />} />
+                  ) : null}
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>

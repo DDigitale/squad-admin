@@ -12,6 +12,7 @@ import toast from 'react-hot-toast'
 import { customSelectorStyles } from 'components/forms/SelectorStyles'
 import CreatableSelect from 'react-select/creatable'
 import { fetchGetRules } from 'api/admins'
+import { Popover, Whisper } from 'rsuite'
 
 interface Props {
   squad: Squad
@@ -98,16 +99,24 @@ export function SquadItem({ squad }: Props) {
     <>
       <div className={styles.wrapper}>
         <div className={styles.title}>
-          <button
-            className={styles.id}
-            onClick={() => setPlayerModal(squad.creatorSteam64id)}
-            style={{
-              backgroundColor: colorizeCmdSquad(),
-            }}
-            title={squad.creatorName}
+          <Whisper
+            followCursor
+            speaker={
+              <Popover style={{ backgroundColor: '#3c3c3c' }} arrow={false}>
+                <span style={{ fontSize: '1rem' }}>{squad.creatorName}</span>
+              </Popover>
+            }
           >
-            {squad.id}
-          </button>
+            <button
+              className={styles.id}
+              onClick={() => setPlayerModal(squad.creatorSteam64id)}
+              style={{
+                backgroundColor: colorizeCmdSquad(),
+              }}
+            >
+              {squad.id}
+            </button>
+          </Whisper>
           <span
             className={styles.name}
             style={{

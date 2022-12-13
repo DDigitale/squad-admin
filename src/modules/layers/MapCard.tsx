@@ -64,6 +64,9 @@ export function MapCard({ layer }: Props) {
     case 'Australian Defence Force':
       team1 = 'AUS'
       break
+    case "People's Liberation Army":
+      team1 = 'PLA'
+      break
     default:
       team1 = '---'
       break
@@ -95,6 +98,9 @@ export function MapCard({ layer }: Props) {
       break
     case 'Australian Defence Force':
       team2 = 'AUS'
+      break
+    case "People's Liberation Army":
+      team2 = 'PLA'
       break
     default:
       team2 = '---'

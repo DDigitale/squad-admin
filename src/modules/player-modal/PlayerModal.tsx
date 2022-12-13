@@ -12,10 +12,6 @@ import {
 } from 'components/modal'
 import { useQuery } from '@tanstack/react-query'
 import { fetchPlayer } from 'api/users'
-import playerModalSoundDD from 'assets/sound/player-modal-dd.wav'
-import playerModalSoundBR from 'assets/sound/player-modal-br.mp3'
-import playerModalSoundVS from 'assets/sound/player-modal-vs.wav'
-import playerModalSoundRS from 'assets/sound/player-modal-rs.wav'
 
 interface Props {
   playerSteamId: steamId

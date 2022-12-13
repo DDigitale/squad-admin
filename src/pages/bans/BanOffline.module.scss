@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.input {
+  all: unset;
+  height: 2rem;
+  background-color: var(--color-gray1);
+  border-radius: 0.3rem;
+  color: var(--color-main2);
+  padding-left: 0.6rem;
+  &::placeholder {
+    color: rgba(253, 253, 254, 0.65);
+  }
+}
+
+.button {
+  all: unset;
+  height: 2rem;
+  background-color: var(--color-gray1);
+  border-radius: 0.3rem;
+  color: var(--color-main2);
+  padding-left: 0.6rem;
+}

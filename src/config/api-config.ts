@@ -5,6 +5,7 @@ const GET_STEAM_LINK = '/get-steam-link'
 const VERIFY_STEAM = '/verify-steam'
 const AUTH = '/auth'
 const LOGOUT = '/user-logout'
+const ADD_PlAYER = '/add-player'
 const GET_ONLINE_PLAYERS = '/get-online-players'
 const GET_DISCONNECTED_PLAYERS = '/get-disconnected-players'
 const GET_ADMINS = '/get-admins'
@@ -59,6 +60,7 @@ export {
   VERIFY_STEAM,
   AUTH,
   LOGOUT,
+  ADD_PlAYER,
   GET_ONLINE_PLAYERS,
   GET_DISCONNECTED_PLAYERS,
   GET_ADMINS,

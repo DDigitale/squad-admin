@@ -18,8 +18,8 @@ import { Layers } from 'modules/layers/Layers'
 import { LayersContext, LayersContextType } from 'contexts/layers-context'
 import { Chat } from 'modules/chat/Chat'
 import { errorToast } from 'utils/toasts'
-import { Spinner } from 'components/spinner/Spinner'
 import LayersHistory from 'modules/layers/LayersHistory'
+import { Loader } from 'rsuite'
 
 export function Panel() {
   const [layersMenu, setLayersMenu] = useContext(
@@ -31,13 +31,13 @@ export function Panel() {
     isSuccess,
     isLoading,
   } = useQuery(['teams'], fetchTeams, {
-    onError: (e: any) => errorToast('Ошибка загрузки онлайн игроков'),
+    onError: () => errorToast('Ошибка загрузки онлайн игроков'),
     keepPreviousData: true,
     refetchInterval: 3000,
   })
 
   const { data: server } = useQuery(['server'], fetchServerInfo, {
-    onError: (e: any) => errorToast('Ошибка загрузки данных о сервере'),
+    onError: () => errorToast('Ошибка загрузки данных о сервере'),
     keepPreviousData: true,
     refetchInterval: 3000,
   })
@@ -46,14 +46,14 @@ export function Panel() {
     ['players', 'disconnected'],
     fetchDisconnectedPlayers,
     {
-      onError: (e: any) => errorToast(`Ошибка загрузки отключившихся игроков`),
+      onError: () => errorToast(`Ошибка загрузки отключившихся игроков`),
       keepPreviousData: true,
       refetchInterval: 3000,
     }
   )
 
   if (isLoading) {
-    return <Spinner />
+    return <Loader size="lg" backdrop content="загрузка..." vertical />
   }
 
   return (

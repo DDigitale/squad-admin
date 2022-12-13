@@ -6,8 +6,6 @@ import Select from 'react-select'
 import { gameModesList } from 'api/local/gameModesList'
 import { customSelectorStyles } from 'components/forms/SelectorStyles'
 
-interface GameMode {}
-
 export function Layers() {
   const [selectedMapName, setSelectedMapName] = useState<string | null>('')
   const [selectedGameMode, setSelectedGameMode] = useState('')
@@ -37,7 +35,6 @@ export function Layers() {
           options={mapNames}
           onChange={handleChangeMapName}
           placeholder={'Карта'}
-          isClearable
         />
         <Select
           className={styles.select}
@@ -45,7 +42,6 @@ export function Layers() {
           options={gameModes}
           onChange={handleChangeGameMode}
           placeholder={'Режим'}
-          isClearable
         />
       </div>
       <Maps selectedMap={selectedMapName} selectedMode={selectedGameMode} />

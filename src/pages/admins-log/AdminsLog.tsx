@@ -4,13 +4,18 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { fetchAdmins, fetchAdminsLog, fetchPlayerSearch } from 'api/users'
 import { useSearchParams } from 'react-router-dom'
 import { AdminsLogTable } from 'pages/admins-log/AdminsLogTable'
-import { Spinner } from 'components/spinner/Spinner'
 import useDebounce from 'components/debounce/useDebounce'
-import { CheckPicker, DatePicker, InputPicker, SelectPicker } from 'rsuite'
+import {
+  CheckPicker,
+  DatePicker,
+  InputPicker,
+  Loader,
+  SelectPicker,
+} from 'rsuite'
 
 type pageNumbers = number[]
 
-const listAсtions = [
+const listActions = [
   { value: 'BanPlayer', label: 'BanPlayer' },
   { value: 'Unban', label: 'Unban' },
   { value: 'KickPlayer', label: 'KickPlayer' },
@@ -22,7 +27,7 @@ const listAсtions = [
   { value: 'PlayerTeamChange', label: 'PlayerTeamChange' },
 ]
 
-const initialStateActions = listAсtions.map((action) => action.value)
+const initialStateActions = listActions.map((action) => action.value)
 const initialDateFrom = 1577826000000
 const initialDateTo = 1893445200000
 
@@ -49,9 +54,7 @@ export function AdminsLog() {
 
   const {
     data: admins,
-    isLoading,
     isSuccess,
-    isError,
     refetch,
   } = useQuery(
     ['admins', page - 1],
@@ -152,7 +155,7 @@ export function AdminsLog() {
   ])
 
   if (!isSuccess) {
-    return <Spinner />
+    return <Loader size="lg" backdrop content="загрузка..." vertical />
   }
 
   const pageNumbers = generatePageNumbers(page, 11)
@@ -169,8 +172,9 @@ export function AdminsLog() {
           cleanable={true}
         />
         <CheckPicker
+          searchable={false}
           style={{ width: '200px' }}
-          data={listAсtions}
+          data={listActions}
           placeholder="Поиск по действиям"
           onChange={(e: any) => setSearchAction(e)}
         />

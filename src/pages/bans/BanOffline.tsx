@@ -1,0 +1,57 @@
+import React, { useContext, useState } from 'react'
+import styles from './BanOffline.module.scss'
+import { useMutation } from '@tanstack/react-query'
+import { fetchAddPlayer } from 'api/users'
+import { IconButton } from 'rsuite'
+import UserInfoIcon from '@rsuite/icons/UserInfo'
+import PlusIcon from '@rsuite/icons/Plus'
+import { PlayerModalContext, PlayerModalContextType } from 'contexts'
+
+function BanOffline() {
+  const [playerModal, setPlayerModal] = useContext(
+    PlayerModalContext
+  ) as PlayerModalContextType
+  const [loading, setLoading] = useState(false)
+  const [steamId, setSteamId] = useState('')
+  const [player, setPlayer] = useState<any | null>(null)
+
+  const addPlayerMutation = useMutation(() => fetchAddPlayer(steamId), {
+    onSuccess: (data) => setPlayer(data),
+    onMutate: () => setLoading(true),
+    onSettled: () => setLoading(false),
+    onError: () => {
+      setLoading(false)
+      setPlayer(null)
+    },
+  })
+
+  return (
+    <div className={styles.wrapper}>
+      <span>Добавить оффлайн бан</span>
+      <input
+        className={styles.input}
+        type="text"
+        placeholder="Введите steamId"
+        maxLength={17}
+        onChange={(e: any) => setSteamId(e.target.value.toString())}
+      />
+      <IconButton
+        loading={loading}
+        disabled={steamId.length < 16}
+        icon={<PlusIcon />}
+        size="sm"
+        onClick={() => addPlayerMutation.mutate()}
+      >
+        Добавить
+      </IconButton>
+      <IconButton
+        disabled={!player}
+        icon={<UserInfoIcon />}
+        size="sm"
+        onClick={() => setPlayerModal(player.steamId.toString())}
+      />
+    </div>
+  )
+}
+
+export default BanOffline

@@ -3,9 +3,9 @@ import styles from './Bans.module.scss'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchAllBans } from 'api/users'
 import { useSearchParams } from 'react-router-dom'
-import { Spinner } from 'components/spinner/Spinner'
 import BansTable from 'pages/bans/BansTable'
-import { log } from 'util'
+import BanOffline from 'pages/bans/BanOffline'
+import { Loader } from 'rsuite'
 
 function Bans() {
   const queryClient = useQueryClient()
@@ -17,9 +17,7 @@ function Bans() {
 
   const {
     data: bans,
-    isLoading,
     isSuccess,
-    isError,
     refetch,
   } = useQuery(['bans', page - 1], () => fetchAllBans(page - 1, activeBans))
 
@@ -66,8 +64,12 @@ function Bans() {
     return arr
   }
 
+  // if (!isSuccess) {
+  //   return <Spinner />
+  // }
+
   if (!isSuccess) {
-    return <Spinner />
+    return <Loader size="lg" backdrop content="загрузка..." vertical />
   }
 
   const pageNumbers = generatePageNumbers(page, bans.totalPages - 1)
@@ -75,12 +77,15 @@ function Bans() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.menuWrapper}>
-        <label>Только активные баны</label>
-        <input
-          type="checkbox"
-          onChange={() => setActiveBans(!activeBans)}
-          checked={activeBans}
-        />
+        <BanOffline />
+        <div className={styles.activeBans}>
+          <label>Только активные баны</label>
+          <input
+            type="checkbox"
+            onChange={() => setActiveBans(!activeBans)}
+            checked={activeBans}
+          />
+        </div>
       </div>
       <div className={styles.tableWrapper}>
         <BansTable content={bans?.content} />

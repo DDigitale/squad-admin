@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { fetchPlayerPunishmentHistory } from 'api/users'
 import { Ban } from 'types/players'
 import { KickRow } from 'components/modal/components/punishments/KickRow'
-import { Spinner } from 'components/spinner/Spinner'
+import { Loader } from 'rsuite'
 
 interface Props {
   playerSteamId: string
@@ -22,7 +22,9 @@ export function Punishments({ playerSteamId }: Props) {
 
   return (
     <div className={styles.wrapper}>
-      {isLoading && <Spinner />}
+      {isLoading && (
+        <Loader size="md" center={true} content="загрузка..." vertical />
+      )}
       {isSuccess && (
         <>
           {punishments.bans?.map((ban: Ban) => (

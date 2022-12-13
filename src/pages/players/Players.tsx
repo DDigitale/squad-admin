@@ -4,8 +4,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchPlayers } from 'api/users'
 import { PlayersTable } from 'pages/players/PlayersTable'
 import { useSearchParams } from 'react-router-dom'
-import { loadingToast } from 'utils/toasts'
-import toast from 'react-hot-toast'
+import { Loader } from 'rsuite'
 
 type pageNumbers = number[]
 
@@ -18,11 +17,11 @@ export function Players() {
     data: players,
     isSuccess,
     isError,
-    status,
   } = useQuery(['players', page - 1], () => fetchPlayers(page - 1), {
     keepPreviousData: true,
   })
 
+  // пример использования toast по статусу промиса
   // toast.promise(Promise.all(status), {
   //   loading: 'Loading',
   //   success: 'Got the data',
@@ -68,9 +67,13 @@ export function Players() {
     for (let i = startPage; i < startPage + amount; i++) arr.push(i)
     return arr
   }
+  //
+  // if (!isSuccess) {
+  //   return <Spinner />
+  // }
 
   if (!isSuccess) {
-    return <h1>Загрузка игроков</h1>
+    return <Loader size="lg" backdrop content="загрузка..." vertical />
   }
 
   if (isError) {

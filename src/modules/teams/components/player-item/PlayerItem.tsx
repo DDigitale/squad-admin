@@ -31,7 +31,7 @@ export function PlayerItem({ player }: Props) {
     }
 
     if (player.isAdmin) {
-      return 'rgba(251,211,1,0.7)'
+      return 'rgba(51,253,217,0.65)'
     }
   }
 

@@ -8,10 +8,6 @@ import {
   LayerActionsContextType,
 } from 'contexts/layer-actions-context'
 import { mapsNormalized } from 'api/local/mapsNormalized'
-import { useQuery } from '@tanstack/react-query'
-import { fetchChatMessages } from 'api/users'
-import { errorToast } from 'utils/toasts'
-import { fetchLayersHistory } from 'api/layers'
 
 interface Props {
   nextLayer: any
@@ -26,7 +22,7 @@ export function MapSelector({ nextLayer }: Props) {
   ) as LayerActionsContextType
 
   const [layerImg, setLayerImg] = useState(null)
-  const [layerData, setLayerData] = useState({})
+  const [layerData, setLayerData] = useState<any>({})
 
   useEffect(() => {
     const getImg = async () => {
@@ -40,13 +36,16 @@ export function MapSelector({ nextLayer }: Props) {
     }
     getImg()
 
-    const layer = mapsNormalized.find((map) => {
-      // console.log('name', map.rawName)
-      // console.log('next', nextLayer.replaceAll(' ', '_'))
-      if (map.rawName === nextLayer) {
-        setLayerData(map)
-      }
-    })
+    const layer = mapsNormalized.find(
+      (map: any) =>
+        map.rawName.replaceAll('_', '') === nextLayer.replaceAll(' ', '')
+    )
+
+    setLayerData(layer)
+
+    // console.log('REPLACE ', nextLayer.replaceAll(' ', ''))
+    // console.log('NEXT: ', nextLayer)
+    // console.log('LAYER: ', layer)
   }, [nextLayer])
 
   return (

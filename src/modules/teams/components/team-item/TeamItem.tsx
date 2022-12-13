@@ -50,6 +50,9 @@ export function TeamItem({ team }: Props) {
     case 'AUS':
       team1 = 'Австралия'
       break
+    case 'PLA':
+      team1 = 'Китай'
+      break
     default:
       team1 = '---'
       break
@@ -63,7 +66,6 @@ export function TeamItem({ team }: Props) {
             <img src={flagImg!} alt="" />
             <p className={styles.generatedName}>{team1}</p>
           </div>
-          {/*<span className={styles.defaultName}>{team.teamName}</span>*/}
         </div>
         {team.squads.map((squad) => (
           <SquadItem key={squad.id} squad={squad} />

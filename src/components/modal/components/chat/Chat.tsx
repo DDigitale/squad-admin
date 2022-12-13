@@ -3,7 +3,7 @@ import styles from './Chat.module.scss'
 import { ChatRow } from './ChatRow'
 import { useQuery } from '@tanstack/react-query'
 import { fetchPlayerMessages } from 'api/users'
-import { Spinner } from 'components/spinner/Spinner'
+import { Loader } from 'rsuite'
 
 interface Props {
   playerSteamId: string
@@ -20,7 +20,9 @@ export function Chat({ playerSteamId }: Props) {
 
   return (
     <div className={styles.wrapper}>
-      {isLoading && <Spinner />}
+      {isLoading && (
+        <Loader size="md" center={true} content="загрузка..." vertical />
+      )}
       {isSuccess && (
         <>
           {messages.content?.map((message: any) => (

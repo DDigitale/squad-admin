@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styles from './Broadcast.module.scss'
 import { VscChevronRight } from 'react-icons/vsc'
 import CreatableSelect from 'react-select/creatable'
@@ -41,7 +41,7 @@ export function Broadcast() {
         onChange={handleChange}
         styles={customSelectorStyles}
         placeholder={'Выберите или введите сообщение'}
-        isClearable
+        // isClearable
       />
       <button
         className={styles.button}

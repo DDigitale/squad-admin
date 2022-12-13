@@ -11,8 +11,6 @@ function LayersHistory() {
     fetchLayersHistory
   )
 
-  console.log(layersHistory)
-
   return (
     <Card className={styles.historyCard}>
       {layersHistory?.content?.map((layer: any) => (

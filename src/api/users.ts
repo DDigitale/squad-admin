@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {
+  ADD_PlAYER,
   ADD_PLAYER_ON_CONTROL,
   API_URL,
   BAN_PLAYER,
@@ -33,13 +34,7 @@ import {
 // @ts-ignore
 import jsonBigInt from 'json-bigint'
 import { extendData } from 'utils'
-import {
-  ChatMessage,
-  DisconnectedPlayer,
-  Message,
-  Player,
-  Team,
-} from 'types/players'
+import { ChatMessage, DisconnectedPlayer, Player, Team } from 'types/players'
 import { errorToast, successToast } from 'utils/toasts'
 
 export const JSONbig = jsonBigInt({ storeAsString: true })
@@ -737,6 +732,53 @@ export const fetchChatHistory = async (page: number, searchParam: string) => {
           return value
         })
       },
+    }
+  )
+  return response.data
+}
+
+// export const fetchAddPlayer = async (steamId: any) => {
+//   try {
+//     const response = await axios.post(
+//       API_URL + ADD_PlAYER,
+//       {
+//         steamId,
+//       },
+//       {
+//         withCredentials: true,
+//         headers: {
+//           'Content-Type': 'multipart/form-data',
+//         },
+//         transformResponse: [
+//           (data) => {
+//             return JSONbig.parse(data)
+//           },
+//         ],
+//       }
+//     )
+//     successToast(`Игрок добавлен`)
+//     return response.data
+//   } catch (e: any) {
+//     errorToast(`Ошибка добавления игрока`)
+//   }
+// }
+
+export const fetchAddPlayer = async (steamId: any) => {
+  const response = await axios.post(
+    API_URL + ADD_PlAYER,
+    {
+      steamId,
+    },
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      transformResponse: [
+        (data) => {
+          return JSONbig.parse(data)
+        },
+      ],
     }
   )
   return response.data

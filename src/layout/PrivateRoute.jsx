@@ -1,14 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux'
 import styles from './PrivateRoute.module.scss'
 import { selectVerifyInfo, verifySteam } from 'store'
-import React, { useEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { Layout } from 'layout'
 import Header from 'components/header/Header'
-import { Spinner } from 'components/spinner/Spinner'
-import { useQuery } from '@tanstack/react-query'
-import { fetchBackendStatus } from 'api/admins'
-import { errorToast } from 'utils/toasts'
+import { Loader } from 'rsuite'
 
 const urlSearchParams = new URLSearchParams(window.location.search)
 export const openidParams = Object.fromEntries(urlSearchParams.entries())
@@ -16,10 +13,10 @@ export const openidParams = Object.fromEntries(urlSearchParams.entries())
 export const PrivateRoutes = () => {
   const dispatch = useDispatch()
   const { isLoading, isError, isSuccess } = useSelector(selectVerifyInfo)
-  const token = localStorage.getItem('token')
+  const access = localStorage.getItem('access')
 
-  useEffect(() => {
-    if (!token) {
+  useLayoutEffect(() => {
+    if (!access) {
       dispatch(verifySteam(openidParams))
     }
   }, [])
@@ -28,8 +25,10 @@ export const PrivateRoutes = () => {
 
   return (
     <>
-      {isLoading && <Spinner />}
-      {token && (
+      {isLoading && (
+        <Loader size="lg" backdrop content="загрузка..." vertical />
+      )}
+      {access && (
         <div className={styles.wrapper}>
           <Header />
           <Layout>

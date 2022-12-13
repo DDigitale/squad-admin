@@ -4,11 +4,12 @@ import { NavLink } from 'react-router-dom'
 
 const links: [string, string][] = [
   ['панель', '/'],
-  ['админы', '/admins'],
+  ['админы', '/admins-list'],
   ['админ лог', '/admins-log'],
   ['баны', '/bans-log'],
-  ['игроки', '/players'],
-  ['чат', '/chat'],
+  ['игроки', '/players-list'],
+  ['чат', '/chat-log'],
+  ['управление', '/admin-route'],
 ]
 
 export function Navbar() {

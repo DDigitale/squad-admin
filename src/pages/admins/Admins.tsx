@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchAdmins } from 'api/users'
 
 export function Admins() {
-  const { data: admins, isSuccess, isError } = useQuery(['admins'], fetchAdmins)
-
-  console.log(admins)
+  // const { data: admins, isSuccess, isError } = useQuery(['admins'], fetchAdmins)
 
   return <div>admins</div>
 }

@@ -19,7 +19,7 @@ import {
 } from 'config'
 import { errorToast, successToast } from 'utils/toasts'
 
-export const fetchAddAdmin = async (adminSteamId: number) => {
+export const fetchAddAdmin = async (adminSteamId: string | number) => {
   try {
     const response = await axios.post(
       API_URL + ADD_ADMIN,
@@ -33,11 +33,12 @@ export const fetchAddAdmin = async (adminSteamId: number) => {
     )
     successToast(`Админ добавлен`)
   } catch (e: any) {
+    //проверка на существующего админа 409 ошибка
     errorToast(`Не удалось добавить админа: ${e.message}`)
   }
 }
 
-export const fetchDeactivateAdmin = async (adminSteamId: number) => {
+export const fetchDeactivateAdmin = async (adminSteamId: string | number) => {
   try {
     const response = await axios.post(
       API_URL + DELETE_ADMIN,
@@ -65,7 +66,7 @@ export const fetchBackendStatus = async () => {
     })
     return response.data
   } catch (e: any) {
-    errorToast(`Не удалось удалить админа: ${e.message}`)
+    errorToast(`Не получить данные о сервере: ${e.message}`)
   }
 }
 
@@ -88,7 +89,7 @@ export const fetchSetRules = async (optionsData: any) => {
     const response = await axios.post(
       API_URL + SET_RULES,
       {
-        ruleGroup: optionsData,
+        ruleGroup: JSON.parse(optionsData),
       },
       {
         withCredentials: true,
@@ -175,39 +176,44 @@ export const fetchGetAllRoles = async () => {
   }
 }
 
-export const fetchAddRoleInRoleGroup = async (rolesEntity: any) => {
+export const fetchAddRoleInRoleGroup = async (
+  roleId: number,
+  roleGroupId: number
+) => {
   try {
     const response = await axios.post(
       API_URL + ADD_ROLE_IN_ROLE_GROUP,
-      { rolesEntity: rolesEntity },
+      { role: { id: roleId }, roleGroup: { id: roleGroupId } },
       {
         withCredentials: true,
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       }
     )
+    successToast(`Роль добавлена`)
     return response.data
   } catch (e: any) {
     errorToast(`Не удалось получить список опций: ${e.message}`)
   }
 }
 
-export const fetchAddRoleGroup = async (rolesEntity: any) => {
+export const fetchAddRoleGroup = async (roleGroupName: any) => {
   try {
     const response = await axios.post(
       API_URL + ADD_ROLE_GROUP,
-      { rolesEntity: rolesEntity },
+      { name: roleGroupName },
       {
         withCredentials: true,
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       }
     )
+    successToast(`Группа ролей добавлена`)
     return response.data
   } catch (e: any) {
-    errorToast(`Не удалось получить список опций: ${e.message}`)
+    errorToast(`Не удалось добавить группу ролей: ${e.message}`)
   }
 }
 
@@ -223,17 +229,21 @@ export const fetchRemoveRoleGroup = async (roleGroupId: number) => {
         },
       }
     )
+    successToast(`Группа ролей удалена`)
     return response.data
   } catch (e: any) {
     errorToast(`Не удалось получить список опций: ${e.message}`)
   }
 }
 
-export const fetchRemoveRoleFromRoleGroup = async (roleId: number) => {
+export const fetchRemoveRoleFromRoleGroup = async (
+  roleId: number,
+  roleGroupId: number
+) => {
   try {
     const response = await axios.post(
       API_URL + REMOVE_ROLE_FROM_ROLE_GROUP,
-      { roleId: roleId },
+      { roleId, roleGroupId },
       {
         withCredentials: true,
         headers: {
@@ -248,7 +258,7 @@ export const fetchRemoveRoleFromRoleGroup = async (roleId: number) => {
 }
 
 export const fetchSetRoleGroupToAdmin = async (
-  roleGroupId: number,
+  roleGroupId: string,
   adminSteamId: any
 ) => {
   try {
@@ -262,6 +272,7 @@ export const fetchSetRoleGroupToAdmin = async (
         },
       }
     )
+    successToast(`Роль изменена`)
     return response.data
   } catch (e: any) {
     errorToast(`Не удалось получить список опций: ${e.message}`)

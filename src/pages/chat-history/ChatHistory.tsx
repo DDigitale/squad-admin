@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchChatHistory } from 'api/users'
 import { useSearchParams } from 'react-router-dom'
-import { Spinner } from 'components/spinner/Spinner'
 import styles from './ChatHistory.module.scss'
 import ChatHistoryTable from 'pages/chat-history/ChatHistoryTable'
 import useDebounce from 'components/debounce/useDebounce'
+import { Loader } from 'rsuite'
 
 type pageNumbers = number[]
 
@@ -18,9 +18,7 @@ function ChatHistory() {
 
   const {
     data: chat,
-    isLoading,
     isSuccess,
-    isError,
     refetch,
   } = useQuery(
     ['chat-history', page - 1],
@@ -80,7 +78,7 @@ function ChatHistory() {
   }, [debouncedSearch])
 
   if (!isSuccess) {
-    return <Spinner />
+    return <Loader size="lg" backdrop content="загрузка..." vertical />
   }
 
   const pageNumbers = generatePageNumbers(page, 11)

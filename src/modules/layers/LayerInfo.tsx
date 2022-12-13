@@ -66,6 +66,8 @@ export function LayerInfo({ layer }: Props) {
     changeNextLayerMutation.mutate()
   }
 
+  console.log(layer)
+
   let team1: any, team2: any
   switch (layer.team1.name) {
     case 'Canadian Army':
@@ -94,6 +96,9 @@ export function LayerInfo({ layer }: Props) {
       break
     case 'Australian Defence Force':
       team1 = 'AUS'
+      break
+    case "People's Liberation Army":
+      team1 = 'PLA'
       break
     default:
       team1 = '---'
@@ -126,6 +131,9 @@ export function LayerInfo({ layer }: Props) {
       break
     case 'Australian Defence Force':
       team2 = 'AUS'
+      break
+    case "People's Liberation Army":
+      team2 = 'PLA'
       break
     default:
       team2 = '---'

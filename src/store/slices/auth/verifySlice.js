@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { API_URL, AUTH, CALLBACK_URL, VERIFY_STEAM } from 'config/api-config'
-import { openidParams } from 'layout/PrivateRoute'
 
 const initialState = {
   isLoading: false,
@@ -27,7 +26,13 @@ export const verifySteam = createAsyncThunk(
           },
         }
       )
-      localStorage.setItem('token', response.data)
+
+      localStorage.setItem('access', response.data.name)
+      localStorage.setItem(
+        'roles',
+        response.data.roles.map((role) => role.role.name)
+      )
+
       return response.status
     } catch (error) {
       const message =
