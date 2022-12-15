@@ -36,12 +36,12 @@ export function MapSelector({ nextLayer }: Props) {
     }
     getImg()
 
-    const layer = mapsNormalized.find(
-      (map: any) =>
-        map.rawName.replaceAll('_', '') === nextLayer.replaceAll(' ', '')
-    )
-
-    setLayerData(layer)
+    // const layer = mapsNormalized.find(
+    //   (map: any) =>
+    //     map.rawName.replaceAll('_', '') === nextLayer.replaceAll(' ', '')
+    // )
+    //
+    // setLayerData(layer)
 
     // console.log('REPLACE ', nextLayer.replaceAll(' ', ''))
     // console.log('NEXT: ', nextLayer)
@@ -64,10 +64,10 @@ export function MapSelector({ nextLayer }: Props) {
             className={styles.button}
             onClick={() => setLayersMenu(!layersMenu)}
           />
-          <FcInfo
-            className={styles.button}
-            onClick={() => setLayerModal(layerData)}
-          />
+          {/*<FcInfo*/}
+          {/*  className={styles.button}*/}
+          {/*  onClick={() => setLayerModal(layerData)}*/}
+          {/*/>*/}
         </div>
       </div>
     </>

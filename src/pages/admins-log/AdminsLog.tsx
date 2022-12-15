@@ -184,7 +184,6 @@ export function AdminsLog() {
           labelKey="name"
           valueKey="steamId"
           onSearch={(e) => {
-            console.log(e)
             setSearchPlayerInInput(e)
             searchPlayerMutation.mutate()
           }}

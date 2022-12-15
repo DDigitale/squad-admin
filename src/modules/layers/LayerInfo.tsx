@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './LayerInfo.module.scss'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { changeCurrentLayer, changeNextLayer } from 'api/layers'
+import * as process from 'process'
 
 interface Props {
   layer: any

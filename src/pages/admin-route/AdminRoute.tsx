@@ -38,52 +38,65 @@ function AdminRoute() {
     addAdminMutation.mutate()
   }
 
+  const roles = localStorage.getItem('roles')
+
   return (
     <Container style={{ maxWidth: 1400, margin: '0 auto' }}>
       <PanelGroup accordion bordered>
-        <Panel header="Управление админами" eventKey={1} id="panel1">
-          <Stack
-            spacing={8}
-            alignItems="flex-start"
-            style={{ marginBottom: '1rem' }}
-          >
-            <Input
-              maxLength={17}
-              value={adminSteamId}
-              onChange={(e: any) => setAdminSteamId(e)}
-              placeholder="Введите steamId"
-            />
-            {adminSteamId.toString().length > 16 && (
-              <IconButton
-                size="md"
-                href={`http://steamcommunity.com/profiles/${adminSteamId}`}
-                target="_blank"
-                icon={<SearchIcon />}
-              />
-            )}
-            <Button
-              onClick={handleAddAdmin}
-              appearance="subtle"
-              color="green"
-              disabled={adminSteamId.toString().length < 17}
+        {roles?.includes('Admins Management') ? (
+          <Panel header="Управление админами" eventKey={1} id="panel1">
+            <Stack
+              spacing={8}
+              alignItems="flex-start"
+              style={{ marginBottom: '1rem' }}
             >
-              Добавить
-            </Button>
-          </Stack>
-          <div className={styles.wrapper}>
-            <AdminList roleGroups={roleGroups} adminsList={adminsList} />
-          </div>
-        </Panel>
-        <Panel header="Управление ролями" eventKey={2} id="panel2">
-          <div className={styles.wrapper}>
-            <AdminRoles roleGroups={roleGroups} />
-          </div>
-        </Panel>
-        <Panel header="Управление опциями" eventKey={3} id="panel3">
-          <div className={styles.wrapper}>
-            <AdminRules />
-          </div>
-        </Panel>
+              <Input
+                maxLength={17}
+                value={adminSteamId}
+                onChange={(e: any) => setAdminSteamId(e)}
+                placeholder="Введите steamId"
+              />
+              {adminSteamId.toString().length > 16 && (
+                <IconButton
+                  size="md"
+                  href={`http://steamcommunity.com/profiles/${adminSteamId}`}
+                  target="_blank"
+                  icon={<SearchIcon />}
+                />
+              )}
+              <Button
+                onClick={handleAddAdmin}
+                appearance="subtle"
+                color="green"
+                disabled={adminSteamId.toString().length < 17}
+              >
+                Добавить
+              </Button>
+            </Stack>
+            <div className={styles.wrapper}>
+              <AdminList roleGroups={roleGroups} adminsList={adminsList} />
+            </div>
+          </Panel>
+        ) : null}
+        {roles?.includes('Roles Management') ? (
+          <Panel header="Управление ролями" eventKey={2} id="panel2">
+            <div className={styles.wrapper}>
+              <AdminRoles roleGroups={roleGroups} />
+            </div>
+          </Panel>
+        ) : null}
+        {roles?.includes('Rules Management') ? (
+          <Panel header="Управление опциями" eventKey={3} id="panel3">
+            <div className={styles.wrapper}>
+              <AdminRules />
+            </div>
+          </Panel>
+        ) : null}
+        {roles?.includes('Rotation Management') ? (
+          <Panel header="Управление ротацией" eventKey={4} id="panel4">
+            <div className={styles.wrapper}>Модуль ротации</div>
+          </Panel>
+        ) : null}
       </PanelGroup>
     </Container>
   )

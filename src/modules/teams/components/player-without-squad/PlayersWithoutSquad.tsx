@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styles from './PlayersWithoutSquad.module.scss'
 import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 import { PlayerWithoutSquad } from 'types/players'
@@ -12,6 +12,17 @@ export function PlayersWithoutSquad({ player }: Props) {
   const [playerModal, setPlayerModal] = useContext(
     PlayerModalContext
   ) as PlayerModalContextType
+  const [kitImg, setKitImg] = useState(null)
+
+  useEffect(() => {
+    const getImg = async () => {
+      const { default: kitImg } = await import(
+        `assets/img/kits/${player.role.split('_')[1]}.svg`
+      )
+      setKitImg(kitImg)
+    }
+    getImg()
+  }, [player.role])
 
   return (
     <>
@@ -21,13 +32,7 @@ export function PlayersWithoutSquad({ player }: Props) {
           className={styles.item}
           onClick={() => setPlayerModal(player.steamId)}
         >
-          <img
-            className={styles.icon}
-            src={require(`assets/img/kits/${
-              player.role.split(new RegExp('_'))[1]
-            }.svg`)}
-            alt="kit-icon"
-          />
+          <img className={styles.icon} src={`${kitImg}`} alt="kit-icon" />
           <p className={styles.name}>{player.name}</p>
           {player.isOnControl && (
             <RiErrorWarningFill

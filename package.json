@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@types/react-datetime-picker": "^3.4.1",
+    "file-loader": "^6.2.0",
     "prettier": "2.7.1",
     "react-datetime-picker": "^4.1.1"
   }

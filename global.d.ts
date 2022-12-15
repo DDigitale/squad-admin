@@ -4,5 +4,5 @@ declare module '*.module.scss' {
 }
 
 declare module '*.png'
-declare module '*.wav'
-declare module '*.mp3'
+declare module '*.svg'
+declare module '*.jpg'

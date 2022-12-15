@@ -3,6 +3,7 @@ import {
   ADD_PlAYER,
   ADD_PLAYER_ON_CONTROL,
   API_URL,
+  AUTH,
   BAN_PLAYER,
   DELETE_PLAYER_NOTE,
   DISBAND_SQUAD,
@@ -310,11 +311,15 @@ export const fetchPlayerNotes = async (playerSteamId: string) => {
   }
 }
 
-export const fetchPlayerMessages = async (playerSteamId: string) => {
+export const fetchPlayerMessages = async (
+  playerSteamId: string,
+  page: number,
+  size: number
+) => {
   try {
     const response = await axios.post(
       API_URL + GET_PLAYER_MESSAGES,
-      { playerSteamId, page: 0, size: 99 },
+      { playerSteamId, page, size },
       {
         withCredentials: true,
         headers: {
@@ -789,6 +794,17 @@ export const fetchLogout = async () => {
     const response = await axios.get(API_URL + LOGOUT, {
       withCredentials: true,
     })
+  } catch (e: any) {
+    console.log(e)
+  }
+}
+
+export const fetchAuth = async () => {
+  try {
+    const response = await axios.get(API_URL + AUTH, {
+      withCredentials: true,
+    })
+    return response.data
   } catch (e: any) {
     console.log(e)
   }

@@ -6,7 +6,7 @@ import CloseOutlineIcon from '@rsuite/icons/CloseOutline'
 import styles from './AdminRules.module.scss'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchGetRules, fetchSetRules } from 'api/admins'
-import { IconButton, Input } from 'rsuite'
+import { IconButton, Input, Tag } from 'rsuite'
 
 function AdminRules() {
   const queryClient = useQueryClient()
@@ -74,6 +74,10 @@ function AdminRules() {
       1
     )
 
+    rule.forEach((rule: any, index: any) => {
+      return (rule.position = index + 1)
+    })
+
     await localStorage.setItem('rulesData', JSON.stringify(rule))
     await setRulesOptionsListMutation.mutate()
   }
@@ -131,10 +135,6 @@ function AdminRules() {
     await setRulesOptionsListMutation.mutate()
   }
 
-  // for (let key in currentGroup) {
-  //   currentGroup.rules.position = key + 1
-  // }
-
   return (
     <div className={styles.wrapper}>
       {rulesData?.map((group: any) => (
@@ -187,10 +187,10 @@ function AdminRules() {
                   </>
                 ) : (
                   <>
-                    <span style={{ fontSize: '1rem', fontStyle: 'italic' }}>
-                      pos: {rule.position}
-                    </span>
                     <span style={{ marginRight: 'auto' }}>{rule.name}</span>
+                    <Tag style={{ opacity: 0.3 }} size="md">
+                      Pos: {rule.position}
+                    </Tag>
                     {activeRule && activeGroup ? null : (
                       <IconButton
                         appearance="subtle"

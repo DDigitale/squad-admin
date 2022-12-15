@@ -1,4 +1,6 @@
-const API_URL = 'http://localhost:8000'
+const server = localStorage.getItem('server')
+
+const API_URL = `http://localhost:${server ? server : 8000}`
 const CALLBACK_URL = 'http://localhost:3000'
 const STEAM_KEY = 'D24E3D9EB90500EB1979B72B06B4D903'
 const GET_STEAM_LINK = '/get-steam-link'

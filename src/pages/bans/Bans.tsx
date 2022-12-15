@@ -5,7 +5,7 @@ import { fetchAllBans } from 'api/users'
 import { useSearchParams } from 'react-router-dom'
 import BansTable from 'pages/bans/BansTable'
 import BanOffline from 'pages/bans/BanOffline'
-import { Loader } from 'rsuite'
+import { Loader, Toggle } from 'rsuite'
 
 function Bans() {
   const queryClient = useQueryClient()
@@ -79,11 +79,12 @@ function Bans() {
       <div className={styles.menuWrapper}>
         <BanOffline />
         <div className={styles.activeBans}>
-          <label>Только активные баны</label>
-          <input
-            type="checkbox"
+          <Toggle
+            size="lg"
             onChange={() => setActiveBans(!activeBans)}
             checked={activeBans}
+            checkedChildren="Только активные баны"
+            unCheckedChildren="Все баны"
           />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Profiler, useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { PrivateRoutes } from 'layout'
 import { PlayerModalContext } from 'contexts'
@@ -16,6 +16,8 @@ import Bans from 'pages/bans/Bans'
 import ChatHistory from 'pages/chat-history/ChatHistory'
 import { ruRU } from 'rsuite/locales'
 import { CustomProvider } from 'rsuite'
+import { useQuery } from '@tanstack/react-query'
+import { fetchGetMyRoleGroup } from 'api/admins'
 
 function App() {
   const [playerInModal, setPlayerInModal] = useState<steamId | null>(null)
@@ -23,6 +25,15 @@ function App() {
   const [layerInModal, setLayerInModal] = useState<layer | undefined>(undefined)
 
   const roles = localStorage.getItem('roles')
+
+  const { data: myRoleGroup } = useQuery(['my-role-group'], fetchGetMyRoleGroup)
+
+  if (myRoleGroup) {
+    localStorage.setItem(
+      'roles',
+      myRoleGroup.roles.map((role: any) => role.role.name)
+    )
+  }
 
   return (
     <CustomProvider theme="dark" locale={ruRU}>
@@ -34,19 +45,21 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route element={<PrivateRoutes />}>
                   <Route path="/" element={<Panel />} />
-                  <Route path="/players-list" element={<Players />} />
-                  <Route path="/admins-list" element={<Admins />} />
                   {roles?.includes('Admin log access') ? (
                     <>
+                      <Route path="/players-list" element={<Players />} />
+                      <Route path="/admins-list" element={<Admins />} />
                       <Route path="/admins-log" element={<AdminsLog />} />
                       <Route path="/bans-log" element={<Bans />} />
                       <Route path="/chat-log" element={<ChatHistory />} />
                     </>
                   ) : null}
-                  {/*{roles?.includes('Rotation Management') ? (*/}
-                  {/*  под управление ротацией*/}
-                  {/*) : null}*/}
-                  {roles?.includes('Admins Management') ? (
+                  {roles?.includes(
+                    'Admins Management' ||
+                      'Roles Management' ||
+                      'Rules Management' ||
+                      'Rotation Management'
+                  ) ? (
                     <Route path="/admin-route" element={<AdminRoute />} />
                   ) : null}
                 </Route>
@@ -76,10 +89,6 @@ function App() {
 
                 success: {
                   duration: 3000,
-                  theme: {
-                    primary: 'green',
-                    secondary: 'black',
-                  },
                 },
               }}
             />

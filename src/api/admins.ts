@@ -114,7 +114,7 @@ export const fetchGetMyRoleGroup = async () => {
     })
     return response.data
   } catch (e: any) {
-    errorToast(`Не удалось получить список опций: ${e.message}`)
+    errorToast(`Не удалось получить список ролей: ${e.message}`)
   }
 }
 

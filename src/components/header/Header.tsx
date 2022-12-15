@@ -54,6 +54,8 @@ function Header() {
     setSearchPlayer('')
   }
 
+  const server = localStorage.getItem('server')
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.nav}>
@@ -84,6 +86,46 @@ function Header() {
         )}
       </div>
       <div className={styles.logout}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.3rem',
+            backgroundColor: 'black',
+            padding: '0.3rem',
+            borderRadius: 10,
+          }}
+        >
+          <span>тестовый блок выбора сервера</span>
+          <button
+            onClick={() => {
+              localStorage.setItem('server', String(8000))
+              window.location.reload()
+            }}
+            style={{
+              all: 'unset',
+              backgroundColor: server === '8000' ? 'green' : 'gray',
+              padding: '0.3rem',
+              borderRadius: 10,
+            }}
+          >
+            ОС1
+          </button>
+          <button
+            onClick={() => {
+              localStorage.setItem('server', String(8001))
+              window.location.reload()
+            }}
+            style={{
+              all: 'unset',
+              backgroundColor: server === '8001' ? 'green' : 'gray',
+              padding: '0.3rem',
+              borderRadius: 10,
+            }}
+          >
+            ОС2
+          </button>
+        </div>
         <VscServer
           style={{
             marginRight: '1rem',
