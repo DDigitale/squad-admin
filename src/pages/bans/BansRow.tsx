@@ -32,7 +32,7 @@ function BansRow({ ban }: Props) {
       ) : (
         <span className={styles.expirationTime}>
           {banExpired
-            ? `Бан истёк`
+            ? `${ban.expirationTime === null ? 'Перманентный бан' : 'Бан истёк'}`
             : `До ${ban.expirationTime.toLocaleString()}`}
         </span>
       )}

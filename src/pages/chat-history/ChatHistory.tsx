@@ -1,72 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchChatHistory } from 'api/users'
-import { useSearchParams } from 'react-router-dom'
 import styles from './ChatHistory.module.scss'
 import ChatHistoryTable from 'pages/chat-history/ChatHistoryTable'
 import useDebounce from 'components/debounce/useDebounce'
-import { Loader } from 'rsuite'
-
-type pageNumbers = number[]
+import { Loader, Pagination } from 'rsuite'
 
 function ChatHistory() {
-  const [searchParams, setSearchParams] = useSearchParams()
   const [searchParam, setSearchParam] = useState('')
+  const [activePage, setActivePage] = useState(1)
   const debouncedSearch = useDebounce(searchParam, 300)
 
-  const page = +(searchParams.get('page') ?? 1)
+  const pageLimit = 30
 
   const {
     data: chat,
     isSuccess,
     refetch,
   } = useQuery(
-    ['chat-history', page - 1],
-    () => fetchChatHistory(page - 1, searchParam.toString()),
+    ['chat-history', activePage - 1],
+    () => fetchChatHistory(activePage - 1, pageLimit, searchParam.toString()),
     {
       keepPreviousData: true,
     }
   )
-
-  const setPage = (page: number) => {
-    setSearchParams({ page: page.toString() })
-  }
-
-  const nextPage = () => {
-    setPage(page + 1)
-  }
-
-  const prevPage = () => {
-    const nextPage = page - 1
-    if (nextPage === 1) {
-      searchParams.delete('page')
-      setSearchParams(searchParams)
-    } else {
-      setPage(page - 1)
-    }
-  }
-
-  const generatePageNumbers = (
-    page: number,
-    amount: number
-  ): pageNumbers | undefined => {
-    if (!chat?.totalPages) return
-    const arr = []
-    if (chat?.totalPages - 2 < amount || page - amount / 2 < 1) {
-      const startPage = 2
-      for (let i = startPage; i < startPage + amount; i++) arr.push(i)
-      return arr
-    }
-    if (page + amount / 2 > chat.totalPages) {
-      const startPage = chat.totalPages - amount
-      for (let i = startPage; i < chat.totalPages; i++) arr.push(i)
-      return arr
-    }
-
-    const startPage = page - 5
-    for (let i = startPage; i < startPage + amount; i++) arr.push(i)
-    return arr
-  }
 
   useEffect(() => {
     if (debouncedSearch) {
@@ -80,8 +37,6 @@ function ChatHistory() {
   if (!isSuccess) {
     return <Loader size="lg" backdrop content="загрузка..." vertical />
   }
-
-  const pageNumbers = generatePageNumbers(page, 11)
 
   const handleSearch = (e: any) => {
     setSearchParam(e.target.value.toLowerCase())
@@ -100,63 +55,22 @@ function ChatHistory() {
       </div>
       <div className={styles.tableWrapper}>
         <ChatHistoryTable content={chat?.content} />
-        <div className={styles.pagination}>
-          <button
-            className={styles.pageNumberBtn}
-            onClick={prevPage}
-            disabled={!chat?.hasPrevious}
-          >
-            -
-          </button>
-          <button className={styles.pageNumberBtn} onClick={() => setPage(1)}>
-            {1}
-          </button>
-          {pageNumbers?.[0] !== 2 && (
-            <button
-              key={'first'}
-              disabled={true}
-              className={styles.pageNumberBtn}
-            >
-              ...
-            </button>
-          )}
-
-          {pageNumbers?.map((pageNumber) => (
-            <button
-              className={styles.pageNumberBtn}
-              key={pageNumber}
-              disabled={pageNumber === page}
-              onClick={() => setPage(pageNumber)}
-            >
-              {pageNumber}
-            </button>
-          ))}
-          {pageNumbers?.[pageNumbers.length - 1] !== chat?.totalPages - 1 && (
-            <button
-              key={'last'}
-              disabled={true}
-              className={styles.pageNumberBtn}
-            >
-              ...
-            </button>
-          )}
-          <button
-            className={styles.pageNumberBtn}
-            onClick={() => setPage(chat?.totalPages)}
-          >
-            {chat?.totalPages}
-          </button>
-          <button
-            className={styles.pageNumberBtn}
-            onClick={nextPage}
-            disabled={!chat?.hasNext}
-          >
-            +
-          </button>
-        </div>
-        <div className={styles.counter}>
-          Всего сообщений: {chat?.totalElements}
-        </div>
+        <Pagination
+          style={{ margin: '0 auto', padding: '0.5rem' }}
+          layout={['pager', '|', 'total']}
+          prev
+          last
+          next
+          first
+          ellipsis
+          maxButtons={10}
+          boundaryLinks
+          size="md"
+          total={chat?.totalElements}
+          limit={pageLimit}
+          activePage={activePage}
+          onChangePage={(e: any) => setActivePage(e)}
+        />
       </div>
     </div>
   )

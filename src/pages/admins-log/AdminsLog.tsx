@@ -10,21 +10,30 @@ import {
   DatePicker,
   InputPicker,
   Loader,
+  Pagination,
   SelectPicker,
 } from 'rsuite'
 
 type pageNumbers = number[]
 
 const listActions = [
-  { value: 'BanPlayer', label: 'BanPlayer' },
-  { value: 'Unban', label: 'Unban' },
-  { value: 'KickPlayer', label: 'KickPlayer' },
-  { value: 'WarnPlayer', label: 'WarnPlayer' },
-  { value: 'SendBroadcast', label: 'SendBroadcast' },
-  { value: 'DisbandSquad', label: 'DisbandSquad' },
+  { value: 'AddAdmin', label: 'AddAdmin' },
+  { value: 'AddNewPlayer', label: 'AddNewPlayer' },
   { value: 'AddPlayerNote', label: 'AddPlayerNote' },
+  { value: 'AddPlayerOnControl', label: 'AddPlayerOnControl' },
+  { value: 'BanPlayer', label: 'BanPlayer' },
+  { value: 'ChangeCurrentLayer', label: 'ChangeCurrentLayer' },
+  { value: 'ChangeNextLayer', label: 'ChangeNextLayer' },
+  { value: 'DeactivateAdmin', label: 'DeactivateAdmin' },
   { value: 'DeletePlayerNote', label: 'DeletePlayerNote' },
+  { value: 'DisbandSquad', label: 'DisbandSquad' },
+  { value: 'KickPlayer', label: 'KickPlayer' },
   { value: 'PlayerTeamChange', label: 'PlayerTeamChange' },
+  { value: 'RemovePlayerFromControl', label: 'RemovePlayerFromControl' },
+  { value: 'SendBroadcast', label: 'SendBroadcast' },
+  { value: 'Unban', label: 'Unban' },
+  { value: 'WarnSquad', label: 'WarnSquad' },
+  { value: 'WarnPlayer', label: 'WarnPlayer' },
 ]
 
 const initialStateActions = listActions.map((action) => action.value)
@@ -32,7 +41,7 @@ const initialDateFrom = 1577826000000
 const initialDateTo = 1893445200000
 
 export function AdminsLog() {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [activePage, setActivePage] = useState(1)
   const [searchPlayer, setSearchPlayer] = useState('')
   const [searchPlayerInInput, setSearchPlayerInInput] = useState('')
   const [searchAdmin, setSearchAdmin] = useState('')
@@ -41,26 +50,27 @@ export function AdminsLog() {
   const [searchDateFrom, setSearchDateFrom] = useState(initialDateFrom)
   const [searchDateTo, setSearchDateTo] = useState(initialDateTo)
   const debouncedSearch = useDebounce(
-    searchPlayer ||
-      searchAction ||
+    searchPlayerInInput ||
       searchAdmin ||
-      searchPlayerInInput ||
+      searchPlayer ||
+      searchAction ||
       searchDateFrom ||
       searchDateTo,
     300
   )
 
-  const page = +(searchParams.get('page') ?? 1)
+  const pageLimit = 30
 
   const {
     data: admins,
     isSuccess,
     refetch,
   } = useQuery(
-    ['admins', page - 1],
+    ['admins', activePage - 1],
     () =>
       fetchAdminsLog(
-        page - 1,
+        activePage - 1,
+        pageLimit,
         searchAdmin,
         searchPlayer,
         searchAction,
@@ -86,46 +96,6 @@ export function AdminsLog() {
     label: v.name,
   }))
 
-  const setPage = (page: number) => {
-    setSearchParams({ page: page.toString() })
-  }
-
-  const nextPage = () => {
-    setPage(page + 1)
-  }
-
-  const prevPage = () => {
-    const nextPage = page - 1
-    if (nextPage === 1) {
-      searchParams.delete('page')
-      setSearchParams(searchParams)
-    } else {
-      setPage(page - 1)
-    }
-  }
-
-  const generatePageNumbers = (
-    page: number,
-    amount: number
-  ): pageNumbers | undefined => {
-    if (!admins?.totalPages) return
-    const arr = []
-    if (admins?.totalPages - 2 < amount || page - amount / 2 < 1) {
-      const startPage = 2
-      for (let i = startPage; i < startPage + amount; i++) arr.push(i)
-      return arr
-    }
-    if (page + amount / 2 > admins.totalPages) {
-      const startPage = admins.totalPages - amount
-      for (let i = startPage; i < admins.totalPages; i++) arr.push(i)
-      return arr
-    }
-
-    const startPage = page - 5
-    for (let i = startPage; i < startPage + amount; i++) arr.push(i)
-    return arr
-  }
-
   useEffect(() => {
     if (debouncedSearch) {
       refetch()
@@ -133,6 +103,7 @@ export function AdminsLog() {
     if (debouncedSearch === null) {
       refetch()
     }
+
     if (searchAction.length === 0) {
       setSearchAction(initialStateActions)
       refetch()
@@ -157,8 +128,6 @@ export function AdminsLog() {
   if (!isSuccess) {
     return <Loader size="lg" backdrop content="загрузка..." vertical />
   }
-
-  const pageNumbers = generatePageNumbers(page, 11)
 
   return (
     <div className={styles.wrapper}>
@@ -185,7 +154,6 @@ export function AdminsLog() {
           valueKey="steamId"
           onSearch={(e) => {
             setSearchPlayerInInput(e)
-            searchPlayerMutation.mutate()
           }}
           onChange={(e: any) => setSearchPlayer(e)}
           placeholder="Поиск по игрокам"
@@ -209,64 +177,127 @@ export function AdminsLog() {
       </div>
       <div className={styles.tableWrapper}>
         <AdminsLogTable content={admins?.content} />
-        <div className={styles.pagination}>
-          <button
-            className={styles.pageNumberBtn}
-            onClick={prevPage}
-            disabled={!admins?.hasPrevious}
-          >
-            -
-          </button>
-          <button className={styles.pageNumberBtn} onClick={() => setPage(1)}>
-            {1}
-          </button>
-          {pageNumbers?.[0] !== 2 && (
-            <button
-              key={'first'}
-              disabled={true}
-              className={styles.pageNumberBtn}
-            >
-              ...
-            </button>
-          )}
-
-          {pageNumbers?.map((pageNumber) => (
-            <button
-              className={styles.pageNumberBtn}
-              key={pageNumber}
-              disabled={pageNumber === page}
-              onClick={() => setPage(pageNumber)}
-            >
-              {pageNumber}
-            </button>
-          ))}
-          {pageNumbers?.[pageNumbers.length - 1] !== admins?.totalPages - 1 && (
-            <button
-              key={'last'}
-              disabled={true}
-              className={styles.pageNumberBtn}
-            >
-              ...
-            </button>
-          )}
-          <button
-            className={styles.pageNumberBtn}
-            onClick={() => setPage(admins?.totalPages)}
-          >
-            {admins?.totalPages}
-          </button>
-          <button
-            className={styles.pageNumberBtn}
-            onClick={nextPage}
-            disabled={!admins?.hasNext}
-          >
-            +
-          </button>
-        </div>
-        <div className={styles.counter}>
-          Всего действий: {admins?.totalElements}
-        </div>
+        <Pagination
+          style={{ margin: '0 auto', padding: '0.5rem' }}
+          layout={['pager', '|', 'total']}
+          prev
+          last
+          next
+          first
+          ellipsis
+          maxButtons={10}
+          boundaryLinks
+          size="md"
+          total={admins?.totalElements}
+          limit={pageLimit}
+          activePage={activePage}
+          onChangePage={(e: any) => setActivePage(e)}
+        />
       </div>
     </div>
   )
 }
+
+// const [searchParams, setSearchParams] = useSearchParams()
+
+// const page = +(searchParams.get('page') ?? 1)
+
+// const setPage = (page: number) => {
+//   setSearchParams({ page: page.toString() })
+// }
+//
+// const nextPage = () => {
+//   setPage(page + 1)
+// }
+//
+// const prevPage = () => {
+//   const nextPage = page - 1
+//   if (nextPage === 1) {
+//     searchParams.delete('page')
+//     setSearchParams(searchParams)
+//   } else {
+//     setPage(page - 1)
+//   }
+// }
+
+// const generatePageNumbers = (
+//     page: number,
+//     amount: number
+// ): pageNumbers | undefined => {
+//   if (!admins?.totalPages) return
+//   const arr = []
+//   if (admins?.totalPages - 2 < amount || page - amount / 2 < 1) {
+//     const startPage = 2
+//     for (let i = startPage; i < startPage + amount; i++) arr.push(i)
+//     return arr
+//   }
+//   if (page + amount / 2 > admins.totalPages) {
+//     const startPage = admins.totalPages - amount
+//     for (let i = startPage; i < admins.totalPages; i++) arr.push(i)
+//     return arr
+//   }
+//
+//   const startPage = page - 5
+//   for (let i = startPage; i < startPage + amount; i++) arr.push(i)
+//   return arr
+// }
+
+// const pageNumbers = generatePageNumbers(page, 11)
+
+// <div className={styles.pagination}>
+//     <button
+//         className={styles.pageNumberBtn}
+//         onClick={prevPage}
+//         disabled={!admins?.hasPrevious}
+//     >
+//         -
+//     </button>
+//     <button className={styles.pageNumberBtn} onClick={() => setPage(1)}>
+//         {1}
+//     </button>
+//     {pageNumbers?.[0] !== 2 && (
+//         <button
+//             key={'first'}
+//             disabled={true}
+//             className={styles.pageNumberBtn}
+//         >
+//             ...
+//         </button>
+//     )}
+//
+//     {pageNumbers?.map((pageNumber) => (
+//         <button
+//             className={styles.pageNumberBtn}
+//             key={pageNumber}
+//             disabled={pageNumber === page}
+//             onClick={() => setPage(pageNumber)}
+//         >
+//             {pageNumber}
+//         </button>
+//     ))}
+//     {pageNumbers?.[pageNumbers.length - 1] !== admins?.totalPages - 1 && (
+//         <button
+//             key={'last'}
+//             disabled={true}
+//             className={styles.pageNumberBtn}
+//         >
+//             ...
+//         </button>
+//     )}
+//     <button
+//         className={styles.pageNumberBtn}
+//         onClick={() => setPage(admins?.totalPages)}
+//     >
+//         {admins?.totalPages}
+//     </button>
+//     <button
+//         className={styles.pageNumberBtn}
+//         onClick={nextPage}
+//         disabled={!admins?.hasNext}
+//     >
+//         +
+//     </button>
+// </div>
+// <div className={styles.counter}>
+//     Всего действий: {admins?.totalElements}
+// </div>

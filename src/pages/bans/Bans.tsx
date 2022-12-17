@@ -1,153 +1,194 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Bans.module.scss'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { fetchAllBans } from 'api/users'
-import { useSearchParams } from 'react-router-dom'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  fetchAdmins,
+  fetchAllActiveBansByParams,
+  fetchAllBansByParams,
+  fetchAllNotActiveBansByParams,
+  fetchAllPermanentBansByParams,
+  fetchPlayerSearch,
+} from 'api/users'
 import BansTable from 'pages/bans/BansTable'
 import BanOffline from 'pages/bans/BanOffline'
-import { Loader, Toggle } from 'rsuite'
+import {
+  InputPicker,
+  Loader,
+  Pagination,
+  Radio,
+  RadioGroup,
+  SelectPicker,
+} from 'rsuite'
+import useDebounce from 'components/debounce/useDebounce'
 
 function Bans() {
   const queryClient = useQueryClient()
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [activePage, setActivePage] = useState(1)
+  const [selectedRadio, setSelectedRadio] = useState('A')
+  const [adminSteamId, setAdminSteamId] = useState('')
+  const [playerSteamId, setPlayerSteamId] = useState('')
+  const [searchPlayerInInput, setSearchPlayerInInput] = useState('')
+  const [foundPlayers, setFoundPlayers] = useState([])
+  const [bansData, setBansData] = useState<any>()
+  const debouncedSearch = useDebounce(searchPlayerInInput, 300)
 
-  const [activeBans, setActiveBans] = useState(true)
+  const pageLimit = 30
 
-  const page = +(searchParams.get('page') ?? 1)
+  const { data: adminsList } = useQuery(['admin-steamIds'], fetchAdmins)
 
-  const {
-    data: bans,
-    isSuccess,
-    refetch,
-  } = useQuery(['bans', page - 1], () => fetchAllBans(page - 1, activeBans))
+  const adminList = adminsList?.map((v: any) => ({
+    value: v.steamId,
+    label: v.name,
+  }))
 
-  // queryClient.prefetchQuery([bans, page], () => fetchAllBans(page, activeBans))
+  const searchPlayerMutation = useMutation(
+    () => fetchPlayerSearch(searchPlayerInInput.toString()),
+    {
+      onSuccess: (data) => setFoundPlayers(data),
+    }
+  )
+
+  const { refetch: allBans } = useQuery(
+    ['all-bans', activePage - 1],
+    () =>
+      fetchAllBansByParams(
+        activePage - 1,
+        pageLimit,
+        adminSteamId,
+        playerSteamId
+      ),
+    {
+      onSuccess: (data) => setBansData(data),
+      enabled: selectedRadio === 'A',
+    }
+  )
+
+  const { refetch: allActiveBans } = useQuery(
+    ['all-bans', activePage - 1],
+    () =>
+      fetchAllActiveBansByParams(
+        activePage - 1,
+        pageLimit,
+        adminSteamId,
+        playerSteamId
+      ),
+    {
+      onSuccess: (data) => setBansData(data),
+      enabled: selectedRadio === 'B',
+    }
+  )
+
+  const { refetch: allPermanentBans } = useQuery(
+    ['all-bans', activePage - 1],
+    () =>
+      fetchAllPermanentBansByParams(
+        activePage - 1,
+        pageLimit,
+        adminSteamId,
+        playerSteamId
+      ),
+    {
+      onSuccess: (data) => setBansData(data),
+      enabled: selectedRadio === 'C',
+    }
+  )
+
+  const { refetch: allNotActiveBans } = useQuery(
+    ['all-bans', activePage - 1],
+    () =>
+      fetchAllNotActiveBansByParams(
+        activePage - 1,
+        pageLimit,
+        adminSteamId,
+        playerSteamId
+      ),
+    {
+      onSuccess: (data) => setBansData(data),
+      enabled: selectedRadio === 'D',
+    }
+  )
+
+  console.log(selectedRadio)
 
   useEffect(() => {
-    refetch()
-  }, [activeBans])
+    selectedRadio === 'A' && allBans()
+    selectedRadio === 'B' && allActiveBans()
+    selectedRadio === 'C' && allPermanentBans()
+    selectedRadio === 'D' && allNotActiveBans()
+  }, [adminSteamId, playerSteamId, pageLimit])
 
-  const setPage = (page: number) => {
-    setSearchParams({ page: page.toString() })
-  }
-
-  const nextPage = () => {
-    setPage(page + 1)
-  }
-
-  const prevPage = () => {
-    const nextPage = page - 1
-    if (nextPage === 1) {
-      searchParams.delete('page')
-      setSearchParams(searchParams)
-    } else {
-      setPage(page - 1)
+  useEffect(() => {
+    if (debouncedSearch) {
+      searchPlayerMutation.mutate()
     }
-  }
+  }, [debouncedSearch])
 
-  const generatePageNumbers = (page: number, amount: number) => {
-    if (!bans?.totalPages) return
-    const arr = []
-    if (bans?.totalPages - 2 < amount || page - amount / 2 < 1) {
-      const startPage = 2
-      for (let i = startPage; i < startPage + amount; i++) arr.push(i)
-      return arr
-    }
-    if (page + amount / 2 > bans.totalPages) {
-      const startPage = bans.totalPages - amount
-      for (let i = startPage; i < bans.totalPages; i++) arr.push(i)
-      return arr
-    }
-
-    const startPage = page - 5
-    for (let i = startPage; i < startPage + amount; i++) arr.push(i)
-    return arr
-  }
-
-  // if (!isSuccess) {
-  //   return <Spinner />
-  // }
-
-  if (!isSuccess) {
+  if (!bansData) {
     return <Loader size="lg" backdrop content="загрузка..." vertical />
   }
-
-  const pageNumbers = generatePageNumbers(page, bans.totalPages - 1)
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.menuWrapper}>
-        <BanOffline />
         <div className={styles.activeBans}>
-          <Toggle
-            size="lg"
-            onChange={() => setActiveBans(!activeBans)}
-            checked={activeBans}
-            checkedChildren="Только активные баны"
-            unCheckedChildren="Все баны"
-          />
+          <RadioGroup
+            name="radioList"
+            inline
+            appearance="picker"
+            defaultValue="A"
+            value={selectedRadio}
+            onChange={(e: any) => setSelectedRadio(e)}
+          >
+            <Radio value="A">Все баны</Radio>
+            <Radio value="B">Активные</Radio>
+            <Radio value="C">Перманент</Radio>
+            <Radio value="D">Не активные</Radio>
+            <Radio value="E">Оффлайн бан</Radio>
+          </RadioGroup>
+          {selectedRadio === 'E' ? (
+            <BanOffline />
+          ) : (
+            <>
+              <SelectPicker
+                style={{ width: '200px' }}
+                data={adminList}
+                value={adminSteamId}
+                onChange={(e: any) => setAdminSteamId(e)}
+                placeholder="Поиск по админам"
+                cleanable={true}
+              />
+              <InputPicker
+                data={foundPlayers}
+                labelKey="name"
+                valueKey="steamId"
+                onSearch={(e) => {
+                  setSearchPlayerInInput(e)
+                }}
+                onChange={(e: any) => setPlayerSteamId(e)}
+                placeholder="Поиск по игрокам"
+              />
+            </>
+          )}
         </div>
       </div>
       <div className={styles.tableWrapper}>
-        <BansTable content={bans?.content} />
-        {bans.hasNext && (
-          <div className={styles.pagination}>
-            <button
-              className={styles.pageNumberBtn}
-              onClick={prevPage}
-              disabled={!bans?.hasPrevious}
-            >
-              -
-            </button>
-            <button className={styles.pageNumberBtn} onClick={() => setPage(1)}>
-              {1}
-            </button>
-            {pageNumbers?.[0] !== 2 && (
-              <button
-                key={'first'}
-                disabled={true}
-                className={styles.pageNumberBtn}
-              >
-                ...
-              </button>
-            )}
-
-            {pageNumbers?.map((pageNumber) => (
-              <button
-                className={styles.pageNumberBtn}
-                key={pageNumber}
-                disabled={pageNumber === page}
-                onClick={() => setPage(pageNumber)}
-              >
-                {pageNumber}
-              </button>
-            ))}
-            {pageNumbers?.[pageNumbers.length - 1] !== bans?.totalPages - 1 && (
-              <button
-                key={'last'}
-                disabled={true}
-                className={styles.pageNumberBtn}
-              >
-                ...
-              </button>
-            )}
-            <button
-              className={styles.pageNumberBtn}
-              onClick={() => setPage(bans?.totalPages)}
-            >
-              {bans?.totalPages}
-            </button>
-            <button
-              className={styles.pageNumberBtn}
-              onClick={nextPage}
-              disabled={!bans?.hasNext}
-            >
-              +
-            </button>
-          </div>
-        )}
-
-        <div className={styles.counter}>Всего банов: {bans?.totalElements}</div>
+        <BansTable content={bansData?.content} />
+        <Pagination
+          style={{ margin: '0 auto', padding: '0.5rem' }}
+          layout={['pager', '|', 'total']}
+          prev
+          last
+          next
+          first
+          ellipsis
+          maxButtons={10}
+          boundaryLinks
+          size="md"
+          total={bansData?.totalElements}
+          limit={pageLimit}
+          activePage={activePage}
+          onChangePage={(e: any) => setActivePage(e)}
+        />
       </div>
     </div>
   )

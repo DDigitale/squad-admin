@@ -28,8 +28,7 @@
 //       name: team2.faction,
 //       tickets: team2.tickets,
 //       vehicles: team2.vehicles,
-//     },
-//     Flag,
+//     }
 //     type,
 //     mapSize,
 //   })

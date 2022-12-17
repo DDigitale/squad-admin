@@ -7,13 +7,17 @@ import {
   BAN_PLAYER,
   DELETE_PLAYER_NOTE,
   DISBAND_SQUAD,
+  GET_ACTIVE_BANS_BY_PARAMS,
+  GET_ADMIN_ACTIONS_WITH_PLAYER,
   GET_ADMINS,
   GET_ADMINS_ACTIONS,
-  GET_BANS,
+  GET_ALL_BANS_BY_PARAMS,
   GET_CHAT_MESSAGES,
   GET_DISCONNECTED_PLAYERS,
   GET_MESSAGES,
+  GET_NOT_ACTIVE_BANS_BY_PARAMS,
   GET_ONLINE_PLAYERS,
+  GET_PERMANENT_BANS_BY_PARAMS,
   GET_PLAYER,
   GET_PLAYER_MESSAGES,
   GET_PLAYER_NOTES,
@@ -105,6 +109,36 @@ export const fetchChatMessages = async (): Promise<
   } catch (e: any) {}
 }
 
+export const fetchAdminActionsWithPlayer = async (
+  playerSteamId: string,
+  activePage: any,
+  pageLimit: any
+) => {
+  try {
+    const response = await axios.post(
+      API_URL + GET_ADMIN_ACTIONS_WITH_PLAYER,
+      {
+        playerSteamId,
+        page: activePage,
+        size: pageLimit,
+      },
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        transformResponse: (data) => {
+          return JSON.parse(data, (key, value) => {
+            if (key === 'createTime') return new Date(Date.parse(value))
+            return value
+          })
+        },
+      }
+    )
+    return response.data
+  } catch (e: any) {}
+}
+
 export const fetchServerInfo = async () => {
   try {
     const response = await axios.get(API_URL + GET_SERVER_INFO, {
@@ -143,6 +177,7 @@ export interface IFetchAdminsLog {
 
 export const fetchAdminsLog = async (
   page: number,
+  pageLimit: number,
   searchAdmin: any,
   searchPlayer: any,
   searchAction: string[],
@@ -158,7 +193,7 @@ export const fetchAdminsLog = async (
       dateFrom: searchDateFrom,
       dateTo: searchDateTo,
       page,
-      size: 80,
+      size: pageLimit,
     },
     {
       withCredentials: true,
@@ -233,12 +268,15 @@ export interface IFetchPlayers {
   hasMore: any
 }
 
-export const fetchPlayers = async (page: number): Promise<IFetchPlayers> => {
+export const fetchPlayers = async (
+  page: number,
+  pageLimit: number
+): Promise<IFetchPlayers> => {
   const response = await axios.post<IFetchPlayers>(
     API_URL + GET_PLAYERS,
     {
       page,
-      size: 40,
+      size: pageLimit,
     },
     {
       withCredentials: true,
@@ -302,6 +340,11 @@ export const fetchPlayerNotes = async (playerSteamId: string) => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        transformResponse: [
+          (data) => {
+            return JSONbig.parse(data)
+          },
+        ],
       }
     )
 
@@ -387,10 +430,7 @@ export const fetchPlayerPunishmentHistory = async (playerSteamId: string) => {
   }
 }
 
-export const deletePlayerNote = async (
-  noteId: number,
-  playerSteamId: string
-) => {
+export const deletePlayerNote = async (noteId: number, playerSteamId: any) => {
   try {
     const response = await axios.post(
       API_URL + DELETE_PLAYER_NOTE,
@@ -682,13 +722,19 @@ export const disbandSquad = async (
   }
 }
 
-export const fetchAllBans = async (page: number, activeBans: boolean) => {
+export const fetchAllBansByParams = async (
+  page: number,
+  pageLimit: number,
+  adminSteamId: any,
+  playerSteamId: any
+) => {
   const response = await axios.post(
-    API_URL + GET_BANS,
+    API_URL + GET_ALL_BANS_BY_PARAMS,
     {
-      showOnlyActiveBans: activeBans,
+      adminSteamId,
+      playerSteamId,
       page,
-      size: 80,
+      size: pageLimit,
     },
     {
       withCredentials: true,
@@ -714,13 +760,133 @@ export const fetchAllBans = async (page: number, activeBans: boolean) => {
   return response.data
 }
 
-export const fetchChatHistory = async (page: number, searchParam: string) => {
+export const fetchAllActiveBansByParams = async (
+  page: number,
+  pageLimit: number,
+  adminSteamId: any,
+  playerSteamId: any
+) => {
+  const response = await axios.post(
+    API_URL + GET_ACTIVE_BANS_BY_PARAMS,
+    {
+      adminSteamId,
+      playerSteamId,
+      page,
+      size: pageLimit,
+    },
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      transformResponse: (data) => {
+        return JSON.parse(data, (key, value) => {
+          const dateStrings = [
+            'creationTime',
+            'expirationTime',
+            'manualUnbannedTime',
+          ]
+
+          if (dateStrings.includes(key) && value !== null) {
+            return new Date(Date.parse(value))
+          }
+          return value
+        })
+      },
+    }
+  )
+  return response.data
+}
+
+export const fetchAllPermanentBansByParams = async (
+  page: number,
+  pageLimit: number,
+  adminSteamId: any,
+  playerSteamId: any
+) => {
+  const response = await axios.post(
+    API_URL + GET_PERMANENT_BANS_BY_PARAMS,
+    {
+      adminSteamId,
+      playerSteamId,
+      page,
+      size: pageLimit,
+    },
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      transformResponse: (data) => {
+        return JSON.parse(data, (key, value) => {
+          const dateStrings = [
+            'creationTime',
+            'expirationTime',
+            'manualUnbannedTime',
+          ]
+
+          if (dateStrings.includes(key) && value !== null) {
+            return new Date(Date.parse(value))
+          }
+          return value
+        })
+      },
+    }
+  )
+  return response.data
+}
+
+export const fetchAllNotActiveBansByParams = async (
+  page: number,
+  pageLimit: number,
+  adminSteamId: any,
+  playerSteamId: any
+) => {
+  const response = await axios.post(
+    API_URL + GET_NOT_ACTIVE_BANS_BY_PARAMS,
+    {
+      adminSteamId,
+      playerSteamId,
+      page,
+      size: pageLimit,
+    },
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      transformResponse: (data) => {
+        return JSON.parse(data, (key, value) => {
+          const dateStrings = [
+            'creationTime',
+            'expirationTime',
+            'manualUnbannedTime',
+          ]
+
+          if (dateStrings.includes(key) && value !== null) {
+            return new Date(Date.parse(value))
+          }
+          return value
+        })
+      },
+    }
+  )
+  return response.data
+}
+
+// export const fetchAddPlayer = async (steamId: any) => {
+
+export const fetchChatHistory = async (
+  page: number,
+  pageLimit: number,
+  searchParam: string
+) => {
   const response = await axios.post(
     API_URL + GET_MESSAGES,
     {
       text: searchParam,
       page,
-      size: 80,
+      size: pageLimit,
     },
     {
       withCredentials: true,
@@ -741,8 +907,6 @@ export const fetchChatHistory = async (page: number, searchParam: string) => {
   )
   return response.data
 }
-
-// export const fetchAddPlayer = async (steamId: any) => {
 //   try {
 //     const response = await axios.post(
 //       API_URL + ADD_PlAYER,

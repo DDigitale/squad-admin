@@ -1,25 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from 'pages/players/Players.module.scss'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchPlayers } from 'api/users'
 import { PlayersTable } from 'pages/players/PlayersTable'
 import { useSearchParams } from 'react-router-dom'
-import { Loader } from 'rsuite'
+import { Loader, Pagination } from 'rsuite'
 
 type pageNumbers = number[]
 
 export function Players() {
   const queryClient = useQueryClient()
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [activePage, setActivePage] = useState(1)
 
-  const page = +(searchParams.get('page') ?? 1)
+  const pageLimit = 30
+
   const {
     data: players,
     isSuccess,
     isError,
-  } = useQuery(['players', page - 1], () => fetchPlayers(page - 1), {
-    keepPreviousData: true,
-  })
+  } = useQuery(
+    ['players', activePage - 1],
+    () => fetchPlayers(activePage - 1, pageLimit),
+    {
+      keepPreviousData: true,
+    }
+  )
 
   // пример использования toast по статусу промиса
   // toast.promise(Promise.all(status), {
@@ -27,50 +32,6 @@ export function Players() {
   //   success: 'Got the data',
   //   error: 'Error when fetching',
   // })
-
-  queryClient.prefetchQuery([players, page], () => fetchPlayers(page))
-
-  const setPage = (page: number) => {
-    setSearchParams({ page: page.toString() })
-  }
-  const nextPage = () => {
-    setPage(page + 1)
-  }
-  const prevPage = () => {
-    const nextPage = page - 1
-    if (nextPage === 1) {
-      searchParams.delete('page')
-      setSearchParams(searchParams)
-    } else {
-      setPage(page - 1)
-    }
-  }
-
-  const generatePageNumbers = (
-    page: number,
-    amount: number
-  ): pageNumbers | undefined => {
-    if (!players?.totalPages) return
-    const arr = []
-    if (players?.totalPages - 2 < amount || page - amount / 2 < 1) {
-      const startPage = 2
-      for (let i = startPage; i < startPage + amount; i++) arr.push(i)
-      return arr
-    }
-    if (page + amount / 2 > players.totalPages) {
-      const startPage = players.totalPages - amount
-      for (let i = startPage; i < players.totalPages; i++) arr.push(i)
-      return arr
-    }
-
-    const startPage = page - 5
-    for (let i = startPage; i < startPage + amount; i++) arr.push(i)
-    return arr
-  }
-  //
-  // if (!isSuccess) {
-  //   return <Spinner />
-  // }
 
   if (!isSuccess) {
     return <Loader size="lg" backdrop content="загрузка..." vertical />
@@ -80,70 +41,26 @@ export function Players() {
     return <h1>Ошибка загрузки игроков</h1>
   }
 
-  const pageNumbers = generatePageNumbers(page, 11)
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.tableWrapper}>
         <PlayersTable content={players.content} />
-        <div className={styles.pagination}>
-          <button
-            className={styles.pageNumberBtn}
-            onClick={prevPage}
-            disabled={!players?.hasPrevious}
-          >
-            -
-          </button>
-          <button className={styles.pageNumberBtn} onClick={() => setPage(1)}>
-            {1}
-          </button>
-          {pageNumbers?.[0] !== 2 && (
-            <button
-              key={'first'}
-              disabled={true}
-              className={styles.pageNumberBtn}
-            >
-              ...
-            </button>
-          )}
-
-          {pageNumbers?.map((pageNumber) => (
-            <button
-              className={styles.pageNumberBtn}
-              key={pageNumber}
-              disabled={pageNumber === page}
-              onClick={() => setPage(pageNumber)}
-            >
-              {pageNumber}
-            </button>
-          ))}
-          {pageNumbers?.[pageNumbers.length - 1] !==
-            players?.totalPages - 1 && (
-            <button
-              key={'last'}
-              disabled={true}
-              className={styles.pageNumberBtn}
-            >
-              ...
-            </button>
-          )}
-          <button
-            className={styles.pageNumberBtn}
-            onClick={() => setPage(players?.totalPages)}
-          >
-            {players?.totalPages}
-          </button>
-          <button
-            className={styles.pageNumberBtn}
-            onClick={nextPage}
-            disabled={!players?.hasNext}
-          >
-            +
-          </button>
-        </div>
-        <div className={styles.counter}>
-          Всего игроков: {players?.totalElements}
-        </div>
+        <Pagination
+          style={{ margin: '0 auto', padding: '0.5rem' }}
+          layout={['pager', '|', 'total']}
+          prev
+          last
+          next
+          first
+          ellipsis
+          maxButtons={10}
+          boundaryLinks
+          size="md"
+          total={players?.totalElements}
+          limit={pageLimit}
+          activePage={activePage}
+          onChangePage={(e: any) => setActivePage(e)}
+        />
       </div>
     </div>
   )

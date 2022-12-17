@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import styles from './Chat.module.scss'
 import { ChatRow } from './ChatRow'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { fetchPlayerMessages } from 'api/users'
 import { Loader, Pagination } from 'rsuite'
 
 interface Props {
-  playerSteamId: string
+  playerSteamId: any
 }
 
 export function Chat({ playerSteamId }: Props) {

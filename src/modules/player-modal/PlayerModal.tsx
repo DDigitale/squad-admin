@@ -12,6 +12,7 @@ import {
 } from 'components/modal'
 import { useQuery } from '@tanstack/react-query'
 import { fetchPlayer } from 'api/users'
+import AdminActions from "components/modal/components/admin-actions/AdminActions";
 
 interface Props {
   playerSteamId: steamId
@@ -63,11 +64,22 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
                 setSelectedTab(3)
               }}
             />
+            <ActionBtn
+                style={{
+                  backgroundColor:
+                      selectedTab === 4 ? 'rgba(51,253,217,0.2)' : null,
+                }}
+                text={'Действия админов'}
+                onClick={() => {
+                  setSelectedTab(4)
+                }}
+            />
           </div>
 
           {selectedTab === 1 && <Punishments playerSteamId={playerSteamId} />}
           {selectedTab === 2 && <Chat playerSteamId={playerSteamId} />}
           {selectedTab === 3 && <Notes playerSteamId={playerSteamId} />}
+          {selectedTab === 4 && <AdminActions playerSteamId={playerSteamId} />}
           <Actions player={player} />
         </Card>
       )}

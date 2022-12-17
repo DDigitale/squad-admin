@@ -12,7 +12,11 @@ const GET_ONLINE_PLAYERS = '/get-online-players'
 const GET_DISCONNECTED_PLAYERS = '/get-disconnected-players'
 const GET_ADMINS = '/get-admins'
 const GET_ADMINS_ACTIONS = '/get-admin-actions-with-params'
-const GET_BANS = '/get-bans'
+const GET_ADMIN_ACTIONS_WITH_PLAYER = '/get-admin-actions-with-player'
+const GET_ALL_BANS_BY_PARAMS = '/get-all-bans-by-params'
+const GET_ACTIVE_BANS_BY_PARAMS = '/get-active-bans-by-params'
+const GET_PERMANENT_BANS_BY_PARAMS = '/get-permanent-bans-by-params'
+const GET_NOT_ACTIVE_BANS_BY_PARAMS = '/get-not-active-bans-by-params'
 const GET_PLAYER = '/get-player'
 const GET_PLAYERS = '/get-players'
 const GET_PLAYER_MESSAGES = '/get-player-messages'
@@ -67,7 +71,11 @@ export {
   GET_DISCONNECTED_PLAYERS,
   GET_ADMINS,
   GET_ADMINS_ACTIONS,
-  GET_BANS,
+  GET_ADMIN_ACTIONS_WITH_PLAYER,
+  GET_ALL_BANS_BY_PARAMS,
+  GET_ACTIVE_BANS_BY_PARAMS,
+  GET_PERMANENT_BANS_BY_PARAMS,
+  GET_NOT_ACTIVE_BANS_BY_PARAMS,
   GET_PLAYER,
   GET_PLAYERS,
   GET_PLAYER_MESSAGES,

@@ -9,7 +9,7 @@ interface Props {
 function BansTable({ content: bans }: Props) {
   return (
     <div className={styles.wrapper}>
-      {bans.map((ban: any) => (
+      {bans?.map((ban: any) => (
         <BansRow key={ban.id} ban={ban} />
       ))}
     </div>

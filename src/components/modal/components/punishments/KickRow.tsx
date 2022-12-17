@@ -6,7 +6,7 @@ interface Props {
 }
 
 export function KickRow({
-  kick: { creationTime, expirationTime, unbannedTime, reason, adminsBySteamId },
+  kick: { creationTime, expirationTime, unbannedTime, reason, admin },
 }: Props) {
   return (
     <div className={styles.row}>
@@ -15,7 +15,7 @@ export function KickRow({
           <span className={styles.creationTime}>
             {creationTime.toLocaleString()}
           </span>
-          <span className={styles.adminName}>{adminsBySteamId.name}</span>
+          <span className={styles.adminName}>{admin.name}</span>
         </div>
       </div>
 

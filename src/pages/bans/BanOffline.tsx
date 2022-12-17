@@ -27,7 +27,6 @@ function BanOffline() {
 
   return (
     <div className={styles.wrapper}>
-      <span>Добавить оффлайн бан</span>
       <input
         className={styles.input}
         type="text"
@@ -42,7 +41,7 @@ function BanOffline() {
         size="sm"
         onClick={() => addPlayerMutation.mutate()}
       >
-        Добавить
+        Добавить в бд
       </IconButton>
       <IconButton
         disabled={!player}
