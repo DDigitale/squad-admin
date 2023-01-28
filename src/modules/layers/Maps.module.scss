@@ -6,3 +6,10 @@
   gap: 0.5rem;
   overflow-y: auto;
 }
+
+@media (max-width: 800px) {
+  .wrapper {
+    height: 60vh;
+    scroll-snap-align: end;
+  }
+}

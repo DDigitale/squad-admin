@@ -1,0 +1,77 @@
+.row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--color-gray1);
+  &:last-child {
+    border: none;
+  }
+}
+
+.info {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 0.3rem;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  height: 1.35rem;
+  color: var(--color-gray3);
+  padding: 0.3rem;
+  background-color: var(--color-gray1);
+  border-radius: 0.3rem;
+}
+
+.actions {
+  all: unset;
+  text-align: center;
+  font-size: 0.85rem;
+  border-radius: 0.3rem;
+  padding: 0 0.5rem;
+  transition: 0.2s;
+  cursor: pointer;
+  background-color: var(--color-gray1);
+  box-shadow: var(--shadow-1);
+  &:hover {
+    background-color: var(--color-gray2);
+    color: var(--color-main);
+  }
+  &:active {
+    transform: translateY(0.2em);
+    box-shadow: 0 0.2em var(--color-dark1);
+  }
+}
+
+.toast {
+  display: flex;
+  flex-direction: column;
+}
+
+
+@media (max-width: 800px) {
+  .row {
+    align-items: unset;
+    width: max-content;
+    margin: unset;
+    padding: 0.3rem;
+  }
+  .avatar {
+    width: 60px;
+    height: 60px;
+  }
+  .info {
+    gap: 0;
+  }
+}

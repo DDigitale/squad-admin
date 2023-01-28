@@ -10,8 +10,6 @@
   overflow-y: auto;
 }
 
-
-
 .title {
   color: var(--color-gray3);
   margin-bottom: 1rem;
@@ -51,4 +49,21 @@
 .name {
   font-size: 1.25rem;
   color: var(--color-gray3);
+}
+
+@media (max-width: 800px) {
+  .wrapper {
+    padding: 0.5rem;
+    scroll-snap-align: end;
+  }
+  .list {
+    gap: 0;
+    padding: 0.3rem;
+    ul {
+      margin: 0;
+    }
+  }
+  .title {
+    margin-bottom: 0.25rem;
+  }
 }

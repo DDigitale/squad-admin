@@ -19,3 +19,23 @@
   grid-column-end: main-end;
   grid-row: 2/-1;
 }
+
+
+@media (max-width: 800px) {
+  .wrapper {
+    all: unset;
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    flex-direction: column;
+    //grid-template-rows:
+    //[main-start main-end] 3fr
+    //[aside-left-start aside-left-end] 3fr
+    //[aside-right-start aside-right-end] 1.25fr;
+  }
+  .main {
+    all: unset;
+    display: grid;
+    grid-row: -1/1;
+  }
+}

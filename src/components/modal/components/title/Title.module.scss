@@ -15,8 +15,8 @@
 
 .avatar {
   margin: 0 1rem;
-  width: 6rem;
-  height: 6rem;
+  width: 7.5rem;
+  height: 7.5rem;
   border-radius: 0.3rem;
   box-shadow: var(--shadow-1);
 }
@@ -79,5 +79,30 @@
   transition: 0.3s;
   &:hover {
     color: var(--color-blue);
+  }
+}
+
+@media (max-width: 800px) {
+  .title {
+    padding: 0.5rem 0;
+  }
+  .avatar {
+    margin: 0 0.5rem;
+    width: 5rem;
+    height: 5rem;
+  }
+  .name {
+    font-size: 1.1rem;
+    & img {
+      display: none;
+    }
+  }
+
+  .link {
+    font-size: 1rem;
+  }
+
+  .info {
+    font-size: 0.85rem;
   }
 }

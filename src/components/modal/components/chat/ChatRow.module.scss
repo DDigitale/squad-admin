@@ -35,3 +35,22 @@
   font-size: 0.85rem;
 }
 
+@media (max-width: 800px) {
+  .row {
+    gap: 0.3rem;
+    padding: 0.25rem;
+    grid-template-columns: 1fr 3fr;
+  }
+  .type {
+    display: none;
+  }
+  .time {
+    white-space: nowrap;
+    padding: 0.2rem;
+    font-size: 0.7rem;
+  }
+  .message {
+    font-size: 0.75rem;
+  }
+}
+

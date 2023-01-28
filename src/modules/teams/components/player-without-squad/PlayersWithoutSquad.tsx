@@ -25,26 +25,24 @@ export function PlayersWithoutSquad({ player }: Props) {
   }, [player.role])
 
   return (
-    <>
-      <div className="pws-wrapper">
-        <div
-          key={player.id}
-          className={styles.item}
-          onClick={() => setPlayerModal(player.steamId)}
-        >
-          <img className={styles.icon} src={`${kitImg}`} alt="kit-icon" />
-          <p className={styles.name}>{player.name}</p>
-          {player.isOnControl && (
-            <RiErrorWarningFill
-              style={{
-                color: '#FD4B4CFF',
-                fontSize: '2rem',
-                marginLeft: 'auto',
-              }}
-            />
-          )}
-        </div>
+    <div className="pws-wrapper">
+      <div
+        key={player.id}
+        className={styles.item}
+        onClick={() => setPlayerModal(player.steamId)}
+      >
+        <img className={styles.icon} src={`${kitImg}`} alt="kit-icon" />
+        <p className={styles.name}>{player.name}</p>
+        {player.isOnControl && (
+          <RiErrorWarningFill
+            style={{
+              color: '#FD4B4CFF',
+              fontSize: '2rem',
+              marginLeft: 'auto',
+            }}
+          />
+        )}
       </div>
-    </>
+    </div>
   )
 }

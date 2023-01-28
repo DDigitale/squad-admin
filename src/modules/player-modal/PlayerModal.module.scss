@@ -46,5 +46,23 @@
   }
 }
 
+@media (max-width: 800px) {
+  .modal {
+    width: 90vw;
+    height: 90vh;
+    gap: 0.5rem;
+  }
+
+  .info {
+    width: 90vw;
+    gap: 0.5rem;
+  }
+
+  .tablesBtn {
+    gap: 0.5rem;
+  }
+
+}
+
 
 

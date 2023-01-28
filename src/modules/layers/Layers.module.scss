@@ -35,3 +35,9 @@
 .select {
   width: 100%;
 }
+
+@media (max-width: 800px) {
+  .wrapper {
+    padding: 0.5rem;
+  }
+}

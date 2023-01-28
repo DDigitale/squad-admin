@@ -16,6 +16,7 @@ export function PlayerRow({ player }: Props) {
   const [playerModal, setPlayerModal] = useContext(
     PlayerModalContext
   ) as PlayerModalContextType
+
   return (
     <div className={styles.row}>
       <span

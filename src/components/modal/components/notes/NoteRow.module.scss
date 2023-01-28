@@ -16,7 +16,7 @@
   color: var(--color-gray3);
   padding: 0.3rem;
   background-color: var(--color-gray1);
-  border-radius: 0.5rem;
+  border-radius: 0.3rem;
 }
 
 .message {
@@ -31,5 +31,37 @@
   transition: 0.3s;
   &:hover {
     color: var(--color-red);
+  }
+}
+
+@media (max-width: 800px) {
+  .row {
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr 3fr;
+    gap: 0.3rem;
+    padding: 0.3rem;
+  }
+  .type {
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+  .time {
+    white-space: nowrap;
+    padding: 0.15rem;
+    font-size: 0.8rem;
+  }
+  .message {
+    font-size: 0.8rem;
+    grid-column-start: 1;
+    grid-column-end: span col4-start;
+    grid-row-start: 2;
+  }
+
+  .name {
+    font-size: 0.9rem;
+  }
+
+  .delete {
+    margin-left: auto;
   }
 }

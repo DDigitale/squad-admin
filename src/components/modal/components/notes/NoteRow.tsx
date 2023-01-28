@@ -22,7 +22,7 @@ export function NoteRow({ note }: Props) {
   return (
     <div className={styles.row}>
       <span className={styles.time}>{time}</span>
-      <span style={{ whiteSpace: 'nowrap' }}>{note.adminName}:</span>
+      <span style={{ whiteSpace: 'nowrap' }}>{note.adminName}</span>
       <span className={styles.message}>{note.note}</span>
       {!note.note.includes('игрока') && (
         <span

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './PlayerModal.module.scss'
 import { steamId } from 'types/players'
 import { Card, Modal } from 'components'
@@ -12,7 +12,7 @@ import {
 } from 'components/modal'
 import { useQuery } from '@tanstack/react-query'
 import { fetchPlayer } from 'api/users'
-import AdminActions from "components/modal/components/admin-actions/AdminActions";
+import AdminActions from 'components/modal/components/admin-actions/AdminActions'
 
 interface Props {
   playerSteamId: steamId
@@ -27,6 +27,10 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
   } = useQuery(['player', playerSteamId, 'get-player'], () =>
     fetchPlayer(playerSteamId)
   )
+
+  useEffect(() => {
+    refetch()
+  }, [player])
 
   const [selectedTab, setSelectedTab] = useState(1)
 
@@ -65,14 +69,14 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
               }}
             />
             <ActionBtn
-                style={{
-                  backgroundColor:
-                      selectedTab === 4 ? 'rgba(51,253,217,0.2)' : null,
-                }}
-                text={'Действия админов'}
-                onClick={() => {
-                  setSelectedTab(4)
-                }}
+              style={{
+                backgroundColor:
+                  selectedTab === 4 ? 'rgba(51,253,217,0.2)' : null,
+              }}
+              text={'Действия админов'}
+              onClick={() => {
+                setSelectedTab(4)
+              }}
             />
           </div>
 

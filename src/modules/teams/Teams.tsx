@@ -10,12 +10,10 @@ interface Props {
 
 export function Teams({ teams }: Props) {
   return (
-    <>
-      <div className={styles.wrapper}>
-        {teams?.map((team) => (
-          <TeamItem key={team.id} team={team} />
-        ))}
-      </div>
-    </>
+    <div className={styles.wrapper}>
+      {teams?.map((team) => (
+        <TeamItem key={team.id} team={team} />
+      ))}
+    </div>
   )
 }

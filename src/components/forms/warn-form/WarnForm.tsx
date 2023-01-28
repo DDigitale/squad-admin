@@ -65,11 +65,15 @@ export function WarnForm({ steamId, name }: Props) {
   }
 
   const handleMutate = () => {
-    warnPlayerMutation.mutate()
-    const interval = setInterval(() => warnPlayerMutation.mutate(), 10000)
-    setTimeout(function () {
-      clearInterval(interval)
-    }, 20000)
+    if (warnReason === '') {
+      alert('Выберите или введите сообщение!')
+    } else {
+      warnPlayerMutation.mutate()
+      const interval = setInterval(() => warnPlayerMutation.mutate(), 10000)
+      setTimeout(function () {
+        clearInterval(interval)
+      }, 20000)
+    }
   }
 
   return (

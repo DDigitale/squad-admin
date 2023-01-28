@@ -24,7 +24,15 @@ function BansRow({ ban }: Props) {
       </span>
       <span className={styles.reason}>{ban.reason}</span>
       {ban.manualUnbannedTime ? (
-        <span className={styles.time}>
+        <span
+          className={styles.time}
+          style={{
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+          title={ban.unbannedManualBy.adminName}
+        >
           {`${ban.manualUnbannedTime.toLocaleString()} ${
             ban.unbannedManualBy.adminName
           }`}
@@ -32,11 +40,22 @@ function BansRow({ ban }: Props) {
       ) : (
         <span className={styles.expirationTime}>
           {banExpired
-            ? `${ban.expirationTime === null ? 'Перманентный бан' : 'Бан истёк'}`
+            ? `${
+                ban.expirationTime === null ? 'Перманентный бан' : 'Бан истёк'
+              }`
             : `До ${ban.expirationTime.toLocaleString()}`}
         </span>
       )}
-      <span>{ban.bannedBy.adminName}</span>
+      <span
+        style={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }}
+        title={ban.bannedBy.adminName}
+      >
+        {ban.bannedBy.adminName}
+      </span>
     </div>
   )
 }

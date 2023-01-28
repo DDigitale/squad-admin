@@ -11,8 +11,6 @@
   }
 }
 
-
-
 .action {
   font-size: 0.85rem;
   line-height: 1rem;
@@ -37,7 +35,54 @@
   }
 }
 
+.admin {
+
+}
+
 .reason {
   font-size: 0.85rem;
   line-height: 1rem;
+}
+
+@media (max-width: 800px) {
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    padding: 0.3rem;
+    gap: 0.2rem;
+    width: 100%;
+  }
+
+  .name {
+    margin-right: auto;
+    font-size: 0.85rem;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 0;
+  }
+
+  .reason {
+    font-size: 0.85rem;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 0;
+  }
+
+  .action {
+    font-size: 0.8rem;
+    margin-left: auto;
+  }
+
+  .admin {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .time {
+    font-size: 0.75rem;
+    padding: 0.2rem;
+  }
+
 }

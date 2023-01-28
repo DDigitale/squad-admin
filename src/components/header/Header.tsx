@@ -87,8 +87,8 @@ function Header() {
       </div>
       <div className={styles.logout}>
         <div
+          className={styles.switch}
           style={{
-            display: 'flex',
             alignItems: 'center',
             gap: '0.3rem',
             backgroundColor: 'black',
@@ -127,6 +127,7 @@ function Header() {
           </button>
         </div>
         <VscServer
+          className={styles.backend}
           style={{
             marginRight: '1rem',
             fontSize: '2rem',
@@ -136,7 +137,7 @@ function Header() {
           onClick={() =>
             toast(
               (t) => (
-                <div className={styles.backend}>
+                <div className={styles.backendToast}>
                   <BackendStatusItem backendInfo={backend.FtpBanService}>
                     FtpBanService
                   </BackendStatusItem>

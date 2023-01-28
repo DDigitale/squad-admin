@@ -18,12 +18,14 @@ export function TeamChangeForm({ steamId, name }: Props) {
     }
   )
 
+  const handleClick = () => {
+    confirm(`Вы уверены что хотите сменить команду игроку ${name}`) &&
+      teamChangeMutation.mutate()
+  }
+
   return (
     <div className={styles.wrapper}>
-      <button
-        className={styles.button}
-        onClick={() => teamChangeMutation.mutate()}
-      >
+      <button className={styles.button} onClick={handleClick}>
         СМЕНИТЬ КОМАНДУ ИГРОКУ <br />
         {name}
       </button>

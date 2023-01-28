@@ -34,3 +34,19 @@
 .since {
   color: var(--color-gray2);
 }
+
+@media (max-width: 800px) {
+  .wrapper {
+    padding: 0.5rem;
+    scroll-snap-align: end;
+  }
+
+  .item {
+    padding: 0;
+  }
+
+  .title {
+    margin-bottom: 0.5rem;
+  }
+
+}

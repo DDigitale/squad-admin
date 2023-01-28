@@ -18,41 +18,53 @@ export function Actions({ player }: Props) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.actionBtns}>
-        <ActionBtn
-          style={{
-            backgroundColor: selectedTab === 1 ? 'rgba(51,253,217,0.2)' : null,
-          }}
-          text={'Забанить'}
-          onClick={() => setSelectedTab(1)}
-        />
-        <ActionBtn
-          style={{
-            backgroundColor: selectedTab === 2 ? 'rgba(51,253,217,0.2)' : null,
-          }}
-          text={'Кикнуть'}
-          onClick={() => setSelectedTab(2)}
-        />
-        <ActionBtn
-          style={{
-            backgroundColor: selectedTab === 3 ? 'rgba(51,253,217,0.2)' : null,
-          }}
-          text={'Сообщение'}
-          onClick={() => setSelectedTab(3)}
-        />
-        <ActionBtn
-          style={{
-            backgroundColor: selectedTab === 4 ? 'rgba(51,253,217,0.2)' : null,
-          }}
-          text={'Сменить команду'}
-          onClick={() => setSelectedTab(4)}
-        />
-        <ActionBtn
-          style={{
-            backgroundColor: selectedTab === 5 ? 'rgba(51,253,217,0.2)' : null,
-          }}
-          text={'Выгнать из отряда'}
-          onClick={() => setSelectedTab(5)}
-        />
+        {player.numOfActiveBans > 0 ? null : (
+          <ActionBtn
+            style={{
+              backgroundColor:
+                selectedTab === 1 ? 'rgba(51,253,217,0.2)' : null,
+            }}
+            text={'Забанить'}
+            onClick={() => setSelectedTab(1)}
+          />
+        )}
+        {player.isOnline ? (
+          <>
+            <ActionBtn
+              style={{
+                backgroundColor:
+                  selectedTab === 2 ? 'rgba(51,253,217,0.2)' : null,
+              }}
+              text={'Кикнуть'}
+              onClick={() => setSelectedTab(2)}
+            />
+
+            <ActionBtn
+              style={{
+                backgroundColor:
+                  selectedTab === 3 ? 'rgba(51,253,217,0.2)' : null,
+              }}
+              text={'Сообщение'}
+              onClick={() => setSelectedTab(3)}
+            />
+            <ActionBtn
+              style={{
+                backgroundColor:
+                  selectedTab === 4 ? 'rgba(51,253,217,0.2)' : null,
+              }}
+              text={'Сменить команду'}
+              onClick={() => setSelectedTab(4)}
+            />
+            <ActionBtn
+              style={{
+                backgroundColor:
+                  selectedTab === 5 ? 'rgba(51,253,217,0.2)' : null,
+              }}
+              text={'Выгнать из отряда'}
+              onClick={() => setSelectedTab(5)}
+            />
+          </>
+        ) : null}
         <ActionBtn
           style={{
             backgroundColor: selectedTab === 6 ? 'rgba(51,253,217,0.2)' : null,
@@ -62,7 +74,7 @@ export function Actions({ player }: Props) {
         />
       </div>
       <div className={styles.actionForms}>
-        {selectedTab === 1 && (
+        {selectedTab === 1 && player.numOfActiveBans === 0 && (
           <BanForm steamId={player.steamId} name={player.name} />
         )}
         {selectedTab === 2 && (

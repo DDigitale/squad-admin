@@ -79,25 +79,40 @@
   border-radius: 0.5rem;
 }
 
-.pageNumberBtn {
-  all: unset;
-  width: 3em;
-  text-align: center;
-  background-color: transparent;
-  padding: 0.75rem;
-  border-right: 1px solid var(--color-gray1);
-  &:last-child {
-    border: none;
-  }
-  &:not(:disabled):hover {
-    background-color: var(--color-gray1);
-  }
-  &:disabled {
-    color: rgba(255, 255, 255,0.5);
-  }
-}
+//.pageNumberBtn {
+//  all: unset;
+//  width: 3em;
+//  text-align: center;
+//  background-color: transparent;
+//  padding: 0.75rem;
+//  border-right: 1px solid var(--color-gray1);
+//  &:last-child {
+//    border: none;
+//  }
+//  &:not(:disabled):hover {
+//    background-color: var(--color-gray1);
+//  }
+//  &:disabled {
+//    color: rgba(255, 255, 255,0.5);
+//  }
+//}
 
 .counter {
   display: flex;
   justify-content: center;
+}
+
+@media (max-width: 800px) {
+  .wrapper {
+    width: 95vw;
+  }
+
+  .tableWrapper {
+    gap: 0.5rem
+  }
+
+  .pagination {
+    max-width: 100%;
+    padding: 0;
+  }
 }

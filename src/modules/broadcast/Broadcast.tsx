@@ -32,6 +32,8 @@ export function Broadcast() {
     setBroadcastMessage(selectedOption.value)
   }
 
+  console.log(broadcastMessage)
+
   return (
     <div className={styles.wrapper}>
       <CreatableSelect
@@ -41,9 +43,9 @@ export function Broadcast() {
         onChange={handleChange}
         styles={customSelectorStyles}
         placeholder={'Выберите или введите сообщение'}
-        // isClearable
       />
       <button
+        disabled={broadcastMessage === ''}
         className={styles.button}
         onClick={() => broadcastMutation.mutate()}
       >

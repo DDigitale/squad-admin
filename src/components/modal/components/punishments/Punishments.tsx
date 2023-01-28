@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from 'components/modal/components/punishments/Punishments.module.scss'
 import { BanRow } from './BanRow'
-import { useQuery } from '@tanstack/react-query'
+import { QueryClient, useQuery } from '@tanstack/react-query'
 import { fetchPlayerPunishmentHistory } from 'api/users'
 import { Ban } from 'types/players'
 import { KickRow } from 'components/modal/components/punishments/KickRow'
@@ -12,12 +12,18 @@ interface Props {
 }
 
 export function Punishments({ playerSteamId }: Props) {
+  const queryClient = new QueryClient()
+
   const {
     data: punishments,
     isSuccess,
     isLoading,
-  } = useQuery(['players', playerSteamId, 'punishment'], () =>
-    fetchPlayerPunishmentHistory(playerSteamId)
+  } = useQuery(
+    ['players', playerSteamId, 'punishment'],
+    () => fetchPlayerPunishmentHistory(playerSteamId),
+    {
+      onSuccess: () => queryClient.invalidateQueries(['players']),
+    }
   )
 
   return (

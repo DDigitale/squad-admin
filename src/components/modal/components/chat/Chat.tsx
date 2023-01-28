@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styles from './Chat.module.scss'
 import { ChatRow } from './ChatRow'
-import { useQuery } from '@tanstack/react-query'
+import { QueryClient, useQuery } from '@tanstack/react-query'
 import { fetchPlayerMessages } from 'api/users'
 import { Loader, Pagination } from 'rsuite'
 
@@ -10,6 +10,7 @@ interface Props {
 }
 
 export function Chat({ playerSteamId }: Props) {
+  const queryClient = new QueryClient()
   const [activePage, setActivePage] = useState(1)
   const [pageLimit, setPageLimit] = useState(30)
 

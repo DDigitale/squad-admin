@@ -24,7 +24,20 @@
   cursor: pointer;
   font-size: 1.5rem;
   transition: 0.3s;
+
   &:hover {
     color: var(--color-gray3);
   }
+}
+
+@media (max-width: 800px) {
+  .wrapper {
+    background-color: #62862a;
+    gap: 0.5rem;
+    overflow-x: scroll;
+  }
+  .link {
+    font-size: 1rem;
+  }
+
 }

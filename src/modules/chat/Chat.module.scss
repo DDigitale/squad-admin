@@ -30,3 +30,18 @@
     border: none;
   }
 }
+
+.icon {
+  width: 2.5rem;
+  opacity: 0.9;
+}
+
+@media (max-width: 800px) {
+  .wrapper {
+    max-height: 70vh;
+  }
+  .chatCard {
+    padding: 0.5rem;
+    scroll-snap-align: start;
+  }
+}

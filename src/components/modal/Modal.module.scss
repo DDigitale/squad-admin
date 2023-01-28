@@ -37,6 +37,14 @@
   z-index: 6;
 }
 
+@media (max-width: 800px) {
+  .modal {
+    width: 90vw;
+    height: 90vh;
+    gap: 0.5rem;
+  }
+}
+
 
 
 

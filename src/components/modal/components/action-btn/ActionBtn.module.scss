@@ -17,3 +17,11 @@
     box-shadow: 0 0.2em var(--color-dark1);
   }
 }
+
+@media (max-width: 800px) {
+  .actionBtn {
+    height: 2rem;
+    padding: 0.2rem;
+    font-size: 0.8rem;
+  }
+}

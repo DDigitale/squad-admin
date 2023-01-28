@@ -215,7 +215,7 @@ export const fetchAdmins = async () => {
     API_URL + GET_ADMINS,
     {
       page: 1,
-      size: 30,
+      size: 99,
     },
     {
       withCredentials: true,

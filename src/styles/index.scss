@@ -58,6 +58,13 @@ body {
   overflow-y: hidden;
 }
 
+@media (max-width: 800px) {
+  body {
+    overflow-y: scroll;
+    scroll-snap-type: y proximity;
+    scroll-behavior: smooth;
+  }
+}
 
 
 

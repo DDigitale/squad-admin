@@ -38,3 +38,9 @@
     box-shadow: 0 0.2em var(--color-dark1);
   }
 }
+
+@media (max-width: 800px) {
+  .wrapper {
+    gap: 0.5rem;
+  }
+}

@@ -1,13 +1,15 @@
-import React, { forwardRef, useContext, useState } from 'react'
+import React, { forwardRef, useContext, useEffect, useState } from 'react'
 import styles from './ChatRow.module.scss'
 import { BiMessageSquareError } from 'react-icons/bi'
-import { VscCheck } from 'react-icons/vsc'
-import { VscChromeClose } from 'react-icons/vsc'
 import { ChatMessage } from 'types/players'
 import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 import toast from 'react-hot-toast'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { warnPlayer } from 'api/users'
+import { IconButton } from 'rsuite'
+import CheckIcon from '@rsuite/icons/Check'
+import CloseIcon from '@rsuite/icons/Close'
+import { Toaster, resolveValue } from 'react-hot-toast'
 
 interface Props {
   message: ChatMessage
@@ -24,11 +26,8 @@ export const ChatRow = forwardRef<HTMLDivElement, Props>(function ChatRow(
 
   const [warnReason, setWarnReason] = useState('')
 
-  const warnPlayerMutation = useMutation(
-    () => warnPlayer(message.steamId, warnReason, message.playerName),
-    {
-      onSuccess: () => queryClient.invalidateQueries(['players']),
-    }
+  const warnPlayerMutation = useMutation(() =>
+    warnPlayer(message.steamId, warnReason, message.playerName)
   )
 
   const rowColor = () => {
@@ -40,6 +39,44 @@ export const ChatRow = forwardRef<HTMLDivElement, Props>(function ChatRow(
 
   const handleWarn = (e: any) => {
     setWarnReason(e.target.value)
+  }
+
+  const handleClick = () => {
+    warnPlayerMutation.mutate()
+  }
+
+  const handleToast = () => {
+    toast(
+      (t) => (
+        <div className={styles.toast}>
+          <span>Сообщение игроку {message.playerName}</span>
+          <div className={styles.inputWrapper}>
+            <input
+              type="text"
+              placeholder="Введите сообщение..."
+              maxLength={100}
+              onChange={handleWarn}
+            />
+            <IconButton
+              className={styles.sendIcon}
+              onClick={handleClick}
+              icon={<CheckIcon />}
+            />
+            <IconButton
+              className={styles.closeIcon}
+              onClick={() => toast.dismiss()}
+              icon={<CloseIcon />}
+            />
+          </div>
+        </div>
+      ),
+      {
+        position: 'top-center',
+        style: {
+          minWidth: '30rem',
+        },
+      }
+    )
   }
 
   return (
@@ -58,39 +95,9 @@ export const ChatRow = forwardRef<HTMLDivElement, Props>(function ChatRow(
       <span className={styles.message}>
         <BiMessageSquareError
           className={styles.warn}
-          onClick={() =>
-            toast(
-              (t) => (
-                <div className={styles.toast}>
-                  <span>Сообщение игроку {message.playerName}</span>
-                  <div className={styles.inputWrapper}>
-                    <input
-                      type="text"
-                      placeholder="Введите сообщение..."
-                      maxLength={100}
-                      onChange={handleWarn}
-                      defaultValue={warnReason}
-                    />
-                    <VscCheck
-                      className={styles.sendIcon}
-                      onClick={() => warnPlayerMutation.mutate()}
-                    />
-                    <VscChromeClose
-                      className={styles.closeIcon}
-                      onClick={() => toast.dismiss()}
-                    />
-                  </div>
-                </div>
-              ),
-              {
-                position: 'top-center',
-                style: {
-                  minWidth: '30rem',
-                },
-              }
-            )
-          }
-        />{' '}
+          onClick={handleToast}
+          style={{ marginRight: '0.3rem' }}
+        />
         {message.message}
       </span>
     </div>

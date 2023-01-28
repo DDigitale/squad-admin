@@ -40,3 +40,20 @@
   font-weight: bold;
   text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5), 3px 2px 2px rgba(206,89,55,0);
 }
+
+
+@media (max-width: 800px) {
+  .wrapper {
+    padding: 0.5rem;
+    scroll-snap-align: start;
+  }
+ .item {
+   font-size: 0.9rem;
+   text-align: center;
+   justify-content: space-between;
+ }
+  .text:nth-child(2) {
+    text-align: center;
+    font-size: 1rem;
+  }
+}

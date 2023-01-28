@@ -25,3 +25,9 @@
     font-weight: 700;
   }
 }
+
+@media (max-width: 800px) {
+  .input {
+    font-size: 0.85rem;
+  }
+}

@@ -108,8 +108,6 @@ function Bans() {
     }
   )
 
-  console.log(selectedRadio)
-
   useEffect(() => {
     selectedRadio === 'A' && allBans()
     selectedRadio === 'B' && allActiveBans()

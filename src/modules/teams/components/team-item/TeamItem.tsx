@@ -59,22 +59,23 @@ export function TeamItem({ team }: Props) {
   }
 
   return (
-    <>
-      <div className={styles.teamWrapper}>
-        <div className={styles.flagWrapper}>
-          <div className={styles.flagContent}>
-            <img src={flagImg!} alt="" />
-            <p className={styles.generatedName}>{team1}</p>
-          </div>
+    <div className={styles.teamWrapper}>
+      <div className={styles.flagWrapper}>
+        <div className={styles.flagContent}>
+          <img src={flagImg!} alt="" />
+          <p className={styles.generatedName}>{team1}</p>
         </div>
-        {team.squads.map((squad) => (
-          <SquadItem key={squad.id} squad={squad} />
-        ))}
-        <div className={styles.title}>Игроки без отряда</div>
-        {team.playersWithoutSquad.map((player) => (
-          <PlayersWithoutSquad key={player.id} player={player} />
-        ))}
       </div>
-    </>
+      {team.squads.map((squad) => (
+        <SquadItem key={squad.id} squad={squad} />
+      ))}
+      {team.playersWithoutSquad.length === 0 ? null : (
+        <div className={styles.title}>Игроки без отряда</div>
+      )}
+
+      {team.playersWithoutSquad.map((player) => (
+        <PlayersWithoutSquad key={player.id} player={player} />
+      ))}
+    </div>
   )
 }

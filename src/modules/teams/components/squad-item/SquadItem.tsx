@@ -1,7 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styles from './SquadItem.module.scss'
 import { BiMessageSquareError } from 'react-icons/bi'
-import { VscCheck, VscChromeClose, VscLock, VscUnlock } from 'react-icons/vsc'
+import CheckIcon from '@rsuite/icons/Check'
+import CloseIcon from '@rsuite/icons/Close'
+import { VscLock, VscUnlock } from 'react-icons/vsc'
 import { Squad } from 'types/players'
 import { PlayerItem } from '../player-item'
 import { DisbandSquadBtn } from '../disband-squad-btn'
@@ -12,7 +14,7 @@ import toast from 'react-hot-toast'
 import { customSelectorStyles } from 'components/forms/SelectorStyles'
 import CreatableSelect from 'react-select/creatable'
 import { fetchGetRules } from 'api/admins'
-import { Popover, Whisper } from 'rsuite'
+import { IconButton, Popover, Whisper } from 'rsuite'
 
 interface Props {
   squad: Squad
@@ -95,6 +97,42 @@ export function SquadItem({ squad }: Props) {
     }, 20000)
   }
 
+  const handleToast = () => {
+    toast(
+      (t) => (
+        <div className={styles.toast}>
+          <span>Сообщение отряду {squad.name}</span>
+          <div className={styles.inputWrapper}>
+            <CreatableSelect
+              options={groupedOptions}
+              onChange={handleChange}
+              styles={customSelectorStyles}
+              placeholder={'Выберите или введите сообщение'}
+              menuPlacement={'auto'}
+              className={styles.selector}
+            />
+            <IconButton
+              className={styles.sendIcon}
+              onClick={handleMutate}
+              icon={<CheckIcon />}
+            />
+            <IconButton
+              className={styles.closeIcon}
+              onClick={() => toast.dismiss(t.id)}
+              icon={<CloseIcon />}
+            />
+          </div>
+        </div>
+      ),
+      {
+        position: 'top-center',
+        style: {
+          minWidth: '30rem',
+        },
+      }
+    )
+  }
+
   return (
     <>
       <div className={styles.wrapper}>
@@ -143,39 +181,7 @@ export function SquadItem({ squad }: Props) {
           </div>
           <BiMessageSquareError
             className={styles.warnIcon}
-            onClick={() =>
-              toast(
-                (t) => (
-                  <div className={styles.toast}>
-                    <span>Сообщение отряду {squad.name}</span>
-                    <div className={styles.inputWrapper}>
-                      <CreatableSelect
-                        options={groupedOptions}
-                        onChange={handleChange}
-                        styles={customSelectorStyles}
-                        placeholder={'Выберите или введите сообщение'}
-                        menuPlacement={'top'}
-                        className={styles.selector}
-                      />
-                      <VscCheck
-                        className={styles.sendIcon}
-                        onClick={handleMutate}
-                      />
-                      <VscChromeClose
-                        className={styles.closeIcon}
-                        onClick={() => toast.dismiss(t.id)}
-                      />
-                    </div>
-                  </div>
-                ),
-                {
-                  position: 'top-center',
-                  style: {
-                    minWidth: '30rem',
-                  },
-                }
-              )
-            }
+            onClick={handleToast}
           />
           <span className={styles.disbandIcon}>
             <DisbandSquadBtn

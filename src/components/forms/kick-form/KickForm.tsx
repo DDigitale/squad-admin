@@ -18,7 +18,7 @@ export function KickForm({ steamId, name }: Props) {
   const kickPlayerMutation = useMutation(
     () => kickPlayer(steamId, kickReason, name),
     {
-      onSuccess: () => queryClient.invalidateQueries(['players']),
+      onSuccess: () => queryClient.invalidateQueries(),
     }
   )
 
@@ -64,6 +64,15 @@ export function KickForm({ steamId, name }: Props) {
     setKickReason(selectedOption.value)
   }
 
+  const handleClick = () => {
+    if (kickReason === '') {
+      alert('Выберите причину кика!')
+    } else {
+      console.log('kicked')
+      kickPlayerMutation.mutate()
+    }
+  }
+
   return (
     <div className={styles.wrapper}>
       <Select
@@ -72,12 +81,10 @@ export function KickForm({ steamId, name }: Props) {
         styles={customSelectorStyles}
         placeholder={'Выберите причину'}
         menuPlacement={'top'}
+        isSearchable={false}
       />
       <div className={styles.container}>
-        <button
-          className={styles.button}
-          onClick={() => kickPlayerMutation.mutate()}
-        >
+        <button className={styles.button} onClick={handleClick}>
           КИКНУТЬ
         </button>
       </div>

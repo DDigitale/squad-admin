@@ -21,51 +21,45 @@ export function BanRow({
 }: Props) {
   const queryClient = useQueryClient()
   const unbanPlayerMutation = useMutation(() => unbanPlayer(id), {
-    onSuccess: () => queryClient.invalidateQueries(['players']),
+    onSuccess: () => queryClient.invalidateQueries(),
   })
 
   const banExpired = expirationTime < new Date() || isUnbannedManually
 
   return (
     <div className={styles.row}>
-      <div className={styles.up}>
-        <div>
-          <span className={styles.creationTime}>
-            {creationTime.toLocaleString('ru-RU')}
-          </span>
-          <span className={styles.adminName}>{admin.name}</span>
-        </div>
-        {unbannedTime ? (
-          <span className={styles.unbannedTime}>
-            Разбанен {unbannedTime.toLocaleString()}
-          </span>
-        ) : (
-          <span className={styles.expirationTime}>
-            {banExpired
-              ? `${unbannedTime === null ? 'Перманентный бан' : 'Бан истёк'}`
-              : `До ${expirationTime.toLocaleString()}`}
-          </span>
-        )}
-      </div>
-      <div className={styles.down}>
-        <span className={styles.reason}>Бан: {reason.split('До 20')[0]}</span>
-        {!banExpired && (
-          <button
-            className={styles.unbanBtn}
-            onClick={() => unbanPlayerMutation.mutate()}
-          >
-            Разбанить
-          </button>
-        )}
-        {expirationTime === null && unbannedTime === null && (
-          <button
-            className={styles.unbanBtn}
-            onClick={() => unbanPlayerMutation.mutate()}
-          >
-            Разбанить
-          </button>
-        )}
-      </div>
+      <span className={styles.creationTime}>
+        {creationTime.toLocaleString('ru-RU')}
+      </span>
+      <span className={styles.adminName}>{admin.name}</span>
+      {unbannedTime ? (
+        <span className={styles.unbannedTime}>
+          {unbannedTime.toLocaleString()}
+        </span>
+      ) : (
+        <span className={styles.expirationTime}>
+          {banExpired
+            ? `${unbannedTime === null ? 'Перманентный бан' : 'Бан истёк'}`
+            : `${expirationTime.toLocaleString()}`}
+        </span>
+      )}
+      <span className={styles.reason}>Бан: {reason.split('До 20')[0]}</span>
+      {!banExpired && (
+        <button
+          className={styles.unbanBtn}
+          onClick={() => unbanPlayerMutation.mutate()}
+        >
+          Разбанить
+        </button>
+      )}
+      {expirationTime === null && unbannedTime === null && (
+        <button
+          className={styles.unbanBtn}
+          onClick={() => unbanPlayerMutation.mutate()}
+        >
+          Разбанить
+        </button>
+      )}
     </div>
   )
 }

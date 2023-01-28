@@ -8,3 +8,9 @@
   margin: auto;
   overflow: hidden;
 }
+
+@media (max-width: 800px) {
+  .layout {
+    all: unset;
+  }
+}

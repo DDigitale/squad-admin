@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './BanForm.module.scss'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { banPlayer } from 'api/users'
@@ -6,6 +6,7 @@ import Select from 'react-select'
 import { customSelectorStyles } from 'components/forms/SelectorStyles'
 import { fetchGetRules } from 'api/admins'
 import { banLengthOptions } from 'api/local/options'
+import { Button } from 'rsuite'
 
 interface Props {
   steamId: string
@@ -14,7 +15,7 @@ interface Props {
 
 export function BanForm({ steamId, name }: Props) {
   const queryClient = useQueryClient()
-
+  const [disabled, setDisabled] = useState(true)
   const [banReason, setBanReason] = useState('')
   const [banLength, setBanLength] = useState('')
   const [banLengthInTimeStamp, setBanLengthInTimeStamp] = useState('')
@@ -22,7 +23,7 @@ export function BanForm({ steamId, name }: Props) {
   const banPlayerMutation = useMutation(
     () => banPlayer(steamId, banLength, banLengthInTimeStamp, banReason, name),
     {
-      onSuccess: () => queryClient.invalidateQueries(['players']),
+      onSuccess: () => queryClient.invalidateQueries(),
     }
   )
 
@@ -73,6 +74,16 @@ export function BanForm({ steamId, name }: Props) {
     setBanLengthInTimeStamp(selectedOption.value.banLengthInTimeStamp)
   }
 
+  const handleClick = () => {
+    if (banReason === '') {
+      alert('Выберите причину бана!')
+    } else if (banLength === '') {
+      alert('Выберите срок бана!')
+    } else {
+      banPlayerMutation.mutate()
+    }
+  }
+
   return (
     <div className={styles.wrapper}>
       <div>
@@ -82,6 +93,7 @@ export function BanForm({ steamId, name }: Props) {
           onChange={handleChangeReason}
           placeholder={'Выберите причину'}
           menuPlacement={'top'}
+          isSearchable={false}
         />
       </div>
       <div className={styles.container}>
@@ -92,11 +104,9 @@ export function BanForm({ steamId, name }: Props) {
           onChange={handleChangeLength}
           placeholder={'Выберите срок'}
           menuPlacement={'top'}
+          isSearchable={false}
         />
-        <button
-          className={styles.button}
-          onClick={() => banPlayerMutation.mutate()}
-        >
+        <button className={styles.button} onClick={handleClick}>
           ЗАБАНИТЬ
         </button>
       </div>

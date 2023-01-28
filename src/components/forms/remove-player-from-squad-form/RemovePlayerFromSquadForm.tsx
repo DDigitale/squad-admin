@@ -18,12 +18,14 @@ export function RemovePlayerFromSquadForm({ steamId, name }: Props) {
     }
   )
 
+  const handleClick = () => {
+    confirm(`Вы уверены что хотите выгнать из отряда игрока ${name}`) &&
+      removePlayerFromSquadMutation.mutate()
+  }
+
   return (
     <div className={styles.wrapper}>
-      <button
-        className={styles.button}
-        onClick={() => removePlayerFromSquadMutation.mutate()}
-      >
+      <button className={styles.button} onClick={handleClick}>
         ИСКЛЮЧИТЬ ИЗ ОТРЯДА ИГРОКА <br />
         {name}
       </button>
