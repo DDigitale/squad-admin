@@ -8,6 +8,7 @@ import {
   GET_ALL_ROLE_GROUPS,
   GET_ALL_ROLES,
   GET_BACKEND_STATUS,
+  GET_ME,
   GET_MY_ROLE_GROUP,
   GET_ROLE,
   GET_ROLE_GROUP,
@@ -273,6 +274,20 @@ export const fetchSetRoleGroupToAdmin = async (
       }
     )
     successToast(`Роль изменена`)
+    return response.data
+  } catch (e: any) {
+    errorToast(`Не удалось получить список опций: ${e.message}`)
+  }
+}
+
+export const fetchGetMe = async () => {
+  try {
+    const response = await axios.get(API_URL + GET_ME, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
     return response.data
   } catch (e: any) {
     errorToast(`Не удалось получить список опций: ${e.message}`)

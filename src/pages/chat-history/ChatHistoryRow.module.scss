@@ -1,6 +1,6 @@
 .row {
   display: grid;
-  grid-template-columns: 9rem 5rem 10rem auto;
+  grid-template-columns: 9rem 5rem 10rem auto 2rem;
   align-items: center;
   padding: 0.5rem;
   gap: 0.5rem;
@@ -13,6 +13,15 @@
 }
 
 .time {
+  font-size: 0.85rem;
+  color: var(--color-gray3);
+  padding: 0.3rem;
+  background-color: var(--color-gray1);
+  border-radius: 0.3rem;
+  text-align: center;
+}
+
+.chatType {
   font-size: 0.85rem;
   color: var(--color-gray3);
   padding: 0.3rem;
@@ -38,4 +47,58 @@
   white-space: normal;
   font-size: 0.85rem;
   line-height: 1rem;
+}
+
+.server {
+  color: var(--color-gray3)
+}
+
+@media (max-width: 800px) {
+  .row {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    grid-template-rows: auto auto auto;
+    padding: 0.3rem;
+    gap: 0.2rem;
+    width: 100%;
+  }
+
+  .time {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    font-size: 0.75rem;
+    padding: 0.2rem;
+  }
+
+  .name {
+    grid-column-start:2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    margin-right: auto;
+    font-size: 0.85rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .chatType {
+    grid-column-start:3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    font-size: 0.75rem;
+    padding: 0.2rem;
+  }
+
+  .server {
+    grid-column-start:4;
+    grid-column-end: 5;
+    grid-row-start: 1;
+  }
+
+  .reason {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    font-size: 0.85rem;
+  }
 }

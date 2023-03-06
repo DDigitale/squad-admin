@@ -3,6 +3,7 @@ import {
   ADD_PlAYER,
   ADD_PLAYER_ON_CONTROL,
   API_URL,
+  API_URL_WITHOUT_PORT,
   AUTH,
   BAN_PLAYER,
   DELETE_PLAYER_NOTE,
@@ -147,6 +148,21 @@ export const fetchServerInfo = async () => {
         'Content-Type': 'application/json',
       },
     })
+    return response.data
+  } catch (e: any) {}
+}
+
+export const fetchServerInfoWithPort = async (port: any) => {
+  try {
+    const response = await axios.get(
+      API_URL_WITHOUT_PORT + port + GET_SERVER_INFO,
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
     return response.data
   } catch (e: any) {}
 }

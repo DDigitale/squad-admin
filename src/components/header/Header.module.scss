@@ -19,7 +19,7 @@
 .input {
   all: unset;
   width: 100%;
-  height: 2.5rem;
+  height: 36px;
   background-color: var(--color-gray1);
   border-radius: 0.3rem;
   color: var(--color-main2);
@@ -29,6 +29,7 @@
   -moz-user-select: initial;
   -ms-user-select: initial;
   user-select: initial;
+
   &::placeholder {
     color: rgba(253, 253, 254, 0.65);
   }
@@ -62,6 +63,7 @@
   cursor: pointer;
   display: flex;
   padding: 0.6rem;
+
   &:hover {
     color: var(--color-orange);
     background-color: var(--color-gray2);
@@ -81,18 +83,17 @@
 
 @media (max-width: 800px) {
   .wrapper {
-    scroll-snap-align: start;
+    //scroll-snap-align: start;
     z-index: 1;
   }
-  .backend {
-    display: none;
-  }
-  .switch {
-    display: none;
+
+  .data {
+    width: 60vw;
+    right: 4rem;
   }
 
   .search {
-    width: 7rem;
+    width: 10rem;
     font-size: 0.85rem;
   }
 

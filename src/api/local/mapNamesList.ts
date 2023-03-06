@@ -2,6 +2,7 @@ export const mapNamesList = [
   'Anvil',
   'AlBasrah',
   'Belaya',
+  'BlackCoast',
   'Chora',
   'Fallujah',
   'FoolsRoad',
@@ -21,5 +22,4 @@ export const mapNamesList = [
   'Sumari',
   'Tallil',
   'Yehorivka',
-  'BlackCoast',
 ]

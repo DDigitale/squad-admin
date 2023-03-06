@@ -16,6 +16,7 @@ export function BanRow({
     isUnbannedManually,
     reason,
     admin,
+    unbannedAdmin,
     id,
   },
 }: Props) {
@@ -43,11 +44,25 @@ export function BanRow({
             : `${expirationTime.toLocaleString()}`}
         </span>
       )}
-      <span className={styles.reason}>Бан: {reason.split('До 20')[0]}</span>
+      <span className={styles.reason}>
+        Бан: {reason.slice(0, -4)}{' '}
+        {unbannedTime && (
+          <strong style={{ color: 'greenyellow' }}>
+            Разбанил {unbannedAdmin.name}
+          </strong>
+        )}
+      </span>
       {!banExpired && (
         <button
           className={styles.unbanBtn}
-          onClick={() => unbanPlayerMutation.mutate()}
+          onClick={() => {
+            confirm(
+              `Данного игрока забанил модератор ${admin.name}. Так как по правилам разбанить может только забанивший модератор, я спрошу у вас: "ВЫ УВЕРЕНЫ ЧТО ХОТИТЕ РАЗБАНИТЬ ДАННОГО ИГРОКА?"`
+            ) &&
+              confirm(`Точно?`) &&
+              confirm('Ну жми ОК тогда') &&
+              unbanPlayerMutation.mutate()
+          }}
         >
           Разбанить
         </button>

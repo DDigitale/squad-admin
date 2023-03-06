@@ -7,3 +7,9 @@
   border-radius: 0.5rem;
   overflow-y: auto;
 }
+
+@media (max-width: 800px) {
+  .wrapper {
+    width: 100%;
+  }
+}

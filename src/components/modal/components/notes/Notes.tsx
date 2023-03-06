@@ -14,9 +14,7 @@ export function Notes({ playerSteamId }: Props) {
     data: notes,
     isSuccess,
     isLoading,
-  } = useQuery(['player-notes', playerSteamId], () =>
-    fetchPlayerNotes(playerSteamId)
-  )
+  } = useQuery(['player', playerSteamId], () => fetchPlayerNotes(playerSteamId))
 
   return (
     <div className={styles.wrapper}>
@@ -26,7 +24,7 @@ export function Notes({ playerSteamId }: Props) {
       {isSuccess && (
         <>
           {notes.content?.map((note: any) => (
-            <NoteRow key={note.id} note={note} />
+            <NoteRow key={note.id} note={note} playerSteamId={playerSteamId} />
           ))}
         </>
       )}

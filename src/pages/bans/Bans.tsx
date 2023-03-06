@@ -130,6 +130,7 @@ function Bans() {
       <div className={styles.menuWrapper}>
         <div className={styles.activeBans}>
           <RadioGroup
+            className={styles.radioGroup}
             name="radioList"
             inline
             appearance="picker"
@@ -148,7 +149,6 @@ function Bans() {
           ) : (
             <>
               <SelectPicker
-                style={{ width: '200px' }}
                 data={adminList}
                 value={adminSteamId}
                 onChange={(e: any) => setAdminSteamId(e)}

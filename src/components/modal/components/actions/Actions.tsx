@@ -13,7 +13,7 @@ interface Props {
 }
 
 export function Actions({ player }: Props) {
-  const [selectedTab, setSelectedTab] = useState(1)
+  const [selectedTab, setSelectedTab] = useState(player.isOnline ? 3 : 1)
 
   return (
     <div className={styles.wrapper}>

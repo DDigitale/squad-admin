@@ -32,8 +32,6 @@ export function Broadcast() {
     setBroadcastMessage(selectedOption.value)
   }
 
-  console.log(broadcastMessage)
-
   return (
     <div className={styles.wrapper}>
       <CreatableSelect

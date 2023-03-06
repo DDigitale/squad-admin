@@ -51,6 +51,7 @@ function AdminRules() {
 
     await localStorage.setItem('rulesData', JSON.stringify(rule))
     await setRulesOptionsListMutation.mutate()
+    setEditableText('')
   }
 
   const addRuleRowInGroup = async (groupId: any) => {
@@ -197,9 +198,10 @@ function AdminRules() {
                         style={{ marginLeft: '0.5rem' }}
                         size="sm"
                         icon={<EditIcon />}
-                        onClick={() =>
+                        onClick={() => {
+                          setEditableText(rule.name)
                           handleShowSelectRules(group.position, rule.position)
-                        }
+                        }}
                       />
                     )}
                   </>

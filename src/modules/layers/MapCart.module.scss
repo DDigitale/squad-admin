@@ -12,9 +12,11 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 5em;
-  align-items: center;
+  justify-content: space-around;
+  //height: 5em;
+  gap: 0.5rem;
+
+  align-items: start;
   padding: 0.5rem;
   border-radius: 6px;
   transition: 0.7s;
@@ -27,15 +29,24 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--color-main);
-  text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5), 3px 2px 2px rgba(206,89,55,0);
+  background-color: rgba(42,42,43,0.8);
+  padding: 0 0.5rem;
+  border-radius: var(--radius-1);
 }
 
 .info {
   display: flex;
   gap: 1rem;
-  justify-content: space-evenly;
+  justify-content: start;
   align-items: center;
   width: 100%;
+  span {
+    margin-left: auto;
+    font-size: 1.25rem;
+    background-color: rgba(42,42,43,0.8);
+    padding: 0 1rem;
+    border-radius: var(--radius-1);
+  }
 }
 
 .team {
@@ -45,6 +56,7 @@
 }
 
 .flag {
-  width: 4rem;
+  width: 3rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 1);
+  border-radius: 0.2rem;
 }

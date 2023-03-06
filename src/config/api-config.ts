@@ -1,6 +1,7 @@
 const server = localStorage.getItem('server')
 
 const API_URL = `http://localhost:${server ? server : 8000}`
+const API_URL_WITHOUT_PORT = 'http://localhost:'
 const CALLBACK_URL = 'http://localhost:3000'
 const STEAM_KEY = 'D24E3D9EB90500EB1979B72B06B4D903'
 const GET_STEAM_LINK = '/get-steam-link'
@@ -45,6 +46,7 @@ const CHANGE_NEXT_LAYER = '/change-next-layer'
 const SEND_BROADCAST = '/send-broadcast'
 const ADD_ADMIN = '/add-admin'
 const DELETE_ADMIN = '/deactivate-admin'
+const GET_ME = '/get-me'
 const GET_BACKEND_STATUS = '/get-backend-status'
 const GET_RULES = '/get-rules'
 const SET_RULES = '/set-rules'
@@ -58,9 +60,16 @@ const ADD_ROLE_GROUP = '/add-role-group'
 const REMOVE_ROLE_GROUP = '/remove-role-group'
 const REMOVE_ROLE_FROM_ROLE_GROUP = '/remove-role-from-role-group'
 const SET_ROLE_GROUP_TO_ADMIN = '/set-role-group-to-admin'
+const GET_ALL_LAYERS = '/get-maps'
+const ADD_NEW_ROTATION_GROUP = '/add-new-rotation-group'
+const GET_ALL_ROTATION_GROUPS = '/get-all-rotation-groups'
+const DELETE_ROTATION_GROUP = '/delete-rotation-group'
+const CHANGE_ROTATION_GROUP = '/change-rotation-group'
+const ACTIVATE_ROTATION_GROUP = '/activate-rotation-group'
 
 export {
   API_URL,
+  API_URL_WITHOUT_PORT,
   CALLBACK_URL,
   GET_STEAM_LINK,
   VERIFY_STEAM,
@@ -100,6 +109,7 @@ export {
   SEND_BROADCAST,
   ADD_ADMIN,
   DELETE_ADMIN,
+  GET_ME,
   ADD_PLAYER_ON_CONTROL,
   REMOVE_PLAYER_ON_CONTROL,
   GET_BACKEND_STATUS,
@@ -117,4 +127,10 @@ export {
   REMOVE_ROLE_GROUP,
   REMOVE_ROLE_FROM_ROLE_GROUP,
   SET_ROLE_GROUP_TO_ADMIN,
+  GET_ALL_LAYERS,
+  ADD_NEW_ROTATION_GROUP,
+  GET_ALL_ROTATION_GROUPS,
+  DELETE_ROTATION_GROUP,
+  CHANGE_ROTATION_GROUP,
+  ACTIVATE_ROTATION_GROUP,
 }

@@ -16,14 +16,14 @@ export function Title({ player, refetch }: Props) {
   const addPlayerOnControlMutation = useMutation(
     () => addPlayerOnControl(player.steamId),
     {
-      onSuccess: () => queryClient.invalidateQueries(['players']),
+      onSuccess: () => queryClient.invalidateQueries(['player']),
     }
   )
 
   const removePlayerOnControlMutation = useMutation(
     () => removePlayerOnControl(player.steamId),
     {
-      onSuccess: () => queryClient.invalidateQueries(['players']),
+      onSuccess: () => queryClient.invalidateQueries(['player']),
     }
   )
 
@@ -31,7 +31,9 @@ export function Title({ player, refetch }: Props) {
     const getImg = async () => {
       if (player.isOnline) {
         const { default: kitImg } = await import(
-          `assets/img/kits/${player.isOnline?.role.split('_')[1]}.svg`
+          `../../../../assets/img/kits/${
+            player.isOnline?.role.split('_')[1]
+          }.svg`
         )
         setKitImg(kitImg)
       }

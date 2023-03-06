@@ -2,7 +2,8 @@ const webpack = require('webpack')
 const path = require('path')
 
 const config = {
-  entry: ['react-hot-loader/patch', './src/index.tsx'],
+  mode: 'production',
+  entry: ['./src/index.tsx'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -10,14 +11,19 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /(js|jsx)$/,
         use: 'babel-loader',
         exclude: /node_modules/,
       },
       {
-        test: /\.ts(x)?$/,
+        test: /ts(x)?$/,
         loader: 'ts-loader',
         exclude: /node_modules/,
+        options: {
+          compilerOptions: {
+            noEmit: false,
+          },
+        },
       },
       {
         test: /\.scss$/,

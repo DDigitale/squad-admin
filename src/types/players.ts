@@ -59,6 +59,7 @@ export interface Message {
   message: string
   createTime: Date
   content: any[][]
+  server: any
 }
 
 export interface Ban {
@@ -69,6 +70,7 @@ export interface Ban {
   admin: any
   playerSteamId: string
   isUnbannedManually: boolean
+  unbannedAdmin: any
   unbannedAdminId: string
   unbannedTime: Date | null
   creationTime: Date

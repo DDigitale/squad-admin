@@ -22,38 +22,16 @@ function BansRow({ ban }: Props) {
       >
         {ban.bannedPlayer.playerName}
       </span>
-      <span className={styles.reason}>{ban.reason}</span>
-      {ban.manualUnbannedTime ? (
-        <span
-          className={styles.time}
-          style={{
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-          }}
-          title={ban.unbannedManualBy.adminName}
-        >
-          {`${ban.manualUnbannedTime.toLocaleString()} ${
-            ban.unbannedManualBy.adminName
-          }`}
-        </span>
-      ) : (
-        <span className={styles.expirationTime}>
-          {banExpired
-            ? `${
-                ban.expirationTime === null ? 'Перманентный бан' : 'Бан истёк'
-              }`
-            : `До ${ban.expirationTime.toLocaleString()}`}
-        </span>
-      )}
-      <span
-        style={{
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-        }}
-        title={ban.bannedBy.adminName}
-      >
+      <span className={styles.reason}>
+        {ban.reason.slice(0, -4)}{' '}
+        {ban.manualUnbannedTime && (
+          <strong style={{ color: 'greenyellow' }}>
+            Разбанил {ban.unbannedManualBy.adminName}{' '}
+            {ban.manualUnbannedTime.toLocaleString()}
+          </strong>
+        )}
+      </span>
+      <span className={styles.admin} title={ban.bannedBy.adminName}>
         {ban.bannedBy.adminName}
       </span>
     </div>

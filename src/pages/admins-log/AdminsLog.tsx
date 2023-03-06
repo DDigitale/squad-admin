@@ -49,15 +49,16 @@ export function AdminsLog() {
   const [searchAction, setSearchAction] = useState(initialStateActions)
   const [searchDateFrom, setSearchDateFrom] = useState(initialDateFrom)
   const [searchDateTo, setSearchDateTo] = useState(initialDateTo)
-  const debouncedSearch = useDebounce(
-    searchPlayerInInput ||
-      searchAdmin ||
-      searchPlayer ||
-      searchAction ||
-      searchDateFrom ||
-      searchDateTo,
-    300
-  )
+  // const debouncedSearch = useDebounce(
+  //   searchPlayerInInput ||
+  //     searchAdmin ||
+  //     searchPlayer ||
+  //     searchAction ||
+  //     searchDateFrom ||
+  //     searchDateTo,
+  //   300
+  // )
+  const debouncedSearch = useDebounce(searchPlayerInInput, 300)
 
   const pageLimit = 30
 
@@ -108,7 +109,11 @@ export function AdminsLog() {
       setSearchAction(initialStateActions)
       refetch()
     }
-    if (!searchPlayer) {
+    if (searchPlayer) {
+      refetch()
+    }
+
+    if (!searchAdmin || searchAdmin) {
       refetch()
     }
 
@@ -119,7 +124,7 @@ export function AdminsLog() {
     debouncedSearch,
     searchAdmin,
     searchAction,
-    searchPlayerInInput,
+    // searchPlayerInInput,
     searchPlayer,
     searchDateFrom,
     searchDateTo,
@@ -133,7 +138,7 @@ export function AdminsLog() {
     <div className={styles.wrapper}>
       <div className={styles.menuWrapper}>
         <SelectPicker
-          style={{ width: '200px' }}
+          className={styles.adminSelect}
           data={adminList}
           value={searchAdmin}
           onChange={(e: any) => setSearchAdmin(e)}
@@ -141,14 +146,14 @@ export function AdminsLog() {
           cleanable={true}
         />
         <CheckPicker
+          className={styles.actionSelect}
           searchable={false}
-          style={{ width: '200px' }}
           data={listActions}
           placeholder="Поиск по действиям"
           onChange={(e: any) => setSearchAction(e)}
         />
-
         <InputPicker
+          className={styles.playerSelect}
           data={foundPlayers}
           labelKey="name"
           valueKey="steamId"
@@ -159,16 +164,18 @@ export function AdminsLog() {
           placeholder="Поиск по игрокам"
         />
         <DatePicker
+          className={styles.dateSelect}
           format="yyyy-MM-dd HH:mm"
-          style={{ width: 180, border: 'none' }}
+          style={{ border: 'none' }}
           cleanable={true}
           placeholder="От..."
           onOk={(e: any) => setSearchDateFrom(Date.parse(e))}
           onClean={() => setSearchDateFrom(initialDateFrom)}
         />
         <DatePicker
+          className={styles.dateSelect}
           format="yyyy-MM-dd HH:mm"
-          style={{ width: 180, border: 'none' }}
+          style={{ border: 'none' }}
           cleanable={true}
           placeholder="До..."
           onOk={(e: any) => setSearchDateTo(Date.parse(e))}

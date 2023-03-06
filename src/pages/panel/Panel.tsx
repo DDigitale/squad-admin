@@ -59,7 +59,6 @@ export function Panel() {
   return (
     <div className={styles.wrapper}>
       {layersMenu ? <LayersHistory /> : <Chat />}
-
       <ServerInfo server={server} />
       <main className={styles.main}>
         {isSuccess && <Teams teams={teams} />}

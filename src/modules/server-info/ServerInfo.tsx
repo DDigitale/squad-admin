@@ -10,15 +10,17 @@ export function ServerInfo({ server }: Props) {
 
   useEffect(() => {
     const getImg = async () => {
-      const mapName = server?.currentLayer?.split(' ')[0].startsWith('Fool')
-        ? 'Fool'
-        : server?.currentLayer?.split(' ')[0]
+      try {
+        const mapName = server?.currentLayer?.split(' ')[0].startsWith('Fool')
+          ? 'Fool'
+          : server?.currentLayer?.split(' ')[0]
 
-      const { default: layerImg } = await import(
-        `assets/img/bg-layers/${mapName}.png`
-      )
+        const { default: layerImg } = await import(
+          `../../assets/img/bg-layers/${mapName}.png`
+        )
 
-      setLayerImg(layerImg)
+        setLayerImg(layerImg)
+      } catch (e) {}
     }
     getImg()
   }, [server])
@@ -29,12 +31,22 @@ export function ServerInfo({ server }: Props) {
 
   return (
     <div className={styles.wrapper}>
-      <div
-        className={styles.background}
-        style={{
-          backgroundImage: `url(${layerImg})`,
-        }}
-      />
+      {layerImg ? (
+        <div
+          className={styles.background}
+          style={{
+            backgroundImage: `url(${layerImg})`,
+          }}
+        />
+      ) : (
+        <div
+          className={styles.background}
+          style={{
+            backgroundColor: '#3c3f41',
+          }}
+        />
+      )}
+
       <div className={styles.item}>
         <span className={styles.text}>Текущий TPS</span>
         <span className={styles.text}>{server?.serverTickRate}</span>
@@ -46,7 +58,7 @@ export function ServerInfo({ server }: Props) {
         </span>
       </div>
       <div className={styles.item}>
-        <span className={styles.text}>
+        <span className={styles.text} style={{}}>
           Время игры {formattedTime(server?.playTime)} мин
         </span>
         <span className={styles.text}>{server?.currentLayer}</span>

@@ -5,6 +5,7 @@ import { mapNamesList } from 'api/local/mapNamesList'
 import Select from 'react-select'
 import { gameModesList } from 'api/local/gameModesList'
 import { customSelectorStyles } from 'components/forms/SelectorStyles'
+import { SelectPicker } from 'rsuite'
 
 export function Layers() {
   const [selectedMapName, setSelectedMapName] = useState<string | null>('')
@@ -19,31 +20,49 @@ export function Layers() {
   })
 
   const handleChangeMapName = (selectedMapName: any) => {
-    setSelectedMapName(selectedMapName.value)
+    setSelectedMapName(selectedMapName)
   }
 
   const handleChangeGameMode = (selectedGameMode: any) => {
-    setSelectedGameMode(selectedGameMode.value)
+    setSelectedGameMode(selectedGameMode)
   }
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.actionsWrapper}>
-        <Select
+        {/*<Select*/}
+        {/*  className={styles.select}*/}
+        {/*  styles={customSelectorStyles}*/}
+        {/*  options={mapNames}*/}
+        {/*  onChange={handleChangeMapName}*/}
+        {/*  placeholder={'Карта'}*/}
+        {/*  isSearchable={false}*/}
+        {/*/>*/}
+        {/*<Select*/}
+        {/*  className={styles.select}*/}
+        {/*  styles={customSelectorStyles}*/}
+        {/*  options={gameModes}*/}
+        {/*  onChange={handleChangeGameMode}*/}
+        {/*  placeholder={'Режим'}*/}
+        {/*  isSearchable={false}*/}
+        {/*/>*/}
+        <SelectPicker
           className={styles.select}
-          styles={customSelectorStyles}
-          options={mapNames}
+          data={mapNames}
+          value={selectedMapName}
+          block
+          placeholder="Выбрать карту"
           onChange={handleChangeMapName}
-          placeholder={'Карта'}
-          isSearchable={false}
+          searchable={false}
         />
-        <Select
+        <SelectPicker
           className={styles.select}
-          styles={customSelectorStyles}
-          options={gameModes}
+          data={gameModes}
+          value={selectedGameMode}
+          block
+          placeholder="Выбрать режим"
           onChange={handleChangeGameMode}
-          placeholder={'Режим'}
-          isSearchable={false}
+          searchable={false}
         />
       </div>
       <Maps selectedMap={selectedMapName} selectedMode={selectedGameMode} />

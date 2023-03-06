@@ -18,7 +18,7 @@ export function WarnForm({ steamId, name }: Props) {
   const warnPlayerMutation = useMutation(
     () => warnPlayer(steamId, warnReason, name),
     {
-      onSuccess: () => queryClient.invalidateQueries(['players']),
+      onSuccess: () => queryClient.invalidateQueries(['player']),
     }
   )
 

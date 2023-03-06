@@ -1,18 +1,43 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styles from './Header.module.scss'
-import { VscServer } from 'react-icons/vsc'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { fetchPlayerSearch } from 'api/users'
+import {
+  fetchLogout,
+  fetchPlayerSearch,
+  fetchServerInfo,
+  fetchServerInfoWithPort,
+} from 'api/users'
 import { PlayerModalContext, PlayerModalContextType } from 'contexts'
-import { LogoutBtn } from 'components/buttons'
-import { Navbar } from 'components/navbar/Navbar'
 import useDebounce from 'components/debounce/useDebounce'
-import toast from 'react-hot-toast'
-import BackendStatusItem from 'components/header/BackendStatusItem'
-import { fetchBackendStatus } from 'api/admins'
-import { errorToast } from 'utils/toasts'
+import { fetchGetMe } from 'api/admins'
+
+import {
+  Button,
+  ButtonGroup,
+  ButtonToolbar,
+  Dropdown,
+  Popover,
+  Whisper,
+} from 'rsuite'
+import { NavLink } from 'react-router-dom'
+
+let links: any[] = []
 
 function Header() {
+  const roles = localStorage.getItem('roles')
+
+  links = [
+    ['панель', '/'],
+    roles?.includes('Admin log access')
+      ? ['админ лог', '/admins-log']
+      : ['', ''],
+    !roles?.includes('Base access') ? ['', ''] : ['баны', '/bans-log'],
+    !roles?.includes('Base access') ? ['', ''] : ['чат', '/chat-log'],
+    !roles?.includes('Base access') ? ['', ''] : ['игроки', '/players-list'],
+    !roles?.includes('Base access') ? ['', ''] : ['админы', '/admins-list'],
+    roles?.includes('Management') ? ['управление', '/admin-route'] : ['', ''],
+  ]
+
   const [playerModal, setPlayerModal] = useContext(
     PlayerModalContext
   ) as PlayerModalContextType
@@ -24,6 +49,8 @@ function Header() {
 
   const debouncedSearch = useDebounce(searchPlayer, 300)
 
+  const { data: getMe } = useQuery(['get-me'], fetchGetMe)
+
   const searchPlayerMutation = useMutation(
     () => fetchPlayerSearch(searchPlayer.toString()),
     {
@@ -32,11 +59,23 @@ function Header() {
     }
   )
 
-  const { data: backend } = useQuery(['backend'], fetchBackendStatus, {
-    onError: (e) => errorToast('Ошибка загрузки статуса работы бекенда'),
-    keepPreviousData: true,
-    refetchInterval: 3000,
-  })
+  const logoutHandler = async () => {
+    await fetchLogout()
+    await localStorage.clear()
+    await window.location.replace('/')
+  }
+
+  const { data: serverOne } = useQuery(
+    ['serverOne'],
+    () => fetchServerInfoWithPort(8000),
+    { refetchInterval: 5000 }
+  )
+
+  // const { data: serverTwo } = useQuery(
+  //   ['serverTwo'],
+  //   () => fetchServerInfoWithPort(8001),
+  //   { refetchInterval: 5000 }
+  // )
 
   useEffect(() => {
     if (debouncedSearch) {
@@ -54,19 +93,86 @@ function Header() {
     setSearchPlayer('')
   }
 
+  useEffect(() => {
+    localStorage.setItem('server', String(8000))
+  }, [])
+
   const server = localStorage.getItem('server')
+
+  const speakerOne = (
+    <Popover title={serverOne?.serverName}>
+      <div>
+        <p>
+          Игроков: {serverOne?.playerCount}/100{' '}
+          {serverOne?.publicQueue === 0 ? `` : `(+ ${serverOne?.publicQueue})`}
+        </p>
+        <p>TPS: {serverOne?.serverTickRate}</p>
+        <p>Текущая карта: {serverOne?.currentLayer}</p>
+        <p>Следующая карта: {serverOne?.nextLayer}</p>
+      </div>
+    </Popover>
+  )
+
+  // const speakerTwo = (
+  //   <Popover title={serverTwo?.serverName}>
+  //     <div>
+  //       <p>
+  //         Игроков: {serverTwo?.playerCount}/100{' '}
+  //         {serverTwo?.publicQueue === 0 ? `` : `(+ ${serverTwo?.publicQueue})`}
+  //       </p>
+  //       <p>TPS: {serverTwo?.serverTickRate}</p>
+  //       <p>Текущая карта: {serverTwo?.currentLayer}</p>
+  //       <p>Следующая карта: {serverTwo?.nextLayer}</p>
+  //     </div>
+  //   </Popover>
+  // )
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.nav}>
-        <Navbar />
-      </div>
+      <ButtonToolbar>
+        <ButtonGroup>
+          <Whisper
+            placement="bottomStart"
+            trigger="hover"
+            controlId="whisper1"
+            speaker={speakerOne}
+          >
+            <Button
+              onClick={() => {
+                localStorage.setItem('server', String(8000))
+                window.location.reload()
+              }}
+              appearance={server === '8000' ? 'primary' : 'default'}
+              color={'green'}
+            >
+              OC1
+            </Button>
+          </Whisper>
+          {/*<Whisper*/}
+          {/*  placement="bottomStart"*/}
+          {/*  trigger="hover"*/}
+          {/*  controlId="whisper1"*/}
+          {/*  speaker={speakerTwo}*/}
+          {/*>*/}
+          <Button
+            onClick={() => {
+              localStorage.setItem('server', String(8001))
+              window.location.reload()
+            }}
+            appearance={server === '8001' ? 'primary' : 'default'}
+            color={'green'}
+          >
+            OC2
+          </Button>
+          {/*</Whisper>*/}
+        </ButtonGroup>
+      </ButtonToolbar>
       <div className={styles.search}>
         <input
           className={styles.input}
           type="search"
           value={searchPlayer}
-          placeholder={'поиск игрока'}
+          placeholder={'Поиск игрока'}
           onChange={handleSearch}
         />
         {searchPlayer && (
@@ -85,84 +191,23 @@ function Header() {
           </div>
         )}
       </div>
-      <div className={styles.logout}>
-        <div
-          className={styles.switch}
-          style={{
-            alignItems: 'center',
-            gap: '0.3rem',
-            backgroundColor: 'black',
-            padding: '0.3rem',
-            borderRadius: 10,
-          }}
-        >
-          <span>тестовый блок выбора сервера</span>
-          <button
-            onClick={() => {
-              localStorage.setItem('server', String(8000))
-              window.location.reload()
-            }}
-            style={{
-              all: 'unset',
-              backgroundColor: server === '8000' ? 'green' : 'gray',
-              padding: '0.3rem',
-              borderRadius: 10,
-            }}
-          >
-            ОС1
-          </button>
-          <button
-            onClick={() => {
-              localStorage.setItem('server', String(8001))
-              window.location.reload()
-            }}
-            style={{
-              all: 'unset',
-              backgroundColor: server === '8001' ? 'green' : 'gray',
-              padding: '0.3rem',
-              borderRadius: 10,
-            }}
-          >
-            ОС2
-          </button>
-        </div>
-        <VscServer
-          className={styles.backend}
-          style={{
-            marginRight: '1rem',
-            fontSize: '2rem',
-            opacity: 0.5,
-            cursor: 'pointer',
-          }}
-          onClick={() =>
-            toast(
-              (t) => (
-                <div className={styles.backendToast}>
-                  <BackendStatusItem backendInfo={backend.FtpBanService}>
-                    FtpBanService
-                  </BackendStatusItem>
-                  <BackendStatusItem backendInfo={backend.FtpLogTailer}>
-                    FtpLogTailer
-                  </BackendStatusItem>
-                  <BackendStatusItem backendInfo={backend.QueryUpdater}>
-                    QueryUpdater
-                  </BackendStatusItem>
-                  <BackendStatusItem backendInfo={backend.RconUpdater}>
-                    RconUpdater
-                  </BackendStatusItem>
-                </div>
-              ),
-              {
-                position: 'top-right',
-                style: {
-                  marginTop: '3rem',
-                },
-              }
-            )
-          }
-        />
-        <LogoutBtn />
-      </div>
+      <Dropdown title="Меню" placement="bottomEnd">
+        <Dropdown.Item panel style={{ padding: 10, width: 200 }}>
+          <p>Зашел как</p>
+          <strong>{getMe?.name}</strong>
+          {/*<strong>name</strong>*/}
+        </Dropdown.Item>
+        <Dropdown.Item divider />
+        {links.map(([title, link], index) =>
+          title ? (
+            <NavLink key={index} to={link}>
+              <Dropdown.Item>{title}</Dropdown.Item>
+            </NavLink>
+          ) : null
+        )}
+        <Dropdown.Item divider />
+        <Dropdown.Item onClick={logoutHandler}>Выйти</Dropdown.Item>
+      </Dropdown>
     </div>
   )
 }

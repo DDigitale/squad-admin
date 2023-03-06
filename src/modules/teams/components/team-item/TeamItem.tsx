@@ -13,10 +13,12 @@ export function TeamItem({ team }: Props) {
 
   useEffect(() => {
     const getImg = async () => {
-      const { default: flagImg } = await import(
-        `assets/img/flags/flag_${team.teamNameShort}.png`
-      )
-      setFlagImg(flagImg)
+      try {
+        const { default: flagImg } = await import(
+          `../../../../assets/img/flags/flag_${team.teamNameShort}.png`
+        )
+        setFlagImg(flagImg)
+      } catch (e) {}
     }
     getImg()
   }, [team])

@@ -17,10 +17,12 @@ export function PlayerItem({ player }: Props) {
 
   useEffect(() => {
     const getImg = async () => {
-      const { default: kitImg } = await import(
-        `assets/img/kits/${player.role.split('_')[1]}.svg`
-      )
-      setKitImg(kitImg)
+      try {
+        const { default: kitImg } = await import(
+          `../../../../assets/img/kits/${player.role.split('_')[1]}.svg`
+        )
+        setKitImg(kitImg)
+      } catch (e) {}
     }
     getImg()
   }, [player.role])
@@ -41,8 +43,12 @@ export function PlayerItem({ player }: Props) {
         className={styles.wrapper}
         onClick={() => setPlayerModal(player.steamId)}
       >
-        {kitImg && (
-          <img className={styles.icon} src={kitImg} alt={player.role} />
+        {kitImg ? (
+          <img className={styles.icon} src={kitImg} />
+        ) : (
+          <span style={{ fontSize: '0.75rem' }}>
+            {player.role.split('_')[1]}
+          </span>
         )}
         <span className={styles.name} style={{ color: colorizePlayers() }}>
           {player.name}

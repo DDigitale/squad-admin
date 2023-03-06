@@ -6,6 +6,7 @@ import {
   FaRegCommentAlt,
   FaRegStickyNote,
   FaSteam,
+  FaUserTie,
 } from 'react-icons/fa'
 
 interface Props {
@@ -39,13 +40,17 @@ export function PlayerRow({ player }: Props) {
             player.playersBansBySteamId > 0 ? 'rgba(255, 0, 0, 0.3)' : '',
         }}
       >
-        <FaHammer /> {player.playersBansBySteamId}
+        <FaHammer />{' '}
+        {player.playersBansBySteamId + player.playersKicksBySteamId}
       </span>
       <span className={styles.messages}>
         <FaRegCommentAlt /> {player.playersMessagesBySteamId}
       </span>
       <span className={styles.notes}>
         <FaRegStickyNote /> {player.playersNotesBySteamId}
+      </span>
+      <span className={styles.notes}>
+        <FaUserTie /> {player.numOfAdminActions}
       </span>
     </div>
   )

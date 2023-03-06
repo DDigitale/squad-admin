@@ -13,6 +13,9 @@ function LayersHistory() {
 
   return (
     <Card className={styles.historyCard}>
+      {/*<span style={{ textAlign: 'center', fontSize: '1.5rem' }}>*/}
+      {/*  История карт*/}
+      {/*</span>*/}
       {layersHistory?.content?.map((layer: any) => (
         <LayersHistoryItem key={layer.id} layer={layer} />
       ))}

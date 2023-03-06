@@ -14,7 +14,7 @@ export function RemovePlayerFromSquadForm({ steamId, name }: Props) {
   const removePlayerFromSquadMutation = useMutation(
     () => removePlayerFromSquad(steamId, name),
     {
-      onSuccess: () => queryClient.invalidateQueries(['players']),
+      onSuccess: () => queryClient.invalidateQueries(['player']),
     }
   )
 

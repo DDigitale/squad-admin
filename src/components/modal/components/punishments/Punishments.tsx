@@ -19,7 +19,7 @@ export function Punishments({ playerSteamId }: Props) {
     isSuccess,
     isLoading,
   } = useQuery(
-    ['players', playerSteamId, 'punishment'],
+    ['player', playerSteamId, 'punishment'],
     () => fetchPlayerPunishmentHistory(playerSteamId),
     {
       onSuccess: () => queryClient.invalidateQueries(['players']),

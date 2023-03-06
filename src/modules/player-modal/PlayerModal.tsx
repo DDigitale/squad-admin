@@ -13,6 +13,7 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { fetchPlayer } from 'api/users'
 import AdminActions from 'components/modal/components/admin-actions/AdminActions'
+import { Badge } from 'rsuite'
 
 interface Props {
   playerSteamId: steamId
@@ -24,7 +25,7 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
     data: player,
     isSuccess,
     refetch,
-  } = useQuery(['player', playerSteamId, 'get-player'], () =>
+  } = useQuery(['player', playerSteamId, 'get-player', 'player-notes'], () =>
     fetchPlayer(playerSteamId)
   )
 
@@ -42,42 +43,70 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
         <Card className={styles.info} ref={infoRef}>
           <Title player={player} refetch={refetch} />
           <div className={styles.tablesBtn}>
-            <ActionBtn
-              style={{
-                backgroundColor:
-                  selectedTab === 1 ? 'rgba(51,253,217,0.2)' : null,
-              }}
-              text={'Наказания'}
-              onClick={() => setSelectedTab(1)}
-            />
-            <ActionBtn
-              style={{
-                backgroundColor:
-                  selectedTab === 2 ? 'rgba(51,253,217,0.2)' : null,
-              }}
-              text={'Чат'}
-              onClick={() => setSelectedTab(2)}
-            />
-            <ActionBtn
-              style={{
-                backgroundColor:
-                  selectedTab === 3 ? 'rgba(51,253,217,0.2)' : null,
-              }}
-              text={'Заметки'}
-              onClick={() => {
-                setSelectedTab(3)
-              }}
-            />
-            <ActionBtn
-              style={{
-                backgroundColor:
-                  selectedTab === 4 ? 'rgba(51,253,217,0.2)' : null,
-              }}
-              text={'Действия админов'}
-              onClick={() => {
-                setSelectedTab(4)
-              }}
-            />
+            <Badge
+              color="red"
+              content={
+                player.numOfPunishments > 0 ? player.numOfPunishments : false
+              }
+              maxCount={999}
+            >
+              <ActionBtn
+                style={{
+                  backgroundColor:
+                    selectedTab === 1 ? 'rgba(51,253,217,0.2)' : null,
+                }}
+                text={'Наказания'}
+                onClick={() => setSelectedTab(1)}
+              />
+            </Badge>
+            <Badge
+              color="green"
+              content={player.numOfMessages > 0 ? player.numOfMessages : false}
+              maxCount={999}
+            >
+              <ActionBtn
+                style={{
+                  backgroundColor:
+                    selectedTab === 2 ? 'rgba(51,253,217,0.2)' : null,
+                }}
+                text={'Чат'}
+                onClick={() => setSelectedTab(2)}
+              />
+            </Badge>
+            <Badge
+              color="cyan"
+              content={player.numOfNotes > 0 ? player.numOfNotes : false}
+              maxCount={999}
+            >
+              <ActionBtn
+                style={{
+                  backgroundColor:
+                    selectedTab === 3 ? 'rgba(51,253,217,0.2)' : null,
+                }}
+                text={'Заметки'}
+                onClick={() => {
+                  setSelectedTab(3)
+                }}
+              />
+            </Badge>
+            <Badge
+              color="blue"
+              content={
+                player.numOfAdminActions > 0 ? player.numOfAdminActions : false
+              }
+              maxCount={999}
+            >
+              <ActionBtn
+                style={{
+                  backgroundColor:
+                    selectedTab === 4 ? 'rgba(51,253,217,0.2)' : null,
+                }}
+                text={'Действия админов'}
+                onClick={() => {
+                  setSelectedTab(4)
+                }}
+              />
+            </Badge>
           </div>
 
           {selectedTab === 1 && <Punishments playerSteamId={playerSteamId} />}

@@ -13,7 +13,7 @@ export function NoteForm({ steamId }: Props) {
   const [note, setNote] = useState('')
 
   const notePlayerMutation = useMutation(() => notePlayer(steamId, note), {
-    onSuccess: () => queryClient.invalidateQueries(['player-notes']),
+    onSuccess: () => queryClient.invalidateQueries(['player']),
   })
 
   const handleNote = (e: any) => {

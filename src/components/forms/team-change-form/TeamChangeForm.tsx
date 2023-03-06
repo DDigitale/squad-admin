@@ -14,7 +14,7 @@ export function TeamChangeForm({ steamId, name }: Props) {
   const teamChangeMutation = useMutation(
     () => teamChangePlayer(steamId, name),
     {
-      onSuccess: () => queryClient.invalidateQueries(['players']),
+      onSuccess: () => queryClient.invalidateQueries(['player']),
     }
   )
 

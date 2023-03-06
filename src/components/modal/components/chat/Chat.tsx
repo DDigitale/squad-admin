@@ -18,7 +18,7 @@ export function Chat({ playerSteamId }: Props) {
     data: messages,
     isSuccess,
     isLoading,
-  } = useQuery(['players', playerSteamId, activePage, 'messages'], () =>
+  } = useQuery(['player', playerSteamId, activePage, 'messages'], () =>
     fetchPlayerMessages(playerSteamId, activePage, pageLimit)
   )
 

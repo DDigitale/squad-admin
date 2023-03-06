@@ -16,10 +16,12 @@ export function PlayersWithoutSquad({ player }: Props) {
 
   useEffect(() => {
     const getImg = async () => {
-      const { default: kitImg } = await import(
-        `assets/img/kits/${player.role.split('_')[1]}.svg`
-      )
-      setKitImg(kitImg)
+      try {
+        const { default: kitImg } = await import(
+          `../../../../assets/img/kits/${player.role.split('_')[1]}.svg`
+        )
+        setKitImg(kitImg)
+      } catch (e) {}
     }
     getImg()
   }, [player.role])
@@ -31,7 +33,14 @@ export function PlayersWithoutSquad({ player }: Props) {
         className={styles.item}
         onClick={() => setPlayerModal(player.steamId)}
       >
-        <img className={styles.icon} src={`${kitImg}`} alt="kit-icon" />
+        {kitImg ? (
+          <img className={styles.icon} src={`${kitImg}`} />
+        ) : (
+          <span style={{ fontSize: '0.75rem' }}>
+            {player.role.split('_')[1]}
+          </span>
+        )}
+
         <p className={styles.name}>{player.name}</p>
         {player.isOnControl && (
           <RiErrorWarningFill

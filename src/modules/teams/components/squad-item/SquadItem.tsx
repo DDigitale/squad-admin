@@ -78,14 +78,6 @@ export function SquadItem({ squad }: Props) {
   ]
 
   const handleChange = (selectedOption: any) => {
-    // const joinValues = selectedOption
-    //   .map((val: any) => val.value)
-    //   .join(' ')
-    //   .toString()
-    //
-    // console.log(joinValues)
-    // setWarnReason(joinValues)
-
     setWarnReason(selectedOption.value)
   }
 

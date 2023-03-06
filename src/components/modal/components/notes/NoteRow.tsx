@@ -6,14 +6,15 @@ import { IoCloseCircleOutline } from 'react-icons/io5'
 
 interface Props {
   note: any
+  playerSteamId: any
 }
 
-export function NoteRow({ note }: Props) {
+export function NoteRow({ note, playerSteamId }: Props) {
   const queryClient = useQueryClient()
   const deletePlayerNoteMutation = useMutation(
-    () => deletePlayerNote(note.id, note.adminSteamId),
+    () => deletePlayerNote(note.id, playerSteamId),
     {
-      onSuccess: () => queryClient.invalidateQueries(['player-notes']),
+      onSuccess: () => queryClient.invalidateQueries(['player']),
     }
   )
 

@@ -16,7 +16,7 @@ function ChatHistoryRow({ item }: Props) {
   return (
     <div className={styles.row}>
       <span className={styles.time}>{time}</span>
-      <span className={styles.time}>{item.chatType}</span>
+      <span className={styles.chatType}>{item.chatType}</span>
       <span
         className={styles.name}
         onClick={() => setPlayerModal(item.playerSteamId)}
@@ -24,6 +24,7 @@ function ChatHistoryRow({ item }: Props) {
         {item.playerName}
       </span>
       <span className={styles.reason}>{item.message}</span>
+      <span className={styles.server}>{item.server.shortName}</span>
     </div>
   )
 }

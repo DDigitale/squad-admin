@@ -23,7 +23,7 @@ export function BanForm({ steamId, name }: Props) {
   const banPlayerMutation = useMutation(
     () => banPlayer(steamId, banLength, banLengthInTimeStamp, banReason, name),
     {
-      onSuccess: () => queryClient.invalidateQueries(),
+      onSuccess: () => queryClient.invalidateQueries(['player']),
     }
   )
 

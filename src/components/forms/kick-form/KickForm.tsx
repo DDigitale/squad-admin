@@ -18,7 +18,7 @@ export function KickForm({ steamId, name }: Props) {
   const kickPlayerMutation = useMutation(
     () => kickPlayer(steamId, kickReason, name),
     {
-      onSuccess: () => queryClient.invalidateQueries(),
+      onSuccess: () => queryClient.invalidateQueries(['player']),
     }
   )
 
@@ -68,7 +68,6 @@ export function KickForm({ steamId, name }: Props) {
     if (kickReason === '') {
       alert('Выберите причину кика!')
     } else {
-      console.log('kicked')
       kickPlayerMutation.mutate()
     }
   }

@@ -7,7 +7,6 @@ import {
   LayerActionsContext,
   LayerActionsContextType,
 } from 'contexts/layer-actions-context'
-import { mapsNormalized } from 'api/local/mapsNormalized'
 
 interface Props {
   nextLayer: any
@@ -26,26 +25,17 @@ export function MapSelector({ nextLayer }: Props) {
 
   useEffect(() => {
     const getImg = async () => {
-      const mapName = nextLayer?.split(' ')[0].startsWith('Fool')
-        ? 'Fool'
-        : nextLayer?.split(' ')[0]
-      const { default: layerImg } = await import(
-        `assets/img/bg-layers/${mapName}.png`
-      )
-      setLayerImg(layerImg)
+      try {
+        const mapName = nextLayer?.split(' ')[0].startsWith('Fool')
+          ? 'Fool'
+          : nextLayer?.split(' ')[0]
+        const { default: layerImg } = await import(
+          `../../assets/img/bg-layers/${mapName}.png`
+        )
+        setLayerImg(layerImg)
+      } catch (e) {}
     }
     getImg()
-
-    // const layer = mapsNormalized.find(
-    //   (map: any) =>
-    //     map.rawName.replaceAll('_', '') === nextLayer.replaceAll(' ', '')
-    // )
-    //
-    // setLayerData(layer)
-
-    // console.log('REPLACE ', nextLayer.replaceAll(' ', ''))
-    // console.log('NEXT: ', nextLayer)
-    // console.log('LAYER: ', layer)
   }, [nextLayer])
 
   return (
@@ -53,12 +43,21 @@ export function MapSelector({ nextLayer }: Props) {
       <div className={styles.wrapper}>
         <p className={styles.title}>Следующая карта</p>
         <p className={styles.nextMap}>{nextLayer}</p>
-        <div
-          className={styles.background}
-          style={{
-            backgroundImage: `url(${layerImg})`,
-          }}
-        />
+        {layerImg ? (
+          <div
+            className={styles.background}
+            style={{
+              backgroundImage: `url(${layerImg})`,
+            }}
+          />
+        ) : (
+          <div
+            className={styles.background}
+            style={{
+              backgroundColor: '#3c3f41',
+            }}
+          />
+        )}
         <div className={styles.buttons}>
           <FcList
             className={styles.button}
@@ -66,7 +65,7 @@ export function MapSelector({ nextLayer }: Props) {
           />
           {/*<FcInfo*/}
           {/*  className={styles.button}*/}
-          {/*  onClick={() => setLayerModal(layerData)}*/}
+          {/*  onClick={() => setLayerModal(nextLayer)}*/}
           {/*/>*/}
         </div>
       </div>

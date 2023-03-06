@@ -26,9 +26,15 @@ function App() {
 
   const roles = localStorage.getItem('roles')
 
-  const { data: myRoleGroup } = useQuery(['my-role-group'], fetchGetMyRoleGroup)
+  const { data: myRoleGroup } = useQuery(
+    ['my-role-group'],
+    fetchGetMyRoleGroup,
+    {
+      enabled: roles !== null,
+    }
+  )
 
-  if (myRoleGroup) {
+  if (myRoleGroup && roles) {
     localStorage.setItem(
       'roles',
       myRoleGroup.roles.map((role: any) => role.role.name)
@@ -47,19 +53,18 @@ function App() {
                   <Route path="/" element={<Panel />} />
                   {roles?.includes('Admin log access') ? (
                     <>
+                      <Route path="/admins-log" element={<AdminsLog />} />
+                    </>
+                  ) : null}
+                  {roles?.includes('Base access') ? (
+                    <>
                       <Route path="/players-list" element={<Players />} />
                       <Route path="/admins-list" element={<Admins />} />
-                      <Route path="/admins-log" element={<AdminsLog />} />
                       <Route path="/bans-log" element={<Bans />} />
                       <Route path="/chat-log" element={<ChatHistory />} />
                     </>
                   ) : null}
-                  {roles?.includes(
-                    'Admins Management' ||
-                      'Roles Management' ||
-                      'Rules Management' ||
-                      'Rotation Management'
-                  ) ? (
+                  {roles?.includes('Management') ? (
                     <Route path="/admin-route" element={<AdminRoute />} />
                   ) : null}
                 </Route>
@@ -76,17 +81,16 @@ function App() {
               />
             )}
             <Toaster
-              position="top-right"
+              position="bottom-left"
               reverseOrder={false}
               gutter={5}
               toastOptions={{
                 className: '',
-                duration: 5000,
+                duration: 3000,
                 style: {
                   background: '#363636',
                   color: '#fff',
                 },
-
                 success: {
                   duration: 3000,
                 },

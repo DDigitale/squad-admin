@@ -16,6 +16,7 @@ function AdminActionsRow({ action }: Props) {
         {action.action}
       </span>
       <span className={styles.message}>{action.reason}</span>
+      <span className={styles.server}>{action.server.shortName}</span>
     </div>
   )
 }
