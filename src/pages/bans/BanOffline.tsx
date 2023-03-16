@@ -6,6 +6,7 @@ import { IconButton } from 'rsuite'
 import UserInfoIcon from '@rsuite/icons/UserInfo'
 import PlusIcon from '@rsuite/icons/Plus'
 import { PlayerModalContext, PlayerModalContextType } from 'contexts'
+import { Link, useLocation } from 'react-router-dom'
 
 function BanOffline() {
   const [playerModal, setPlayerModal] = useContext(
@@ -25,6 +26,8 @@ function BanOffline() {
     },
   })
 
+  const location = useLocation()
+
   return (
     <div className={styles.wrapper}>
       <input
@@ -43,12 +46,18 @@ function BanOffline() {
       >
         Добавить в бд
       </IconButton>
-      <IconButton
-        disabled={!player}
-        icon={<UserInfoIcon />}
-        size="sm"
-        onClick={() => setPlayerModal(player.steamId.toString())}
-      />
+      <Link
+        style={{ textDecoration: 'none' }}
+        to={`/player/${player?.steamId}`}
+        state={{ background: location }}
+      >
+        <IconButton
+          disabled={!player}
+          icon={<UserInfoIcon />}
+          size="sm"
+          onClick={() => setPlayerModal(player.steamId.toString())}
+        />
+      </Link>
     </div>
   )
 }

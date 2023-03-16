@@ -15,6 +15,7 @@ import { customSelectorStyles } from 'components/forms/SelectorStyles'
 import CreatableSelect from 'react-select/creatable'
 import { fetchGetRules } from 'api/admins'
 import { IconButton, Popover, Whisper } from 'rsuite'
+import { Link, useLocation } from 'react-router-dom'
 
 interface Props {
   squad: Squad
@@ -125,6 +126,8 @@ export function SquadItem({ squad }: Props) {
     )
   }
 
+  const location = useLocation()
+
   return (
     <>
       <div className={styles.wrapper}>
@@ -137,15 +140,21 @@ export function SquadItem({ squad }: Props) {
               </Popover>
             }
           >
-            <button
-              className={styles.id}
-              onClick={() => setPlayerModal(squad.creatorSteam64id)}
-              style={{
-                backgroundColor: colorizeCmdSquad(),
-              }}
+            <Link
+              style={{ textDecoration: 'none' }}
+              to={`player/${squad.creatorSteam64id}`}
+              state={{ background: location }}
             >
-              {squad.id}
-            </button>
+              <button
+                className={styles.id}
+                onClick={() => setPlayerModal(squad.creatorSteam64id)}
+                style={{
+                  backgroundColor: colorizeCmdSquad(),
+                }}
+              >
+                {squad.id}
+              </button>
+            </Link>
           </Whisper>
           <span
             className={styles.name}

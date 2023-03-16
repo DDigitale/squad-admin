@@ -9,7 +9,9 @@ import { warnPlayer } from 'api/users'
 import { IconButton } from 'rsuite'
 import CheckIcon from '@rsuite/icons/Check'
 import CloseIcon from '@rsuite/icons/Close'
-import { Toaster, resolveValue } from 'react-hot-toast'
+import { Link, Outlet, useLocation } from 'react-router-dom'
+import { createPortal } from 'react-dom'
+import classnames from 'classnames'
 
 interface Props {
   message: ChatMessage
@@ -59,7 +61,10 @@ export const ChatRow = forwardRef<HTMLDivElement, Props>(function ChatRow(
             />
             <IconButton
               className={styles.sendIcon}
-              onClick={handleClick}
+              onClick={() => {
+                handleClick()
+                toast.dismiss()
+              }}
               icon={<CheckIcon />}
             />
             <IconButton
@@ -79,25 +84,32 @@ export const ChatRow = forwardRef<HTMLDivElement, Props>(function ChatRow(
     )
   }
 
+  const location = useLocation()
+
   return (
     <div className={styles.row} ref={ref} style={{ color: `${rowColor()}` }}>
       <span className={styles.time}>
         {message.time.toLocaleTimeString('ru')}
       </span>
-      <span
+      <Link
+        style={{ textDecoration: 'none' }}
         className={styles.name}
         onClick={() => setPlayerModal(message.steamId)}
+        to={`player/${message.steamId}`}
+        state={{ background: location }}
       >
         {message.playerName}
-      </span>
+      </Link>
       <span className={styles.type}>{message.chatType}</span>
 
       <span className={styles.message}>
-        <BiMessageSquareError
-          className={styles.warn}
-          onClick={handleToast}
-          style={{ marginRight: '0.3rem' }}
-        />
+        <span>
+          <BiMessageSquareError
+            className={styles.warn}
+            onClick={handleToast}
+            style={{ marginRight: '0.3rem' }}
+          />
+        </span>
         {message.message}
       </span>
     </div>

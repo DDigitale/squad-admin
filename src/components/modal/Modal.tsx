@@ -2,6 +2,7 @@ import React, { ComponentPropsWithoutRef, useRef } from 'react'
 import styles from './Modal.module.scss'
 import { createPortal } from 'react-dom'
 import classnames from 'classnames'
+import { Outlet, useLocation } from 'react-router-dom'
 
 type innerElRef = React.MutableRefObject<HTMLDivElement | null>
 
@@ -11,6 +12,8 @@ interface Props extends ComponentPropsWithoutRef<'div'> {
 }
 
 export function Modal({ children, className, onClose, innerElRefs }: Props) {
+  const { state } = useLocation()
+
   const modalRoot = document.getElementById('modalRoot')
 
   const innerRef = useRef<HTMLDivElement | null>(null)
@@ -34,17 +37,43 @@ export function Modal({ children, className, onClose, innerElRefs }: Props) {
 
   if (!modalRoot) throw new Error('Modal root not found')
 
+  console.log('modal root')
+
+  console.log(state)
+
   return createPortal(
-    <div
-      className={styles.wrapper}
-      onClick={handleClick}
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-    >
-      <div className={classnames(className, styles.modal)} ref={innerRef}>
-        {children}
+    <>
+      <div
+        className={styles.wrapper}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+      >
+        <div className={classnames(className, styles.modal)} ref={innerRef}>
+          {children}
+        </div>
       </div>
-    </div>,
+      <Outlet />
+    </>,
     modalRoot
   )
 }
+
+// return state?.background ? (
+//   createPortal(
+//     <div
+//       className={styles.wrapper}
+//       onClick={handleClick}
+//       onKeyDown={handleKeyDown}
+//       tabIndex={0}
+//     >
+//       <div className={classnames(className, styles.modal)} ref={innerRef}>
+//         {children}
+//       </div>
+//       <Outlet />
+//     </div>,
+//     modalRoot
+//   )
+// ) : (
+//   <Outlet />
+// )

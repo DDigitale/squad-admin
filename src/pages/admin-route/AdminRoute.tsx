@@ -1,32 +1,21 @@
-import React, { useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { fetchAddAdmin, fetchGetAllRoleGroups } from 'api/admins'
-import {
-  Button,
-  ButtonGroup,
-  Container,
-  IconButton,
-  Input,
-  Nav,
-  Navbar,
-  Panel,
-  PanelGroup,
-  Radio,
-  RadioGroup,
-  Stack,
-} from 'rsuite'
-import SearchIcon from '@rsuite/icons/Search'
+import { useQuery } from '@tanstack/react-query'
+import { fetchGetAllRoleGroups } from 'api/admins'
 import { fetchAdmins } from 'api/users'
 import AdminList from 'pages/admin-route/AdminList'
-import styles from 'pages/admin-route/AdminRoute.module.scss'
 import AdminRoles from 'pages/admin-route/AdminRoles'
+import styles from 'pages/admin-route/AdminRoute.module.scss'
 import AdminRules from 'pages/admin-route/AdminRules'
 import Rotation from 'pages/admin-route/Rotation/Rotation'
+import { useState } from 'react'
+import {
+  Radio,
+  RadioGroup
+} from 'rsuite'
 
 function AdminRoute() {
   const [selectedRadio, setSelectedRadio] = useState('')
 
-  const { data: adminsList } = useQuery(['admin-steamIds'], fetchAdmins)
+  const { data: adminsList } = useQuery(['admin-steamIds', false], () =>  fetchAdmins(false))
 
   const { data: roleGroups } = useQuery(
     ['admin-roleGroup'],

@@ -3,6 +3,7 @@ import styles from './PlayersWithoutSquad.module.scss'
 import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 import { PlayerWithoutSquad } from 'types/players'
 import { RiErrorWarningFill } from 'react-icons/ri'
+import { Link, useLocation } from 'react-router-dom'
 
 interface Props {
   player: PlayerWithoutSquad
@@ -26,13 +27,16 @@ export function PlayersWithoutSquad({ player }: Props) {
     getImg()
   }, [player.role])
 
+  const location = useLocation()
+
   return (
-    <div className="pws-wrapper">
-      <div
-        key={player.id}
-        className={styles.item}
-        onClick={() => setPlayerModal(player.steamId)}
-      >
+    <Link
+      style={{ textDecoration: 'none' }}
+      onClick={() => setPlayerModal(player.steamId)}
+      to={`player/${player.steamId}`}
+      state={{ background: location }}
+    >
+      <div key={player.id} className={styles.item}>
         {kitImg ? (
           <img className={styles.icon} src={`${kitImg}`} />
         ) : (
@@ -52,6 +56,6 @@ export function PlayersWithoutSquad({ player }: Props) {
           />
         )}
       </div>
-    </div>
+    </Link>
   )
 }

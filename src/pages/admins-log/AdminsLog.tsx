@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import styles from './AdminsLog.module.scss'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { fetchAdmins, fetchAdminsLog, fetchPlayerSearch } from 'api/users'
-import { useSearchParams } from 'react-router-dom'
-import { AdminsLogTable } from 'pages/admins-log/AdminsLogTable'
 import useDebounce from 'components/debounce/useDebounce'
+import { AdminsLogTable } from 'pages/admins-log/AdminsLogTable'
+import { useEffect, useState } from 'react'
 import {
   CheckPicker,
   DatePicker,
@@ -13,27 +11,31 @@ import {
   Pagination,
   SelectPicker,
 } from 'rsuite'
+import styles from './AdminsLog.module.scss'
 
 type pageNumbers = number[]
 
 const listActions = [
-  { value: 'AddAdmin', label: 'AddAdmin' },
-  { value: 'AddNewPlayer', label: 'AddNewPlayer' },
-  { value: 'AddPlayerNote', label: 'AddPlayerNote' },
-  { value: 'AddPlayerOnControl', label: 'AddPlayerOnControl' },
-  { value: 'BanPlayer', label: 'BanPlayer' },
-  { value: 'ChangeCurrentLayer', label: 'ChangeCurrentLayer' },
-  { value: 'ChangeNextLayer', label: 'ChangeNextLayer' },
-  { value: 'DeactivateAdmin', label: 'DeactivateAdmin' },
-  { value: 'DeletePlayerNote', label: 'DeletePlayerNote' },
-  { value: 'DisbandSquad', label: 'DisbandSquad' },
-  { value: 'KickPlayer', label: 'KickPlayer' },
-  { value: 'PlayerTeamChange', label: 'PlayerTeamChange' },
-  { value: 'RemovePlayerFromControl', label: 'RemovePlayerFromControl' },
-  { value: 'SendBroadcast', label: 'SendBroadcast' },
-  { value: 'Unban', label: 'Unban' },
-  { value: 'WarnSquad', label: 'WarnSquad' },
-  { value: 'WarnPlayer', label: 'WarnPlayer' },
+  { value: 'BanPlayer', label: 'Забанил' },
+  { value: 'Unban', label: 'Разбанил' },
+  { value: 'KickPlayer', label: 'Кикнул' },
+  { value: 'DisbandSquad', label: 'Расформировал отряд' },
+  { value: 'RemovePlayerFromSquad', label: 'Выгнал из отряда' },
+  { value: 'PlayerTeamChange', label: 'Сменил команду' },
+  { value: 'WarnPlayer', label: 'Сообщение игроку' },
+  { value: 'WarnSquad', label: 'Сообщение отряду' },
+  { value: 'ChangeCurrentLayer', label: 'Сменил текущую карту' },
+  { value: 'ChangeNextLayer', label: 'Сменил следующую карту' },
+  { value: 'SendBroadcast', label: 'Отправил broadcast' },
+  { value: 'AddPlayerNote', label: 'Добавил заметку' },
+  { value: 'DeletePlayerNote', label: 'Удалил заметку' },
+  { value: 'AddPlayerOnControl', label: 'Поставил на контроль' },
+  { value: 'RemovePlayerFromControl', label: 'Убрал с контроля' },
+  { value: 'AddNewPlayer', label: 'Добавил игрока' },
+  { value: 'AddAdmin', label: 'Добавил админа' },
+  { value: 'DeactivateAdmin', label: 'Деактивировал админа' },
+  { value: 'EnteredInAdminCam', label: 'Зашел в камеру' },
+  { value: 'LeftFromAdminCam', label: 'Вышел из камеры' },
 ]
 
 const initialStateActions = listActions.map((action) => action.value)
@@ -90,12 +92,16 @@ export function AdminsLog() {
     }
   )
 
-  const { data: adminsList } = useQuery(['admin-steamIds'], fetchAdmins)
+  const { data: adminsList } = useQuery(['admin-steamIds', false], () =>
+    fetchAdmins(false)
+  )
 
-  const adminList = adminsList?.map((v: any) => ({
-    value: v.steamId,
-    label: v.name,
-  }))
+  const adminList = adminsList
+    ?.map((v: any) => ({
+      value: v.steamId,
+      label: v.name,
+    }))
+    .slice(1, adminsList.length)
 
   useEffect(() => {
     if (debouncedSearch) {

@@ -3,6 +3,7 @@ import styles from './SuspectedPlayers.module.scss'
 import { ViolationRow } from 'modules/suspected-players/components'
 import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 import { Players } from 'types/players'
+import { Link, useLocation } from 'react-router-dom'
 
 interface Props {
   players: Players[]
@@ -17,12 +18,17 @@ export function SuspectedPlayers({ players }: Props) {
     (player) => player.violations.length > 0
   )
 
+  const location = useLocation()
+
   return (
     <>
       <div className={styles.wrapper}>
         <span className={styles.title}>Нарушители</span>
         {playersWithViolations?.map((player) => (
-          <div
+          <Link
+            style={{ textDecoration: 'none' }}
+            to={`player/${player.steamId}`}
+            state={{ background: location }}
             key={player.id}
             onClick={() => setPlayerModal(player.steamId)}
             className={styles.list}
@@ -33,7 +39,7 @@ export function SuspectedPlayers({ players }: Props) {
                 <ViolationRow key={index} {...violation} />
               ))}
             </ul>
-          </div>
+          </Link>
         ))}
       </div>
     </>

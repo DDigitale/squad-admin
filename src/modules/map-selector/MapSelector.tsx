@@ -39,36 +39,24 @@ export function MapSelector({ nextLayer }: Props) {
   }, [nextLayer])
 
   return (
-    <>
-      <div className={styles.wrapper}>
-        <p className={styles.title}>Следующая карта</p>
-        <p className={styles.nextMap}>{nextLayer}</p>
-        {layerImg ? (
-          <div
-            className={styles.background}
-            style={{
-              backgroundImage: `url(${layerImg})`,
-            }}
-          />
-        ) : (
-          <div
-            className={styles.background}
-            style={{
-              backgroundColor: '#3c3f41',
-            }}
-          />
-        )}
-        <div className={styles.buttons}>
-          <FcList
-            className={styles.button}
-            onClick={() => setLayersMenu(!layersMenu)}
-          />
-          {/*<FcInfo*/}
-          {/*  className={styles.button}*/}
-          {/*  onClick={() => setLayerModal(nextLayer)}*/}
-          {/*/>*/}
-        </div>
-      </div>
-    </>
+    <div className={styles.wrapper} onClick={() => setLayersMenu(!layersMenu)}>
+      <p className={styles.title}>Следующая карта</p>
+      <p className={styles.nextMap}>{nextLayer}</p>
+      {layerImg ? (
+        <div
+          className={styles.background}
+          style={{
+            backgroundImage: `url(${layerImg})`,
+          }}
+        />
+      ) : (
+        <div
+          className={styles.background}
+          style={{
+            backgroundColor: '#3c3f41',
+          }}
+        />
+      )}
+    </div>
   )
 }

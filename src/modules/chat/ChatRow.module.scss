@@ -31,25 +31,24 @@
   text-align: center;
   font-size: 0.85rem;
   color: var(--color-gray3);
-  padding: 0.25rem;
+  padding: 0.15rem;
   background-color: var(--color-gray1);
   border-radius: 0.3rem;
 }
 
 .type {
-  display: flex;
-  gap: 0.25rem;
   font-weight: 300;
-  font-size: 1rem;
+  white-space: nowrap;
+  align-self: start;
   text-align: center;
-  align-items: center;
-  //color: var(--color-gray3);
-  padding: 0.25rem;
+  font-size: 0.85rem;
+  padding: 0.15rem;
   background-color: var(--color-gray1);
   border-radius: 0.3rem;
 }
 
 .message {
+  display: flex;
   grid-column: 1/-1;
   word-wrap: anywhere;
   overflow-wrap: break-word;
@@ -103,6 +102,7 @@
   cursor: pointer;
   font-size: 2rem;
   color: var(--color-gray3);
+  box-shadow: var(--shadow-1);
   transition: 0.3s;
   &:hover {
     color: var(--color-blue);
@@ -113,6 +113,7 @@
   cursor: pointer;
   font-size: 2rem;
   color: var(--color-gray3);
+  box-shadow: var(--shadow-1);
   transition: 0.3s;
   &:hover {
     color: var(--color-red);

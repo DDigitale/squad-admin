@@ -84,7 +84,6 @@ export function WarnForm({ steamId, name }: Props) {
         styles={customSelectorStyles}
         placeholder={'Выберите или введите сообщение'}
         menuPlacement={'top'}
-        isClearable
       />
       <div className={styles.container}>
         <button className={styles.button} onClick={handleMutate}>

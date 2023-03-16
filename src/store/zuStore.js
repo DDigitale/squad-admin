@@ -8,8 +8,10 @@ export const useRotationStore = create(
       immer((set, get) => ({
         layers: [],
         rotationName: '',
+        rotationId: 0,
         editRotationName: (text) =>
           set((state) => void (state.rotationName = text)),
+        setRotationId: (id) => set((state) => void (state.rotationId = id)),
         addLayer: (layer) =>
           set((state) => {
             state.layers.push(layer)
@@ -20,6 +22,9 @@ export const useRotationStore = create(
         removeLayer(layer) {
           const newLayers = get().layers.filter((l) => l.id !== layer.id)
           set({ layers: newLayers })
+        },
+        clearState() {
+          set({ layers: [], rotationName: '', rotationId: 0 })
         },
       }))
     ),

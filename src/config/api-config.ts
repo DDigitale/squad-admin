@@ -65,7 +65,9 @@ const ADD_NEW_ROTATION_GROUP = '/add-new-rotation-group'
 const GET_ALL_ROTATION_GROUPS = '/get-all-rotation-groups'
 const DELETE_ROTATION_GROUP = '/delete-rotation-group'
 const CHANGE_ROTATION_GROUP = '/change-rotation-group'
+const SET_NEXT_ROTATION_MAP_POSITION = '/set-next-rotation-map-position'
 const ACTIVATE_ROTATION_GROUP = '/activate-rotation-group'
+const DEACTIVATE_ROTATION_GROUP = '/deactivate-rotation-group'
 
 export {
   API_URL,
@@ -132,5 +134,7 @@ export {
   GET_ALL_ROTATION_GROUPS,
   DELETE_ROTATION_GROUP,
   CHANGE_ROTATION_GROUP,
+  SET_NEXT_ROTATION_MAP_POSITION,
   ACTIVATE_ROTATION_GROUP,
+  DEACTIVATE_ROTATION_GROUP,
 }

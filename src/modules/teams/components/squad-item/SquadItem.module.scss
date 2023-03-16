@@ -72,6 +72,8 @@
 }
 
 .lock {
+  display: flex;
+  align-items: center;
   font-size: 1.5rem;
 }
 
@@ -97,6 +99,7 @@
   cursor: pointer;
   font-size: 2rem;
   color: var(--color-gray3);
+  box-shadow: var(--shadow-1);
   transition: 0.3s;
   &:hover {
     color: var(--color-blue);
@@ -107,6 +110,7 @@
   cursor: pointer;
   font-size: 2rem;
   color: var(--color-gray3);
+  box-shadow: var(--shadow-1);
   transition: 0.3s;
   &:hover {
     color: var(--color-red);

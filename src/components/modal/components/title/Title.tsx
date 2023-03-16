@@ -3,13 +3,13 @@ import styles from './Title.module.scss'
 import { RiErrorWarningFill } from 'react-icons/ri'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { addPlayerOnControl, removePlayerOnControl } from 'api/users'
+import { TbCopy } from 'react-icons/tb'
 
 interface Props {
   player: any
-  refetch: () => void
 }
 
-export function Title({ player, refetch }: Props) {
+export function Title({ player }: Props) {
   const queryClient = useQueryClient()
   const [kitImg, setKitImg] = useState<string | null>(null)
 
@@ -43,12 +43,8 @@ export function Title({ player, refetch }: Props) {
 
   const onControlHandler = () => {
     player.isOnControl
-      ? removePlayerOnControlMutation.mutate(undefined, {
-          onSuccess: () => refetch(),
-        })
-      : addPlayerOnControlMutation.mutate(undefined, {
-          onSuccess: () => refetch(),
-        })
+      ? removePlayerOnControlMutation.mutate()
+      : addPlayerOnControlMutation.mutate()
   }
 
   return (
@@ -76,6 +72,7 @@ export function Title({ player, refetch }: Props) {
               }`}
               style={{ marginLeft: '0.5rem' }}
               onClick={onControlHandler}
+              title={'поставить на контроль'}
             />
           </span>
           {player.isOnline ? (
@@ -100,12 +97,12 @@ export function Title({ player, refetch }: Props) {
             >
               {player.steamId}
             </a>
-            {/*<TbCopy*/}
-            {/*  className={styles.copy}*/}
-            {/*  onClick={async () =>*/}
-            {/*    await navigator['clipboard'].writeText(`${player.steamId}`)*/}
-            {/*  }*/}
-            {/*/>*/}
+            <TbCopy
+              className={styles.copy}
+              onClick={async () =>
+                await navigator['clipboard'].writeText(`${player.steamId}`)
+              }
+            />
           </div>
         </div>
       </div>

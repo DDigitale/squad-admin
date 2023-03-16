@@ -3,6 +3,7 @@ import styles from './PlayerItem.module.scss'
 import { RiErrorWarningFill } from 'react-icons/ri'
 import { PlayerModalContext, PlayerModalContextType } from 'contexts'
 import { Players, PlayerWithoutSquad } from 'types/players'
+import { Link, useLocation } from 'react-router-dom'
 
 interface Props {
   player: Players | PlayerWithoutSquad
@@ -37,9 +38,14 @@ export function PlayerItem({ player }: Props) {
     }
   }
 
+  const location = useLocation()
+
   return (
     <>
-      <div
+      <Link
+        style={{ textDecoration: 'none' }}
+        to={`player/${player.steamId}`}
+        state={{ background: location }}
         className={styles.wrapper}
         onClick={() => setPlayerModal(player.steamId)}
       >
@@ -55,10 +61,11 @@ export function PlayerItem({ player }: Props) {
         </span>
         {player.isOnControl && (
           <RiErrorWarningFill
+            title={'на контроле'}
             style={{ color: '#FD4B4CFF', fontSize: '2rem' }}
           />
         )}
-      </div>
+      </Link>
     </>
   )
 }

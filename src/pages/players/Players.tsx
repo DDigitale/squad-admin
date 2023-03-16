@@ -3,7 +3,7 @@ import styles from 'pages/players/Players.module.scss'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchPlayers } from 'api/users'
 import { PlayersTable } from 'pages/players/PlayersTable'
-import { useSearchParams } from 'react-router-dom'
+import { Outlet, useSearchParams } from 'react-router-dom'
 import { Loader, Pagination } from 'rsuite'
 
 type pageNumbers = number[]

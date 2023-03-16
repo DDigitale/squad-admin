@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import styles from './TeamItem.module.scss'
+import { useEffect, useState } from 'react'
 import { Team } from 'types/players'
-import { SquadItem } from '../squad-item'
+import { factionConverter } from 'utils/factionConverter'
 import { PlayersWithoutSquad } from '../player-without-squad'
+import { SquadItem } from '../squad-item'
+import styles from './TeamItem.module.scss'
 
 interface Props {
   team: Team
@@ -15,7 +16,7 @@ export function TeamItem({ team }: Props) {
     const getImg = async () => {
       try {
         const { default: flagImg } = await import(
-          `../../../../assets/img/flags/flag_${team.teamNameShort}.png`
+          `../../../../assets/img/flags/flag_${teamShort}.png`
         )
         setFlagImg(flagImg)
       } catch (e) {}
@@ -23,40 +24,43 @@ export function TeamItem({ team }: Props) {
     getImg()
   }, [team])
 
-  let team1: any
-  switch (team.teamNameShort) {
+  let teamShort = factionConverter(team.teamNameShort)
+
+  let teamName: string;
+
+  switch (teamShort) {
     case 'CAF':
-      team1 = 'Канада'
+      teamName = 'Канада'
       break
     case 'GB':
-      team1 = 'Великобритания'
+      teamName = 'Великобритания'
       break
     case 'INS':
-      team1 = 'Повстанцы'
+      teamName = 'Повстанцы'
       break
     case 'MIL':
-      team1 = 'Ополченцы'
+      teamName = 'Ополченцы'
       break
     case 'RUS':
-      team1 = 'Россия'
+      teamName = 'Россия'
       break
     case 'USA':
-      team1 = 'США'
+      teamName = 'США'
       break
     case 'USMC':
-      team1 = 'Морпехи'
+      teamName = 'Морпехи'
       break
     case 'MEA':
-      team1 = 'МЕА'
+      teamName = 'МЕА'
       break
     case 'AUS':
-      team1 = 'Австралия'
+      teamName = 'Австралия'
       break
     case 'PLA':
-      team1 = 'Китай'
+      teamName = 'Китай'
       break
     default:
-      team1 = '---'
+      teamName = '---'
       break
   }
 
@@ -65,7 +69,7 @@ export function TeamItem({ team }: Props) {
       <div className={styles.flagWrapper}>
         <div className={styles.flagContent}>
           <img src={flagImg!} alt="" />
-          <p className={styles.generatedName}>{team1}</p>
+          <p className={styles.generatedName}>{teamName}</p>
         </div>
       </div>
       {team.squads.map((squad) => (

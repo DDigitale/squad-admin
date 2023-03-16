@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react'
-import styles from './Bans.module.scss'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   fetchAdmins,
@@ -9,8 +7,10 @@ import {
   fetchAllPermanentBansByParams,
   fetchPlayerSearch,
 } from 'api/users'
-import BansTable from 'pages/bans/BansTable'
+import useDebounce from 'components/debounce/useDebounce'
 import BanOffline from 'pages/bans/BanOffline'
+import BansTable from 'pages/bans/BansTable'
+import { useEffect, useState } from 'react'
 import {
   InputPicker,
   Loader,
@@ -19,7 +19,7 @@ import {
   RadioGroup,
   SelectPicker,
 } from 'rsuite'
-import useDebounce from 'components/debounce/useDebounce'
+import styles from './Bans.module.scss'
 
 function Bans() {
   const queryClient = useQueryClient()
@@ -34,12 +34,16 @@ function Bans() {
 
   const pageLimit = 30
 
-  const { data: adminsList } = useQuery(['admin-steamIds'], fetchAdmins)
+  const { data: adminsList } = useQuery(['admin-steamIds', false], () =>
+    fetchAdmins(false)
+  )
 
-  const adminList = adminsList?.map((v: any) => ({
-    value: v.steamId,
-    label: v.name,
-  }))
+  const adminList = adminsList
+    ?.map((v: any) => ({
+      value: v.steamId,
+      label: v.name,
+    }))
+    .slice(1, adminsList.length)
 
   const searchPlayerMutation = useMutation(
     () => fetchPlayerSearch(searchPlayerInInput.toString()),
@@ -141,7 +145,7 @@ function Bans() {
             <Radio value="A">Все баны</Radio>
             <Radio value="B">Активные</Radio>
             <Radio value="C">Перманент</Radio>
-            <Radio value="D">Не активные</Radio>
+            <Radio value="D">Неактивные</Radio>
             <Radio value="E">Оффлайн бан</Radio>
           </RadioGroup>
           {selectedRadio === 'E' ? (

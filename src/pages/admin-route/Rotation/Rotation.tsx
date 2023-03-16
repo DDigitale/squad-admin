@@ -1,52 +1,58 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { factionConverter } from 'utils/factionConverter'
-import styles from 'pages/admin-route/Rotation/Rotation.module.scss'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import {
-  fetchAllLayers,
-  fetchAddNewRotationGroup,
-  fetchAllRotationGroups,
-  fetchDeleteRotationGroup,
-  fetchChangeRotationGroup,
-} from 'api/layers'
-import {
-  Button,
-  ButtonGroup,
-  ButtonToolbar,
-  IconButton,
-  Input,
-  InputPicker,
-  SelectPicker,
-} from 'rsuite'
-import PlusIcon from '@rsuite/icons/Plus'
-import { mapNamesList } from 'api/local/mapNamesList'
-import { gameModesList } from 'api/local/gameModesList'
 import AddOutlineIcon from '@rsuite/icons/AddOutline'
 import CloseOutlineIcon from '@rsuite/icons/CloseOutline'
-import { useRotationStore } from 'store/zuStore'
-import { errorToast } from 'utils/toasts'
+import PlusIcon from '@rsuite/icons/Plus'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  fetchActivateRotationGroup,
+  fetchAddNewRotationGroup,
+  fetchAllLayers,
+  fetchAllRotationGroups,
+  fetchChangeRotationGroup,
+  fetchDeactivateRotationGroup,
+  fetchDeleteRotationGroup,
+  fetchSetNextRotationMapPosition,
+} from 'api/layers'
+import { gameModesList } from 'api/local/gameModesList'
+import { mapNamesList } from 'api/local/mapNamesList'
 import {
   LayerActionsContext,
   LayerActionsContextType,
 } from 'contexts/layer-actions-context'
+import styles from 'pages/admin-route/Rotation/Rotation.module.scss'
+import React, { useContext, useEffect, useState } from 'react'
+import {
+  Button,
+  ButtonGroup,
+  IconButton,
+  Input,
+  Popover,
+  SelectPicker,
+  Whisper,
+} from 'rsuite'
+import { useRotationStore } from 'store/zuStore'
+import { factionConverter } from 'utils/factionConverter'
+import { errorToast } from 'utils/toasts'
 
 function Rotation() {
   const [layerActions, setLayerActions] = useContext(
     LayerActionsContext
   ) as LayerActionsContextType
   const layersData = useRotationStore((state) => state.layers)
+  const rotationIdFromStore = useRotationStore((state) => state.rotationId)
   const editRotationName = useRotationStore((state) => state.editRotationName)
+  const setRotationId = useRotationStore((state) => state.setRotationId)
   const addLayer = useRotationStore((state) => state.addLayer)
   const updateLayers = useRotationStore((state) => state.updateLayers)
   const removeLayer = useRotationStore((state) => state.removeLayer)
+  const clearState = useRotationStore((state) => state.clearState)
 
   const queryClient = useQueryClient()
   const [currentLayer, setCurrentLayer] = useState<any>(null)
   const [layers, setLayers] = useState<any>([])
   const [rotationName, setRotationName] = useState<any>('')
-
   const [selectedMap, setSelectedMap] = useState<string | null>('')
   const [selectedMode, setSelectedMode] = useState('')
+  const [rotationEdit, setRotationEdit] = useState(false)
 
   const { data: allLayersData } = useQuery(['get-all-layers'], fetchAllLayers, {
     refetchOnMount: false,
@@ -76,28 +82,53 @@ function Rotation() {
     }
   }
 
-  //activate-rotation-group
-  //set-next-rotation-map-position
-  //change-rotation-group изменение конкретной ротации
-
-  const layersForBackend = layers.sort(sortLayers).map((layer: any) => {
-    return { mapId: layer.id, position: layer.position }
+  const layersForBackend = layers?.sort(sortLayers).map((layer: any) => {
+    return { mapId: layer.id, position: layer.position + 1 }
   })
 
-  // отправлять запрос на бекенд по соответствующему серверу порту 8000 или 8001
+  let id: any
+  let findedId: any
+  let position: any
+  let port: any
+
   const activateRotation = useMutation(
-    (rotationId: any) => fetchChangeRotationGroup(rotationId),
+    () => fetchActivateRotationGroup(id, port),
     {
       onSuccess: () => queryClient.invalidateQueries(['rotations']),
     }
   )
 
-  // rotationGroupId, массив {map, positions}, name
-  // брать данные из стейта
-  const changeRotation = useMutation(
-    (rotationId: any) => fetchChangeRotationGroup(rotationId),
+  const deactivateRotation = useMutation(
+    () => fetchDeactivateRotationGroup(findedId, port),
     {
       onSuccess: () => queryClient.invalidateQueries(['rotations']),
+    }
+  )
+
+  const setNextRotationMapPosition = useMutation(
+    () => fetchSetNextRotationMapPosition(position),
+    {
+      onSuccess: () => queryClient.invalidateQueries(['rotations']),
+    }
+  )
+
+  const editRotation = useMutation(
+    () =>
+      fetchChangeRotationGroup(
+        rotationIdFromStore,
+        layersForBackend,
+        // layers.map((l: any, index: any) => ({
+        //   mapId: l.id,
+        //   position: index + 1,
+        // })),
+        rotationName
+      ),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['rotations'])
+        setRotationName('')
+        clearState()
+      },
     }
   )
 
@@ -108,7 +139,11 @@ function Rotation() {
         maps: layersForBackend,
       }),
     {
-      onSuccess: () => queryClient.invalidateQueries(['rotations']),
+      onSuccess: () => {
+        queryClient.invalidateQueries(['rotations'])
+        setRotationName('')
+        clearState()
+      },
     }
   )
 
@@ -118,6 +153,26 @@ function Rotation() {
       onSuccess: () => queryClient.invalidateQueries(['rotations']),
     }
   )
+
+  const handleEditRotation = (rotationId: number) => {
+    setRotationEdit(true)
+    clearState()
+    const rotation = allRotationGroups.rotations.filter(
+      (l: any) => l.id === rotationId
+    )[0]
+
+    const layers = rotation?.maps.map((l: any) => ({
+      id: l.map.id,
+      name: l.map.name,
+      teamOne: l.map.teamOne,
+      teamTwo: l.map.teamTwo,
+      rawName: l.map.rawName,
+    }))
+    editRotationName(rotation.name)
+    setRotationName(rotation.name)
+    setRotationId(rotationId)
+    updateLayers(layers)
+  }
 
   const mapNames = mapNamesList.map((map) => {
     return { value: map, label: map }
@@ -207,60 +262,153 @@ function Rotation() {
     )
   }
 
+  const deactivateActiveRotation = (rotations: any) => {
+    findedId = rotations.find((r: any) => r.isActive === true).id
+    port = localStorage.getItem('server')
+    deactivateRotation.mutate()
+  }
+
+  const sortActiveRotationFirst = (active: any) => {
+    if (active.isActive === true) {
+      return -1
+    } else {
+      return 1
+    }
+  }
+
   return (
     <div className={styles.wrapper}>
       <section className={styles.leftSection}>
+        <Button
+          onClick={() => deactivateActiveRotation(allRotationGroups.rotations)}
+          style={{ marginBottom: '1rem' }}
+          color="green"
+          disabled={
+            !allRotationGroups?.rotations.find((r: any) => r.isActive === true)
+          }
+        >
+          Деактивировать активные ротации
+        </Button>
         <div className={styles.addedLayers}>
-          <span style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
-            Список ротаций
-          </span>
-          {allRotationGroups?.map((r: any) => (
-            <ButtonGroup key={r.id} className={styles.buttonGroup} justified>
-              <IconButton
-                onClick={() => {
-                  confirm(`Удалить ротацию ${r.id} ${r.name}?`) &&
-                    deleteRotation.mutate(r.id)
-                }}
-                icon={<CloseOutlineIcon />}
-                style={{ maxWidth: 40 }}
-              />
-              <Button
-                onClick={() => changeRotation.mutate(r.id)}
-                appearance="default"
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  gap: '0.5rem',
-                }}
-                size="md"
-              >
-                <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
-                  {r.name}
-                </span>
-              </Button>
-              {r.isActive ? (
-                <Button color="green">
-                  Активна на: ${r.serverID.shortName}
-                </Button>
-              ) : (
-                <>
-                  <Button style={{ maxWidth: 60 }}>ОС-1</Button>
-                  <Button style={{ maxWidth: 60 }}>ОС-2</Button>
-                </>
-              )}
-            </ButtonGroup>
-          ))}
+          {allRotationGroups?.rotations
+            .sort(sortActiveRotationFirst)
+            .map((r: any) => (
+              <ButtonGroup key={r.id} className={styles.buttonGroup} justified>
+                <IconButton
+                  onClick={() => {
+                    confirm(`Удалить ротацию ${r.id} ${r.name}?`) &&
+                      deleteRotation.mutate(r.id)
+                  }}
+                  icon={<CloseOutlineIcon />}
+                  style={{ maxWidth: 40 }}
+                />
+                <Whisper
+                  placement="bottomStart"
+                  trigger="hover"
+                  enterable={r.isActive === true}
+                  speaker={
+                    <Popover title={r.name}>
+                      {r.isActive ? (
+                        <div
+                          style={{
+                            display: 'flex',
+                            gap: '0.3rem',
+                            flexDirection: 'column',
+                          }}
+                        >
+                          <span>Активна</span>
+                          {r.maps.map((m: any) => (
+                            <div
+                              style={{
+                                color:
+                                  allRotationGroups.nextMapPosition ===
+                                  m.map.rawName
+                                    ? 'yellowgreen'
+                                    : '',
+                              }}
+                              className={styles.mapInActiveRotationRow}
+                              onClick={() => {
+                                console.log(m.position)
+                                position = m.position
+                                setNextRotationMapPosition.mutate()
+                              }}
+                              title={'выбрать следующую карту в ротации'}
+                            >
+                              <span style={{ width: '3rem' }}>
+                                {factionConverter(m.map.teamOne.faction)}
+                              </span>
+                              <span style={{ width: '3rem' }}>
+                                {factionConverter(m.map.teamTwo.faction)}
+                              </span>
+                              <span>{m.map.name}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div>
+                          {r.maps.map((m: any) => (
+                            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                              <span style={{ width: '2rem' }}>
+                                {factionConverter(m.map.teamOne.faction)}
+                              </span>
+                              <span style={{ width: '2rem' }}>
+                                {factionConverter(m.map.teamTwo.faction)}
+                              </span>
+                              <span>{m.map.name}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </Popover>
+                  }
+                >
+                  <Button
+                    onClick={() => handleEditRotation(r.id)}
+                    appearance="default"
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      gap: '0.5rem',
+                    }}
+                    size="md"
+                  >
+                    <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+                      {r.name}
+                    </span>
+                  </Button>
+                </Whisper>
+                {r.isActive ? (
+                  <Button style={{ color: 'yellowgreen' }}>Активна</Button>
+                ) : (
+                  <Button
+                    style={{ maxWidth: '10rem' }}
+                    onClick={() => {
+                      id = r.id
+                      port = localStorage.getItem('server')
+                      confirm(`Установить ротацию ${r.name}`) &&
+                        activateRotation.mutate()
+                    }}
+                    disabled={allRotationGroups?.rotations.find(
+                      (r: any) => r.isActive === true
+                    )}
+                  >
+                    Активировать
+                  </Button>
+                )}
+              </ButtonGroup>
+            ))}
         </div>
       </section>
       <section className={styles.centerSection}>
         <Input
           placeholder="Имя ротации"
           minLength={5}
+          value={rotationName}
           onChange={(e: any) => editRotationNameHandler(e)}
           style={{ marginBottom: '0.5rem' }}
         />
         <div className={styles.addedLayers}>
-          {layers.sort(sortLayers).map((layer: any, index: any) => (
+          {layers?.sort(sortLayers).map((layer: any, index: any) => (
             <ButtonGroup
               className={styles.buttonGroup}
               justified
@@ -282,14 +430,11 @@ function Rotation() {
                 }}
                 size="md"
               >
-                {/*<span>idx:{index}</span>*/}
-                {/*<span>pos:{layer.position}</span>*/}
-                {/*<span>mapid:{layer.id}</span>*/}
                 <span style={{ width: 36 }}>
-                  {factionConverter(layer.teamOne.faction)}
+                  {factionConverter(layer.teamOne?.faction)}
                 </span>
                 <span style={{ width: 36 }}>
-                  {factionConverter(layer.teamTwo.faction)}
+                  {factionConverter(layer.teamTwo?.faction)}
                 </span>
                 <span
                   id="rawName"
@@ -307,13 +452,34 @@ function Rotation() {
           ))}
         </div>
         <div className={styles.saveRotationBtn}>
-          <IconButton
-            disabled={rotationName.length < 5}
-            onClick={() => saveRotation.mutate()}
-            icon={<PlusIcon />}
+          {rotationEdit ? (
+            <IconButton
+              disabled={rotationName.length < 5 || layers.length < 5}
+              onClick={() => editRotation.mutate()}
+              icon={<PlusIcon />}
+            >
+              Сохранить изменения
+            </IconButton>
+          ) : (
+            <IconButton
+              disabled={rotationName.length < 5 || layers.length < 5}
+              onClick={() => saveRotation.mutate()}
+              // onClick={() => editRotation.mutate()}
+              icon={<PlusIcon />}
+            >
+              Сохранить ротацию
+            </IconButton>
+          )}
+          <Button
+            onClick={() => {
+              clearState()
+              setRotationName('')
+              setRotationEdit(false)
+              setRotationId(0)
+            }}
           >
-            Сохранить ротацию
-          </IconButton>
+            Очистить редактор
+          </Button>
         </div>
       </section>
       <section>
@@ -339,7 +505,16 @@ function Rotation() {
         </div>
         {selectedMap || selectedMode
           ? filteredData?.map((layer: any) => (
-              <ButtonGroup className={styles.buttonGroup} justified>
+              <ButtonGroup
+                key={layer.id}
+                className={styles.buttonGroup}
+                justified
+                style={{
+                  display: layers.find((l: any) => l.id === layer.id)
+                    ? 'none'
+                    : '',
+                }}
+              >
                 <IconButton
                   onClick={() => addLayerHandler(layer)}
                   icon={<AddOutlineIcon />}

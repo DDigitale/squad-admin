@@ -4,10 +4,7 @@ import {
   ADD_ROLE_GROUP,
   ADD_ROLE_IN_ROLE_GROUP,
   API_URL,
-  DELETE_ADMIN,
-  GET_ALL_ROLE_GROUPS,
-  GET_ALL_ROLES,
-  GET_BACKEND_STATUS,
+  DELETE_ADMIN, GET_ALL_ROLES, GET_ALL_ROLE_GROUPS, GET_BACKEND_STATUS,
   GET_ME,
   GET_MY_ROLE_GROUP,
   GET_ROLE,
@@ -16,7 +13,7 @@ import {
   REMOVE_ROLE_FROM_ROLE_GROUP,
   REMOVE_ROLE_GROUP,
   SET_ROLE_GROUP_TO_ADMIN,
-  SET_RULES,
+  SET_RULES
 } from 'config'
 import { errorToast, successToast } from 'utils/toasts'
 
@@ -233,7 +230,7 @@ export const fetchRemoveRoleGroup = async (roleGroupId: number) => {
     successToast(`Группа ролей удалена`)
     return response.data
   } catch (e: any) {
-    errorToast(`Не удалось получить список опций: ${e.message}`)
+    errorToast(`Не удалось удалить группу ролей. Роль привязана к одному из админов`)
   }
 }
 

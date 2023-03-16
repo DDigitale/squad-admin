@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styles from 'pages/admin-route/AdminListRow.module.scss'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import CheckIcon from '@rsuite/icons/Check'
 import { fetchDeactivateAdmin, fetchSetRoleGroupToAdmin } from 'api/admins'
 import toast from 'react-hot-toast'
 import { IconButton, SelectPicker } from 'rsuite'
+import { PlayerModalContext, PlayerModalContextType } from 'contexts'
+import { Link, useLocation } from 'react-router-dom'
 
 interface Props {
   admin: any
@@ -12,6 +14,9 @@ interface Props {
 }
 
 function AdminListRow({ admin, roleGroups }: Props) {
+  const [playerModal, setPlayerModal] = useContext(
+    PlayerModalContext
+  ) as PlayerModalContextType
   const queryClient = useQueryClient()
   const [adminSteamId, setAdminSteamId] = useState('')
   const [roleGroupId, setRoleGroupId] = useState('')
@@ -46,8 +51,15 @@ function AdminListRow({ admin, roleGroups }: Props) {
     }
   }
 
+  const location = useLocation()
+
   return (
-    <div className={styles.row}>
+    <div
+      className={styles.row}
+      style={{
+        display: admin.name.includes('Rotation') ? 'none' : '',
+      }}
+    >
       <img
         style={{ width: 80, height: 80, borderRadius: '0.3rem' }}
         src={admin.avatarFull}
@@ -72,7 +84,14 @@ function AdminListRow({ admin, roleGroups }: Props) {
             gap: '0.5rem',
           }}
         >
-          <span style={{ whiteSpace: 'nowrap' }}>{admin.name}</span>
+          <Link
+            onClick={() => setPlayerModal(admin.steamId)}
+            to={`/player/${admin.steamId}`}
+            state={{ background: location }}
+            style={{ whiteSpace: 'nowrap' }}
+          >
+            {admin.name}
+          </Link>
           <a
             href={`http://steamcommunity.com/profiles/${admin.steamId}`}
             target="_blank"

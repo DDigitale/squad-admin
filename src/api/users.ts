@@ -9,9 +9,9 @@ import {
   DELETE_PLAYER_NOTE,
   DISBAND_SQUAD,
   GET_ACTIVE_BANS_BY_PARAMS,
-  GET_ADMIN_ACTIONS_WITH_PLAYER,
   GET_ADMINS,
   GET_ADMINS_ACTIONS,
+  GET_ADMIN_ACTIONS_WITH_PLAYER,
   GET_ALL_BANS_BY_PARAMS,
   GET_CHAT_MESSAGES,
   GET_DISCONNECTED_PLAYERS,
@@ -20,11 +20,11 @@ import {
   GET_ONLINE_PLAYERS,
   GET_PERMANENT_BANS_BY_PARAMS,
   GET_PLAYER,
+  GET_PLAYERS,
+  GET_PLAYERS_BY_CONTAINS_TEXT,
   GET_PLAYER_MESSAGES,
   GET_PLAYER_NOTES,
   GET_PLAYER_PUNISHMENT_HISTORY,
-  GET_PLAYERS,
-  GET_PLAYERS_BY_CONTAINS_TEXT,
   GET_SERVER_INFO,
   KICK_PLAYER,
   LOGOUT,
@@ -39,8 +39,8 @@ import {
 } from 'config'
 // @ts-ignore
 import jsonBigInt from 'json-bigint'
-import { extendData } from 'utils'
 import { ChatMessage, DisconnectedPlayer, Player, Team } from 'types/players'
+import { extendData } from 'utils'
 import { errorToast, successToast } from 'utils/toasts'
 
 export const JSONbig = jsonBigInt({ storeAsString: true })
@@ -226,25 +226,19 @@ export const fetchAdminsLog = async (
   return response.data
 }
 
-export const fetchAdmins = async () => {
-  const response = await axios.post(
-    API_URL + GET_ADMINS,
-    {
-      page: 1,
-      size: 99,
+export const fetchAdmins = async (withCountOfActions: any) => {
+  const response = await axios.get(API_URL + GET_ADMINS, {
+    params: { withCountOfActions },
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'multipart/form-data',
     },
-    {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'multipart/form-data',
+    transformResponse: [
+      (data) => {
+        return JSONbig.parse(data)
       },
-      transformResponse: [
-        (data) => {
-          return JSONbig.parse(data)
-        },
-      ],
-    }
-  )
+    ],
+  })
   return response.data
 }
 

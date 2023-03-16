@@ -14,7 +14,6 @@ export function ServerInfo({ server }: Props) {
         const mapName = server?.currentLayer?.split(' ')[0].startsWith('Fool')
           ? 'Fool'
           : server?.currentLayer?.split(' ')[0]
-
         const { default: layerImg } = await import(
           `../../assets/img/bg-layers/${mapName}.png`
         )

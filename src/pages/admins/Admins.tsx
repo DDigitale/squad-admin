@@ -1,11 +1,10 @@
-import React from 'react'
-import styles from './Admins.module.scss'
-import { useQuery } from '@tanstack/react-query'
-import { fetchAdmins } from 'api/users'
-import AdminsTable from 'pages/admins/AdminsTable'
+import { useQuery } from '@tanstack/react-query';
+import { fetchAdmins } from 'api/users';
+import AdminsTable from 'pages/admins/AdminsTable';
+import styles from './Admins.module.scss';
 
 export function Admins() {
-  const { data: admins, isSuccess, isError } = useQuery(['admins'], fetchAdmins)
+  const { data: admins, isSuccess, isError } = useQuery(['admins', true], () => fetchAdmins(true))
 
   return (
     <div className={styles.wrapper}>

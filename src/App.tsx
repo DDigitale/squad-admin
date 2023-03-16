@@ -1,5 +1,11 @@
-import React, { Profiler, useEffect, useState } from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import React, { useState } from 'react'
+import {
+  Outlet,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom'
 import { PrivateRoutes } from 'layout'
 import { PlayerModalContext } from 'contexts'
 import { steamId } from 'types/players'
@@ -40,46 +46,95 @@ function App() {
       myRoleGroup.roles.map((role: any) => role.role.name)
     )
   }
+  const navigate = useNavigate()
+  const location = useLocation()
+  const background = location.state && location.state.background
+
+  const steamIdFromLocation = location.pathname.slice(8)
 
   return (
     <CustomProvider theme="dark" locale={ruRU}>
       <PlayerModalContext.Provider value={[playerInModal, setPlayerInModal]}>
         <LayersContext.Provider value={[layersInMenu, setLayersInMenu]}>
           <LayerActionsContext.Provider value={[layerInModal, setLayerInModal]}>
-            <Router>
-              <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route element={<PrivateRoutes />}>
-                  <Route path="/" element={<Panel />} />
-                  {roles?.includes('Admin log access') ? (
-                    <>
-                      <Route path="/admins-log" element={<AdminsLog />} />
-                    </>
-                  ) : null}
-                  {roles?.includes('Base access') ? (
-                    <>
-                      <Route path="/players-list" element={<Players />} />
-                      <Route path="/admins-list" element={<Admins />} />
-                      <Route path="/bans-log" element={<Bans />} />
-                      <Route path="/chat-log" element={<ChatHistory />} />
-                    </>
-                  ) : null}
-                  {roles?.includes('Management') ? (
-                    <Route path="/admin-route" element={<AdminRoute />} />
-                  ) : null}
-                </Route>
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Router>
+            <Routes location={background || location}>
+              <Route path="/login" element={<Login />} />
+              <Route element={<PrivateRoutes />}>
+                <Route path="/" element={<Panel />} />
+                {roles?.includes('Admin log access') ? (
+                  <>
+                    <Route path="/admins-log" element={<AdminsLog />} />
+                  </>
+                ) : null}
+                {roles?.includes('Base access') ? (
+                  <>
+                    <Route path="/players-list" element={<Players />} />
+                    <Route path="/admins-list" element={<Admins />} />
+                    <Route path="/bans-log" element={<Bans />} />
+                    <Route path="/chat-log" element={<ChatHistory />} />
+                  </>
+                ) : null}
+                {roles?.includes('Management') ? (
+                  <Route path="/admin-route" element={<AdminRoute />} />
+                ) : null}
+              </Route>
+              <Route
+                path={roles ? `player/${steamIdFromLocation}` : 'undefined'}
+                element={
+                  <PlayerModal
+                    playerSteamId={steamIdFromLocation}
+                    onClose={() => {
+                      navigate(-1)
+                      setPlayerInModal(null)
+                    }}
+                  />
+                }
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
             {layerInModal && (
               <LayerModal onClose={() => setLayerInModal(undefined)} />
             )}
-            {playerInModal && (
-              <PlayerModal
-                playerSteamId={playerInModal}
-                onClose={() => setPlayerInModal(null)}
-              />
+
+            {background && (
+              <Routes>
+                <Route
+                  path="/player"
+                  element={
+                    playerInModal && (
+                      <PlayerModal
+                        playerSteamId={playerInModal}
+                        onClose={() => {
+                          navigate(-1)
+                          setPlayerInModal(null)
+                        }}
+                      />
+                    )
+                  }
+                >
+                  <Route
+                    path=":steamId"
+                    element={
+                      playerInModal && (
+                        <PlayerModal
+                          playerSteamId={playerInModal}
+                          onClose={() => {
+                            navigate(-1)
+                            setPlayerInModal(null)
+                          }}
+                        />
+                      )
+                    }
+                  />
+                </Route>
+              </Routes>
             )}
+            {/*{playerInModal && (*/}
+            {/*  <PlayerModal*/}
+            {/*    playerSteamId={playerInModal}*/}
+            {/*    onClose={() => setPlayerInModal(null)}*/}
+            {/*  />*/}
+            {/*)}*/}
             <Toaster
               position="bottom-left"
               reverseOrder={false}

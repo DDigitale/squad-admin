@@ -8,6 +8,7 @@ import {
   FaSteam,
   FaUserTie,
 } from 'react-icons/fa'
+import { Link, useLocation } from 'react-router-dom'
 
 interface Props {
   player: any
@@ -18,14 +19,19 @@ export function PlayerRow({ player }: Props) {
     PlayerModalContext
   ) as PlayerModalContextType
 
+  const location = useLocation()
+
   return (
     <div className={styles.row}>
-      <span
+      <Link
+        style={{ textDecoration: 'none' }}
+        to={`/player/${player.steamId}`}
+        state={{ background: location }}
         className={styles.name}
         onClick={() => setPlayerModal(player.steamId)}
       >
         {player.name}
-      </span>
+      </Link>
       <a
         className={styles.link}
         href={`http://steamcommunity.com/profiles/${player.steamId}`}

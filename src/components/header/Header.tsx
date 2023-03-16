@@ -19,7 +19,7 @@ import {
   Popover,
   Whisper,
 } from 'rsuite'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 
 let links: any[] = []
 
@@ -65,11 +65,11 @@ function Header() {
     await window.location.replace('/')
   }
 
-  const { data: serverOne } = useQuery(
-    ['serverOne'],
-    () => fetchServerInfoWithPort(8000),
-    { refetchInterval: 5000 }
-  )
+  // const { data: serverOne } = useQuery(
+  //   ['serverOne'],
+  //   () => fetchServerInfoWithPort(8000),
+  //   { refetchInterval: 5000 }
+  // )
 
   // const { data: serverTwo } = useQuery(
   //   ['serverTwo'],
@@ -93,25 +93,27 @@ function Header() {
     setSearchPlayer('')
   }
 
+  let server = localStorage.getItem('server')
+
   useEffect(() => {
-    localStorage.setItem('server', String(8000))
-  }, [])
+    server = localStorage.getItem('server')
+  }, [server])
 
-  const server = localStorage.getItem('server')
+  // const speakerOne = (
+  //   <Popover title={serverOne?.serverName}>
+  //     <div>
+  //       <p>
+  //         Игроков: {serverOne?.playerCount}/100{' '}
+  //         {serverOne?.publicQueue === 0 ? `` : `(+ ${serverOne?.publicQueue})`}
+  //       </p>
+  //       <p>TPS: {serverOne?.serverTickRate}</p>
+  //       <p>Текущая карта: {serverOne?.currentLayer}</p>
+  //       <p>Следующая карта: {serverOne?.nextLayer}</p>
+  //     </div>
+  //   </Popover>
+  // )
 
-  const speakerOne = (
-    <Popover title={serverOne?.serverName}>
-      <div>
-        <p>
-          Игроков: {serverOne?.playerCount}/100{' '}
-          {serverOne?.publicQueue === 0 ? `` : `(+ ${serverOne?.publicQueue})`}
-        </p>
-        <p>TPS: {serverOne?.serverTickRate}</p>
-        <p>Текущая карта: {serverOne?.currentLayer}</p>
-        <p>Следующая карта: {serverOne?.nextLayer}</p>
-      </div>
-    </Popover>
-  )
+  console.log('Header.tsx включить спикер на второй сервер')
 
   // const speakerTwo = (
   //   <Popover title={serverTwo?.serverName}>
@@ -127,27 +129,29 @@ function Header() {
   //   </Popover>
   // )
 
+  const location = useLocation()
+
   return (
     <div className={styles.wrapper}>
       <ButtonToolbar>
         <ButtonGroup>
-          <Whisper
-            placement="bottomStart"
-            trigger="hover"
-            controlId="whisper1"
-            speaker={speakerOne}
+          {/*<Whisper*/}
+          {/*  placement="bottomStart"*/}
+          {/*  trigger="hover"*/}
+          {/*  controlId="whisper1"*/}
+          {/*  speaker={speakerOne}*/}
+          {/*>*/}
+          <Button
+            onClick={() => {
+              localStorage.setItem('server', String(8000))
+              window.location.reload()
+            }}
+            appearance={server === '8000' ? 'primary' : 'default'}
+            color={'green'}
           >
-            <Button
-              onClick={() => {
-                localStorage.setItem('server', String(8000))
-                window.location.reload()
-              }}
-              appearance={server === '8000' ? 'primary' : 'default'}
-              color={'green'}
-            >
-              OC1
-            </Button>
-          </Whisper>
+            OC1
+          </Button>
+          {/*</Whisper>*/}
           {/*<Whisper*/}
           {/*  placement="bottomStart"*/}
           {/*  trigger="hover"*/}
@@ -178,7 +182,13 @@ function Header() {
         {searchPlayer && (
           <div className={styles.data}>
             {foundPlayers?.map((player: any, index: number) => (
-              <div
+              <Link
+                to={`player/${player.steamId}`}
+                state={{ background: location }}
+                style={{
+                  textDecoration: 'none',
+                  backgroundColor: player.onControl ? '#fd4b4c' : '',
+                }}
                 key={index}
                 className={styles.item}
                 onClick={() => handleClick(player.steamId)}
@@ -186,7 +196,7 @@ function Header() {
                 <span>
                   {player.name} {player.steamId}
                 </span>
-              </div>
+              </Link>
             ))}
           </div>
         )}

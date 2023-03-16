@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import styles from './PlayerModal.module.scss'
 import { steamId } from 'types/players'
 import { Card, Modal } from 'components'
@@ -21,17 +21,14 @@ interface Props {
 }
 
 export function PlayerModal({ playerSteamId, onClose }: Props) {
-  const {
-    data: player,
-    isSuccess,
-    refetch,
-  } = useQuery(['player', playerSteamId, 'get-player', 'player-notes'], () =>
-    fetchPlayer(playerSteamId)
+  const { data: player, isSuccess } = useQuery(
+    ['player', playerSteamId, 'get-player', 'player-notes'],
+    () => fetchPlayer(playerSteamId)
   )
 
-  useEffect(() => {
-    refetch()
-  }, [player])
+  // useEffect(() => {
+  //   isSuccess && (document.title = player.name)
+  // }, [player])
 
   const [selectedTab, setSelectedTab] = useState(1)
 
@@ -41,7 +38,7 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
     <Modal onClose={onClose} className={styles.modal} innerElRefs={[infoRef]}>
       {isSuccess && (
         <Card className={styles.info} ref={infoRef}>
-          <Title player={player} refetch={refetch} />
+          <Title player={player} />
           <div className={styles.tablesBtn}>
             <Badge
               color="red"

@@ -3,6 +3,8 @@ import styles from './BansRow.module.scss'
 import { Ban } from 'types/players'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { unbanPlayer } from 'api/users'
+import { formatDistanceStrict } from 'date-fns'
+import { ru } from 'date-fns/locale'
 
 interface Props {
   ban: Ban
@@ -25,6 +27,15 @@ export function BanRow({
     onSuccess: () => queryClient.invalidateQueries(),
   })
 
+  const result = formatDistanceStrict(
+    new Date(creationTime),
+    new Date(expirationTime),
+    {
+      locale: ru,
+      unit: 'day',
+    }
+  )
+
   const banExpired = expirationTime < new Date() || isUnbannedManually
 
   return (
@@ -45,7 +56,7 @@ export function BanRow({
         </span>
       )}
       <span className={styles.reason}>
-        Бан: {reason.slice(0, -4)}{' '}
+        Бан: {reason.slice(0, -4)} (на {result}){' '}
         {unbannedTime && (
           <strong style={{ color: 'greenyellow' }}>
             Разбанил {unbannedAdmin.name}

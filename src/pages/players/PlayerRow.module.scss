@@ -15,6 +15,7 @@
 }
 
 .name {
+  color: var(--color-main1);
   cursor: pointer;
   transition: 0.3s;
   &:hover {
