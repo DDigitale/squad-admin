@@ -101,7 +101,6 @@ export const ChatRow = forwardRef<HTMLDivElement, Props>(function ChatRow(
         {message.playerName}
       </Link>
       <span className={styles.type}>{message.chatType}</span>
-
       <span className={styles.message}>
         <span>
           <BiMessageSquareError

@@ -63,6 +63,7 @@
     "react-datetime-picker": "^4.1.1",
     "ts-loader": "^9.4.2",
     "vite": "^4.1.4",
+    "vite-plugin-pwa": "^0.14.5",
     "vite-plugin-svgr": "^2.4.0",
     "vite-tsconfig-paths": "^4.0.5",
     "webpack-cli": "^5.0.1"
