@@ -1,6 +1,6 @@
 export const factionConverter = (faction: any) => {
   switch (faction) {
-    case 'Canadian Army':
+    case 'Canadian Armed Forces':
       faction = 'CAF'
       break
     case 'British Army':

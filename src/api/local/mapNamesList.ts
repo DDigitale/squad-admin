@@ -14,7 +14,7 @@ export const mapNamesList = [
   'Kokan',
   'LashkarValley',
   'Logar',
-  'Manic',
+  'Manicouagan',
   'Mestia',
   'Mutaha',
   'Narva',
