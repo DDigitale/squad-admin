@@ -6,7 +6,7 @@ import CloseOutlineIcon from '@rsuite/icons/CloseOutline'
 import styles from './AdminRules.module.scss'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetchGetRules, fetchSetRules } from 'api/admins'
-import { IconButton, Input, Tag } from 'rsuite'
+import { IconButton, Input, Loader, Tag } from 'rsuite'
 
 function AdminRules() {
   const queryClient = useQueryClient()
@@ -17,7 +17,7 @@ function AdminRules() {
   const [currentRule, setCurrentRule] = useState<any>(null)
   const [currentGroup, setCurrentGroup] = useState<any>(null)
 
-  const { data: rulesList } = useQuery(['rules'], fetchGetRules)
+  const { data: rulesList, isLoading } = useQuery(['rules'], fetchGetRules)
 
   if (rulesList) localStorage.setItem('rulesData', JSON.stringify(rulesList))
 
@@ -138,6 +138,9 @@ function AdminRules() {
 
   return (
     <div className={styles.wrapper}>
+      {isLoading && (
+        <Loader size="md" center={true} content="загрузка..." vertical />
+      )}
       {rulesData?.map((group: any) => (
         <div key={group.position} className={styles.row}>
           <span style={{ fontSize: '1.5rem', fontStyle: 'italic' }}>

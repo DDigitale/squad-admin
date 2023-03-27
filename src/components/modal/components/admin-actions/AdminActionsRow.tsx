@@ -17,7 +17,9 @@ function AdminActionsRow({ action }: Props) {
         {actionsLocalizer(action.action)}
       </span>
       <span className={styles.message}>{action.reason}</span>
-      <span className={styles.server}>{action.server.shortName}</span>
+      <span className={styles.server}>
+        {action.server.shortName === 'Unknown' ? '' : action.server.shortName}
+      </span>
     </div>
   )
 }

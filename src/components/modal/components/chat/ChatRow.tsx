@@ -19,7 +19,9 @@ export function ChatRow({ message }: Props) {
       <span className={styles.time}>{message.createTime.toLocaleString()}</span>
       <span className={styles.type}>{message.chatType}</span>
       <span className={styles.message}>{message.message}</span>
-      <span className={styles.server}>{message.server.shortName}</span>
+      <span className={styles.server}>
+        {message.server.shortName === 'Unknown' ? '' : message.server.shortName}
+      </span>
     </div>
   )
 }

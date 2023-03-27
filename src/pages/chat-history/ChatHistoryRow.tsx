@@ -30,7 +30,9 @@ function ChatHistoryRow({ item }: Props) {
         {item.playerName}
       </Link>
       <span className={styles.reason}>{item.message}</span>
-      <span className={styles.server}>{item.server.shortName}</span>
+      <span className={styles.server}>
+        {item.server.shortName === 'Unknown' ? '' : item.server.shortName}
+      </span>
     </div>
   )
 }

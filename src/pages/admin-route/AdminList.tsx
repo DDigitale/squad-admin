@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import AdminListRow from 'pages/admin-route/AdminListRow'
 import styles from 'pages/admin-route/AdminList.module.scss'
-import { Button, IconButton, Input, Stack } from 'rsuite'
+import { Button, IconButton, Input, Loader, Stack } from 'rsuite'
 import SearchIcon from '@rsuite/icons/Search'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { fetchAddAdmin } from 'api/admins'
@@ -21,6 +21,14 @@ function AdminList({ adminsList, roleGroups }: Props) {
 
   const handleAddAdmin = () => {
     addAdminMutation.mutate()
+  }
+
+  const sortAdmins = (a: any) => {
+    if (a.role === null) {
+      return 1
+    } else {
+      return -1
+    }
   }
 
   return (
@@ -50,7 +58,10 @@ function AdminList({ adminsList, roleGroups }: Props) {
         </Button>
       </Stack>
       <div className={styles.wrapper}>
-        {adminsList?.map((admin: any) => (
+        {!adminsList && (
+          <Loader size="md" center={true} content="загрузка..." vertical />
+        )}
+        {adminsList?.sort(sortAdmins).map((admin: any) => (
           <AdminListRow
             key={admin.steamId}
             roleGroups={roleGroups}

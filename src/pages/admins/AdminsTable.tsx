@@ -7,9 +7,17 @@ interface Props {
 }
 
 function AdminsTable({ admins }: Props) {
+  const sortAdmins = (a: any, b: any) => {
+    if (a.BanPlayer > b.BanPlayer) {
+      return -1
+    } else {
+      return 1
+    }
+  }
+
   return (
     <div className={styles.wrapper}>
-      {admins?.map((admin: any) => (
+      {admins?.sort(sortAdmins).map((admin: any) => (
         <AdminsRow key={admin.steamId} admin={admin} />
       ))}
     </div>

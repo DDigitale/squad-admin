@@ -51,12 +51,13 @@ export function BanRow({
       ) : (
         <span className={styles.expirationTime}>
           {banExpired
-            ? `${unbannedTime === null ? 'Перманентный бан' : 'Бан истёк'}`
+            ? `${expirationTime === null ? 'Перманентный бан' : 'Бан истёк'}`
             : `${expirationTime.toLocaleString()}`}
         </span>
       )}
       <span className={styles.reason}>
-        Бан: {reason.slice(0, -4)} (на {result}){' '}
+        Бан: {reason.slice(0, -4)} (
+        {expirationTime === null ? 'Перманент' : `на ${result}`}){' '}
         {unbannedTime && (
           <strong style={{ color: 'greenyellow' }}>
             Разбанил {unbannedAdmin.name}

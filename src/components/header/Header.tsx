@@ -59,6 +59,7 @@ function Header() {
 
   const logoutHandler = async () => {
     await fetchLogout()
+    document.cookie = 'SESSION='
     await localStorage.clear()
     await window.location.replace('/')
   }
@@ -99,29 +100,41 @@ function Header() {
 
   const speakerOne = (
     <Popover title={serverOne?.serverName}>
-      <div>
-        <p>
-          Игроков: {serverOne?.playerCount}/100{' '}
-          {serverOne?.publicQueue === 0 ? `` : `(+ ${serverOne?.publicQueue})`}
-        </p>
-        <p>TPS: {serverOne?.serverTickRate}</p>
-        <p>Текущая карта: {serverOne?.currentLayer}</p>
-        <p>Следующая карта: {serverOne?.nextLayer}</p>
-      </div>
+      {serverOne ? (
+        <div>
+          <p>
+            Игроков: {serverOne?.playerCount}/100{' '}
+            {serverOne?.publicQueue === 0
+              ? ``
+              : `(+ ${serverOne?.publicQueue})`}
+          </p>
+          <p>TPS: {serverOne?.serverTickRate}</p>
+          <p>Текущая карта: {serverOne?.currentLayer}</p>
+          <p>Следующая карта: {serverOne?.nextLayer}</p>
+        </div>
+      ) : (
+        <div>Нет соединения с сервером</div>
+      )}
     </Popover>
   )
 
   const speakerTwo = (
     <Popover title={serverTwo?.serverName}>
-      <div>
-        <p>
-          Игроков: {serverTwo?.playerCount}/100{' '}
-          {serverTwo?.publicQueue === 0 ? `` : `(+ ${serverTwo?.publicQueue})`}
-        </p>
-        <p>TPS: {serverTwo?.serverTickRate}</p>
-        <p>Текущая карта: {serverTwo?.currentLayer}</p>
-        <p>Следующая карта: {serverTwo?.nextLayer}</p>
-      </div>
+      {serverTwo ? (
+        <div>
+          <p>
+            Игроков: {serverTwo?.playerCount}/100{' '}
+            {serverTwo?.publicQueue === 0
+              ? ``
+              : `(+ ${serverTwo?.publicQueue})`}
+          </p>
+          <p>TPS: {serverTwo?.serverTickRate}</p>
+          <p>Текущая карта: {serverTwo?.currentLayer}</p>
+          <p>Следующая карта: {serverTwo?.nextLayer}</p>
+        </div>
+      ) : (
+        <div>Нет соединения с сервером</div>
+      )}
     </Popover>
   )
 

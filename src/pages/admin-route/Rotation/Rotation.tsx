@@ -25,6 +25,7 @@ import {
   ButtonGroup,
   IconButton,
   Input,
+  Loader,
   Popover,
   SelectPicker,
   Whisper,
@@ -54,11 +55,15 @@ function Rotation() {
   const [selectedMode, setSelectedMode] = useState('')
   const [rotationEdit, setRotationEdit] = useState(false)
 
-  const { data: allLayersData } = useQuery(['get-all-layers'], fetchAllLayers, {
-    refetchOnMount: false,
-  })
+  const { data: allLayersData, isLoading: isLayersDataLoading } = useQuery(
+    ['get-all-layers'],
+    fetchAllLayers,
+    {
+      refetchOnMount: false,
+    }
+  )
 
-  const { data: allRotationGroups } = useQuery(
+  const { data: allRotationGroups, isLoading } = useQuery(
     ['rotations'],
     fetchAllRotationGroups,
     {
@@ -167,6 +172,7 @@ function Rotation() {
       teamOne: l.map.teamOne,
       teamTwo: l.map.teamTwo,
       rawName: l.map.rawName,
+      lighting: l.map.lighting,
     }))
     editRotationName(rotation.name)
     setRotationName(rotation.name)
@@ -289,6 +295,7 @@ function Rotation() {
         >
           Деактивировать активные ротации
         </Button>
+        {isLoading && <Loader size="md" content="загрузка..." vertical />}
         <div className={styles.addedLayers}>
           {allRotationGroups?.rotations
             .sort(sortActiveRotationFirst)
@@ -319,6 +326,7 @@ function Rotation() {
                           <span>Активна</span>
                           {r.maps.map((m: any) => (
                             <div
+                              key={m.id}
                               style={{
                                 color:
                                   allRotationGroups.nextMapPosition ===
@@ -503,6 +511,9 @@ function Rotation() {
             searchable={false}
           />
         </div>
+        {isLayersDataLoading && (
+          <Loader size="md" content="загрузка..." vertical />
+        )}
         {selectedMap || selectedMode
           ? filteredData?.map((layer: any) => (
               <ButtonGroup

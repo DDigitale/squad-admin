@@ -34,7 +34,9 @@ export function AdminsLogRow({ admin }: Props) {
         {admin.playerByAdminId?.name}
       </Link>
       <span className={styles.reason}>{admin.reason}</span>
-      <span className={styles.server}>{admin.server.shortName}</span>
+      <span className={styles.server}>
+        {admin.server.shortName === 'Unknown' ? '' : admin.server.shortName}
+      </span>
     </div>
   )
 }
