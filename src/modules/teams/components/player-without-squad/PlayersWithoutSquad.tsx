@@ -29,6 +29,16 @@ export function PlayersWithoutSquad({ player }: Props) {
 
   const location = useLocation()
 
+  const colorizePlayers = () => {
+    if (player.violations?.length > 0) {
+      return 'rgba(253,75,76,0.5)'
+    }
+
+    if (player.isAdmin) {
+      return 'rgba(51,253,217,0.65)'
+    }
+  }
+
   return (
     <Link
       style={{ textDecoration: 'none' }}
@@ -45,7 +55,9 @@ export function PlayersWithoutSquad({ player }: Props) {
           </span>
         )}
 
-        <p className={styles.name}>{player.name}</p>
+        <p className={styles.name} style={{ color: colorizePlayers() }}>
+          {player.name}
+        </p>
         {player.isOnControl && (
           <RiErrorWarningFill
             style={{

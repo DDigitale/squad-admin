@@ -62,7 +62,7 @@ export function Title({ player }: Props) {
         <div className={styles.info}>
           <span
             className={styles.name}
-            style={{ color: player.isAdmin ? 'rgba(251,211,1,0.7)' : '' }}
+            style={{ color: player.isAdmin ? 'rgba(51,253,217,0.65)' : '' }}
           >
             {kitImg && <img src={kitImg} alt={player.role} />}
             {player.isOnline?.name || player.name}

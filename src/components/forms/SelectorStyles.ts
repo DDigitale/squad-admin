@@ -19,6 +19,9 @@ export const customSelectorStyles = {
   placeholder: (provided: any, state: any) => ({
     ...provided,
     color: 'rgba(253, 253, 254, 0.65)',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   }),
   option: (provided: any, state: any) => ({
     ...provided,

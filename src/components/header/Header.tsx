@@ -154,6 +154,7 @@ function Header() {
               onClick={() => {
                 localStorage.setItem('server', String(8000))
                 window.location.reload()
+                window.location.replace('/')
               }}
               appearance={server === '8000' ? 'primary' : 'default'}
               color={'green'}
@@ -171,6 +172,7 @@ function Header() {
               onClick={() => {
                 localStorage.setItem('server', String(8001))
                 window.location.reload()
+                window.location.replace('/')
               }}
               appearance={server === '8001' ? 'primary' : 'default'}
               color={'green'}
