@@ -308,7 +308,6 @@ function Rotation() {
                   }}
                   icon={<CloseOutlineIcon />}
                   style={{ maxWidth: 40 }}
-                  disabled={r.isActive === true}
                 />
                 <Whisper
                   placement="bottomStart"
