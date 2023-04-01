@@ -29,6 +29,7 @@
 }
 
 .message {
+  user-select: text;
   //color: var(--color-main2);
   word-wrap: anywhere;
   hyphens: auto;

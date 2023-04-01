@@ -129,8 +129,6 @@ function Bans() {
     return <Loader size="lg" backdrop content="загрузка..." vertical />
   }
 
-  console.log(bansData)
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.menuWrapper}>

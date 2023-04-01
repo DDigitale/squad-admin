@@ -102,7 +102,6 @@ export function SquadItem({ squad }: Props) {
               styles={customSelectorStyles}
               placeholder={'Выберите или введите сообщение'}
               menuPlacement={'auto'}
-              className={styles.selector}
             />
             <IconButton
               className={styles.sendIcon}

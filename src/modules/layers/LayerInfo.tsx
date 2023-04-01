@@ -6,9 +6,10 @@ import { factionConverter } from 'utils/factionConverter'
 
 interface Props {
   layer: any
+  onClose: () => void
 }
 
-export function LayerInfo({ layer }: Props) {
+export function LayerInfo({ layer, onClose }: Props) {
   const queryClient = useQueryClient()
 
   const [confirmCurrent, setConfirmCurrent] = useState(false)
@@ -76,6 +77,7 @@ export function LayerInfo({ layer }: Props) {
 
   const handleCurrentMapAction = () => {
     changeCurrentLayerMutation.mutate()
+    onClose()
   }
 
   const handleNextMapButton = () => {
@@ -85,6 +87,7 @@ export function LayerInfo({ layer }: Props) {
 
   const handleNextMapAction = () => {
     changeNextLayerMutation.mutate()
+    onClose()
   }
 
   function getImageUrl(name: any) {

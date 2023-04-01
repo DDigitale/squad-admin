@@ -149,7 +149,7 @@ function AdminRules() {
           <div className={styles.rules}>
             {group?.rules?.map((rule: any) => (
               <span
-                draggable={true}
+                draggable={!editableText}
                 onDragOver={(e: any) => dragOverHandler(e)}
                 onDragLeave={(e: any) => dragLeaveHandler(e)}
                 onDragStart={(e: any) => dragDragStartHandler(e, group, rule)}

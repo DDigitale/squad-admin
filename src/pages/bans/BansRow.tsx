@@ -40,7 +40,8 @@ function BansRow({ ban }: Props) {
         {ban.bannedPlayer.playerName}
       </Link>
       <span className={styles.reason}>
-        {ban.reason.slice(0, -4)} (на {result}){' '}
+        {ban.reason.slice(0, -4)}{' '}
+        <strong>{ban.expirationTime && `(на ${result})`}</strong>{' '}
         {ban.manualUnbannedTime && (
           <strong style={{ color: 'greenyellow' }}>
             Разбанил {ban.unbannedManualBy.adminName}{' '}

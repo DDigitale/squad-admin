@@ -1,11 +1,11 @@
 const server = localStorage.getItem('server')
 
-// const API_URL = `http://localhost:${server ? server : 8000}`
-// const API_URL_WITHOUT_PORT = 'http://localhost:'
-// const CALLBACK_URL = 'http://localhost:3000'
-const API_URL = `http://185.31.160.131:${server ? server : 8000}`
-const API_URL_WITHOUT_PORT = 'http://185.31.160.131:'
-const CALLBACK_URL = 'http://185.31.160.131:3000'
+// const API_URL = `http://localhost:${server ? server : 'oc1'}`
+// const API_URL_WITHOUT_PORT = 'http://localhost/'
+const CALLBACK_URL = 'http://localhost:3000'
+const API_URL = `https://api.ocsq.ru/${server ? server : 'oc1'}`
+const API_URL_WITHOUT_PORT = 'https://api.ocsq.ru/'
+// const CALLBACK_URL = 'https://panel.ocsq.ru'
 const STEAM_KEY = 'D24E3D9EB90500EB1979B72B06B4D903'
 const GET_STEAM_LINK = '/get-steam-link'
 const VERIFY_STEAM = '/verify-steam'

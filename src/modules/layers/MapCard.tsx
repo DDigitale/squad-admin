@@ -8,17 +8,16 @@ import {
 
 interface Props {
   layer: any
+  nextLayerFromRotation?: any
 }
 
-export function MapCard({ layer }: Props) {
+export function MapCard({ layer, nextLayerFromRotation }: Props) {
   const [layerActions, setLayerActions] = useContext(
     LayerActionsContext
   ) as LayerActionsContextType
   const [cartImg, setCartImg] = useState(null)
   const [team1Img, setTeam1Img] = useState(null)
   const [team2Img, setTeam2Img] = useState(null)
-
-  // переделать фон на картинки как в статусе сервера
 
   let team1: any, team2: any
 
@@ -59,7 +58,14 @@ export function MapCard({ layer }: Props) {
   }, [layer])
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={styles.wrapper}
+      style={
+        layer.rawName === nextLayerFromRotation || !nextLayerFromRotation
+          ? { scale: '1' }
+          : { scale: '0.9' }
+      }
+    >
       <div
         className={styles.layerImg}
         style={{

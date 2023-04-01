@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { fetchLayersHistory } from 'api/layers'
 import { Card } from 'components'
 import LayersHistoryItem from 'modules/layers/LayersHistoryItem'
+import { Loader } from 'rsuite'
 
 function LayersHistory() {
   const { data: layersHistory } = useQuery(
@@ -13,9 +14,7 @@ function LayersHistory() {
 
   return (
     <Card className={styles.historyCard}>
-      {/*<span style={{ textAlign: 'center', fontSize: '1.5rem' }}>*/}
-      {/*  История карт*/}
-      {/*</span>*/}
+      {!layersHistory ? <Loader size="md" content="загрузка..." /> : null}
       {layersHistory?.content?.map((layer: any) => (
         <LayersHistoryItem key={layer.id} layer={layer} />
       ))}

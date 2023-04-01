@@ -59,20 +59,20 @@ function Header() {
 
   const logoutHandler = async () => {
     await fetchLogout()
-    document.cookie = 'SESSION='
+    document.cookie = ''
     await localStorage.clear()
     await window.location.replace('/')
   }
 
   const { data: serverOne } = useQuery(
     ['serverOne'],
-    () => fetchServerInfoWithPort(8000),
+    () => fetchServerInfoWithPort('oc1'),
     { refetchInterval: 5000 }
   )
 
   const { data: serverTwo } = useQuery(
     ['serverTwo'],
-    () => fetchServerInfoWithPort(8001),
+    () => fetchServerInfoWithPort('oc2'),
     { refetchInterval: 5000 }
   )
 
@@ -152,11 +152,11 @@ function Header() {
           >
             <Button
               onClick={() => {
-                localStorage.setItem('server', String(8000))
+                localStorage.setItem('server', 'oc1')
                 window.location.reload()
                 window.location.replace('/')
               }}
-              appearance={server === '8000' ? 'primary' : 'default'}
+              appearance={server === 'oc1' ? 'primary' : 'default'}
               color={'green'}
             >
               OC1
@@ -170,11 +170,11 @@ function Header() {
           >
             <Button
               onClick={() => {
-                localStorage.setItem('server', String(8001))
+                localStorage.setItem('server', 'oc2')
                 window.location.reload()
                 window.location.replace('/')
               }}
-              appearance={server === '8001' ? 'primary' : 'default'}
+              appearance={server === 'oc2' ? 'primary' : 'default'}
               color={'green'}
             >
               OC2

@@ -84,15 +84,15 @@
 }
 
 .inputWrapper {
-  display: flex;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 350px 1fr 1fr;
   gap: 0.5rem;
   align-items: center;
   justify-content: space-around;
-  min-width: 100%;
 }
 
 .selector {
-  width: 100%;
 }
 
 .sendIcon {
@@ -118,12 +118,11 @@
 }
 
 @media (max-width: 800px) {
-  .toast {
-    width: 90vw;
-  }
+
 
   .inputWrapper {
     font-size: 0.85rem;
+    grid-template-columns: 250px 1fr 1fr;
   }
 
   .wrapper {

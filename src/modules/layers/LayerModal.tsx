@@ -21,7 +21,7 @@ export function LayerModal({ onClose }: Props) {
   return (
     <Modal onClose={onClose} innerElRefs={[infoRef]}>
       <Card ref={infoRef}>
-        <LayerInfo layer={layerModal} />
+        <LayerInfo onClose={onClose} layer={layerModal} />
       </Card>
     </Modal>
   )

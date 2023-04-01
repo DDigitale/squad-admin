@@ -18,7 +18,7 @@ export const PrivateRoutes = () => {
   useLayoutEffect(() => {
     if (!access) {
       dispatch(verifySteam(openidParams))
-      localStorage.setItem('server', String(8000))
+      localStorage.setItem('server', 'oc1')
     }
   }, [])
 

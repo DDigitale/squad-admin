@@ -168,7 +168,10 @@ function AdminListRow({ admin, roleGroups }: Props) {
                     <IconButton
                       size="sm"
                       icon={<CheckIcon />}
-                      onClick={() => handleSetRoleGroupToAdmin()}
+                      onClick={() => {
+                        handleSetRoleGroupToAdmin()
+                        toast.dismiss()
+                      }}
                     />
                   </span>
                 </div>
@@ -184,7 +187,6 @@ function AdminListRow({ admin, roleGroups }: Props) {
         >
           {admin?.role !== null ? 'Изменить роль' : 'Активировать'}
         </button>
-        {/*<button className={styles.actions}>Ещё кнопка</button>*/}
       </div>
     </div>
   )

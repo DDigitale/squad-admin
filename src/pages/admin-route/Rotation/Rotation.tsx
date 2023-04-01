@@ -336,7 +336,6 @@ function Rotation() {
                               }}
                               className={styles.mapInActiveRotationRow}
                               onClick={() => {
-                                console.log(m.position)
                                 position = m.position
                                 setNextRotationMapPosition.mutate()
                               }}
