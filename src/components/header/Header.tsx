@@ -18,6 +18,7 @@ import {
   Whisper,
 } from 'rsuite'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import socket from 'api/socket'
 
 let links: any[] = []
 
@@ -44,10 +45,16 @@ function Header() {
   const [searchPlayer, setSearchPlayer] = useState('')
   const [foundPlayers, setFoundPlayers] = useState([])
   const [isSearching, setIsSearching] = useState(false)
+  const [isConnected, setIsConnected] = useState(socket.connected)
+  const [users, setUsers] = useState<any[]>([])
 
   const debouncedSearch = useDebounce(searchPlayer, 300)
 
   const { data: getMe } = useQuery(['get-me'], fetchGetMe)
+
+  const username = getMe?.name
+
+  username !== undefined && sessionStorage.setItem('nickname', username)
 
   const searchPlayerMutation = useMutation(
     () => fetchPlayerSearch(searchPlayer.toString()),
@@ -75,6 +82,27 @@ function Header() {
     () => fetchServerInfoWithPort('oc2'),
     { refetchInterval: 5000 }
   )
+
+  useEffect(() => {
+    function onConnect() {
+      setIsConnected(true)
+    }
+
+    function onDisconnect() {
+      setIsConnected(false)
+    }
+
+    socket.on('connect', onConnect)
+    socket.on('disconnect', onDisconnect)
+    return () => {
+      socket.off('connect', onConnect)
+      socket.off('disconnect', onDisconnect)
+    }
+  }, [])
+
+  socket.on('users', (data) => {
+    setUsers(data.users)
+  })
 
   useEffect(() => {
     if (debouncedSearch) {
@@ -139,6 +167,20 @@ function Header() {
   )
 
   const location = useLocation()
+
+  const adminsOnlineSpeaker = (
+    <Popover>
+      {users.length > 0 ? (
+        <div>
+          {users?.map((user: any, index) => (
+            <p key={user}>{user}</p>
+          ))}
+        </div>
+      ) : (
+        <div>Нет админов в сети</div>
+      )}
+    </Popover>
+  )
 
   return (
     <div className={styles.wrapper}>
@@ -212,22 +254,36 @@ function Header() {
           </div>
         )}
       </div>
-      <Dropdown title="Меню" placement="bottomEnd">
-        <Dropdown.Item panel style={{ padding: 10, width: 200 }}>
-          <p>Зашел как</p>
-          <strong>{getMe?.name}</strong>
-        </Dropdown.Item>
-        <Dropdown.Item divider />
-        {links.map(([title, link], index) =>
-          title ? (
-            <NavLink key={index} to={link}>
-              <Dropdown.Item>{title}</Dropdown.Item>
-            </NavLink>
-          ) : null
-        )}
-        <Dropdown.Item divider />
-        <Dropdown.Item onClick={logoutHandler}>Выйти</Dropdown.Item>
-      </Dropdown>
+      <div className={styles.right}>
+        {isConnected ? (
+          <Whisper
+            speaker={adminsOnlineSpeaker}
+            placement="bottomStart"
+            trigger="hover"
+            controlId="whisper3"
+          >
+            <Button className={styles.admins}>
+              Админы онлайн: <strong>{users.length}</strong>
+            </Button>
+          </Whisper>
+        ) : null}
+        <Dropdown title="Меню" placement="bottomEnd">
+          <Dropdown.Item panel style={{ padding: 10, width: 200 }}>
+            <p>Зашел как</p>
+            <strong>{getMe?.name}</strong>
+          </Dropdown.Item>
+          <Dropdown.Item divider />
+          {links.map(([title, link], index) =>
+            title ? (
+              <NavLink key={index} to={link}>
+                <Dropdown.Item>{title}</Dropdown.Item>
+              </NavLink>
+            ) : null
+          )}
+          <Dropdown.Item divider />
+          <Dropdown.Item onClick={logoutHandler}>Выйти</Dropdown.Item>
+        </Dropdown>
+      </div>
     </div>
   )
 }

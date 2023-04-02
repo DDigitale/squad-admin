@@ -7,15 +7,15 @@ import styles from 'pages/admin-route/AdminRoute.module.scss'
 import AdminRules from 'pages/admin-route/AdminRules'
 import Rotation from 'pages/admin-route/Rotation/Rotation'
 import { useState } from 'react'
-import {
-  Radio,
-  RadioGroup
-} from 'rsuite'
+import { Radio, RadioGroup } from 'rsuite'
+import TerminalPage from 'pages/admin-route/Terminal/TerminalPage'
 
 function AdminRoute() {
   const [selectedRadio, setSelectedRadio] = useState('')
 
-  const { data: adminsList } = useQuery(['admin-steamIds', false], () =>  fetchAdmins(false))
+  const { data: adminsList } = useQuery(['admin-steamIds', false], () =>
+    fetchAdmins(false)
+  )
 
   const { data: roleGroups } = useQuery(
     ['admin-roleGroup'],
@@ -49,6 +49,9 @@ function AdminRoute() {
             {roles?.includes('Rotation Management') ? (
               <Radio value="D">Управление ротацией</Radio>
             ) : null}
+            {roles?.includes('Admins Management') ? (
+              <Radio value="E">Терминал</Radio>
+            ) : null}
           </RadioGroup>
         </div>
         <div>
@@ -60,6 +63,7 @@ function AdminRoute() {
           ) : null}
           {selectedRadio === 'C' ? <AdminRules /> : null}
           {selectedRadio === 'D' ? <Rotation /> : null}
+          {selectedRadio === 'E' ? <TerminalPage /> : null}
         </div>
       </div>
     </div>

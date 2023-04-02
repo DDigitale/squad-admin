@@ -1,5 +1,7 @@
 .wrapper {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 30em 1fr;
+  grid-template-rows: 1fr;
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem;
@@ -13,7 +15,9 @@
 }
 
 .search {
-  width: 30em;
+  display: flex;
+  justify-content: end;
+  width: 100%;
 }
 
 .input {
@@ -81,10 +85,23 @@
   align-items: center;
 }
 
+.right {
+  display: flex;
+  justify-content: end;
+}
+
+.admins {
+  margin-right: 0.5rem;
+}
+
 @media (max-width: 800px) {
   .wrapper {
     //scroll-snap-align: start;
     z-index: 1;
+  }
+
+  .admins {
+    display: none;
   }
 
   .data {
