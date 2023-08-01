@@ -15,6 +15,9 @@ export const factionConverter = (faction: any) => {
     case 'Russian Ground Forces':
       faction = 'RUS'
       break
+    case 'Russian Airborne Forces':
+      faction = 'RUS'
+      break
     case 'United States Army':
       faction = 'USA'
       break

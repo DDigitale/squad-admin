@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './PlayerModal.module.scss'
 import { steamId } from 'types/players'
 import { Card, Modal } from 'components'
@@ -11,9 +11,11 @@ import {
   Title,
 } from 'components/modal'
 import { useQuery } from '@tanstack/react-query'
-import { fetchPlayer } from 'api/users'
+import { fetchPlayer, fetchPlayerStatsData } from 'api/users'
 import AdminActions from 'components/modal/components/admin-actions/AdminActions'
 import { Badge } from 'rsuite'
+import { Statistics } from 'components/modal/components/stats/Statistics'
+import { Last50 } from 'components/modal/components/last50/Last50'
 
 interface Props {
   playerSteamId: steamId
@@ -26,9 +28,17 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
     () => fetchPlayer(playerSteamId)
   )
 
-  // useEffect(() => {
-  //   isSuccess && (document.title = player.name)
-  // }, [player])
+  const {
+    data: stata,
+    isSuccess: stataIsSuccess,
+    isLoading: stataIsLoading,
+  } = useQuery(['player', playerSteamId, 'get-player-stata'], () =>
+    fetchPlayerStatsData(playerSteamId)
+  )
+
+  useEffect(() => {
+    isSuccess && (document.title = player.name)
+  }, [player])
 
   const [selectedTab, setSelectedTab] = useState(1)
 
@@ -104,13 +114,72 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
                 }}
               />
             </Badge>
+            {stata?.info[0] && (
+              <ActionBtn
+                style={{
+                  backgroundColor:
+                    selectedTab === 5 ? 'rgba(51,253,217,0.2)' : null,
+                }}
+                text={'Статистика'}
+                onClick={() => {
+                  setSelectedTab(5)
+                }}
+              />
+            )}
+            {stata?.lastKills && (
+              <ActionBtn
+                style={{
+                  backgroundColor:
+                    selectedTab === 6 ? 'rgba(51,253,217,0.2)' : null,
+                }}
+                text={'Последние 50 убийств'}
+                onClick={() => {
+                  setSelectedTab(6)
+                }}
+              />
+            )}
+            {stata?.lastDeaths && (
+              <ActionBtn
+                style={{
+                  backgroundColor:
+                    selectedTab === 7 ? 'rgba(51,253,217,0.2)' : null,
+                }}
+                text={'Последние 50 смертей'}
+                onClick={() => {
+                  setSelectedTab(7)
+                }}
+              />
+            )}
           </div>
-
           {selectedTab === 1 && <Punishments playerSteamId={playerSteamId} />}
           {selectedTab === 2 && <Chat playerSteamId={playerSteamId} />}
           {selectedTab === 3 && <Notes playerSteamId={playerSteamId} />}
           {selectedTab === 4 && <AdminActions playerSteamId={playerSteamId} />}
-          <Actions player={player} />
+          {selectedTab === 5 && (
+            <Statistics
+              playerSteamId={playerSteamId}
+              data={stata}
+              isLoading={stataIsLoading}
+              isSuccess={stataIsSuccess}
+            />
+          )}
+          {selectedTab === 6 && (
+            <Last50
+              data={stata?.lastDeaths}
+              isLoading={stataIsLoading}
+              isSuccess={stataIsSuccess}
+            />
+          )}
+          {selectedTab === 7 && (
+            <Last50
+              data={stata?.lastKills}
+              isLoading={stataIsLoading}
+              isSuccess={stataIsSuccess}
+            />
+          )}
+          {selectedTab !== 5 && selectedTab !== 6 && selectedTab !== 7 ? (
+            <Actions player={player} />
+          ) : null}
         </Card>
       )}
     </Modal>

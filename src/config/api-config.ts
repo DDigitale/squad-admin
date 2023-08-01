@@ -3,6 +3,9 @@ const server = localStorage.getItem('server')
 
 const API_URL = `${config.api_url}/${server ? server : 'oc1'}`
 const API_URL_WITHOUT_PORT = `${config.api_url}/`
+const API_URL_STATA = `https://api-stats.ocsq.ru`
+const GET_PLAYER_DETAILS_STATA = `/api/player/`
+const GET_KILL_FEED_STATA = `/api/players/kill-feed`
 const CALLBACK_URL = config.callback_url
 const STEAM_KEY = config.steam_key
 const GET_STEAM_LINK = '/get-steam-link'
@@ -73,6 +76,9 @@ const DEACTIVATE_ROTATION_GROUP = '/deactivate-rotation-group'
 export {
   API_URL,
   API_URL_WITHOUT_PORT,
+  API_URL_STATA,
+  GET_PLAYER_DETAILS_STATA,
+  GET_KILL_FEED_STATA,
   CALLBACK_URL,
   GET_STEAM_LINK,
   VERIFY_STEAM,

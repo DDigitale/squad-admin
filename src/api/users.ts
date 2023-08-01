@@ -36,6 +36,9 @@ import {
   UNBAN_PLAYER,
   WARN_PLAYER,
   WARN_SQUAD,
+  GET_PLAYER_DETAILS_STATA,
+  API_URL_STATA,
+  GET_KILL_FEED_STATA,
 } from 'config'
 // @ts-ignore
 import jsonBigInt from 'json-bigint'
@@ -260,6 +263,29 @@ export const fetchPlayer = async (steamId: string) => {
       ],
     }
   )
+
+  return response.data
+}
+
+export const fetchPlayerStatsData = async (steamId: string) => {
+  const response = await axios.get(
+    API_URL_STATA + GET_PLAYER_DETAILS_STATA + steamId,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  )
+
+  return response.data
+}
+
+export const fetchPlayerKillFeedData = async () => {
+  const response = await axios.get(API_URL_STATA + GET_KILL_FEED_STATA, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
 
   return response.data
 }

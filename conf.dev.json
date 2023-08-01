@@ -1,0 +1,20 @@
+{
+  "api_url":"https://api.ocsq.ru",
+  "callback_url":"http://localhost:3000",
+  "socket_url":"ws://localhost:8005",
+  "socket_auto_connect":true,
+  "socket_secure":false,
+  "steam_key":"D24E3D9EB90500EB1979B72B06B4D903",
+  "pm2_restart_back1": "pm2 restart 4",
+  "pm2_stop_back1": "pm2 stop 4",
+  "pm2_logs_back1": "pm2 logs 4 --raw",
+  "pm2_restart_back2": "pm2 restart 5",
+  "pm2_stop_back2": "pm2 stop 5",
+  "pm2_logs_back2": "pm2 logs 5 --raw",
+  "pm2_restart_reshala": "pm2 restart 1",
+  "pm2_stop_reshala": "pm2 stop 1",
+  "pm2_logs_reshala": "pm2 logs 1 --raw",
+  "pm2_restart_vip": "pm2 restart 0",
+  "pm2_stop_vip": "pm2 stop 0",
+  "pm2_logs_vip": "pm2 logs 0 --raw"
+}
