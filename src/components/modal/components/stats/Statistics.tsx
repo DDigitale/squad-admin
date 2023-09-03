@@ -10,6 +10,8 @@ interface Props {
 }
 
 export function Statistics({ data, isSuccess, isLoading }: Props) {
+  const reversedStatsByDate = [...data.statsByDate].reverse()
+
   return (
     <div className={styles.wrapper}>
       {isLoading && (
@@ -49,7 +51,7 @@ export function Statistics({ data, isSuccess, isLoading }: Props) {
             </span>
           </div>
           <div>
-            {data.statsByDate.map((stbd: any) => (
+            {reversedStatsByDate.map((stbd: any) => (
               <div key={stbd.date} className={styles.row}>
                 <span className={styles.time}>
                   {new Date(stbd.date).toLocaleDateString('ru-RU')}

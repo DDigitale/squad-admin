@@ -165,14 +165,14 @@ export function PlayerModal({ playerSteamId, onClose }: Props) {
           )}
           {selectedTab === 6 && (
             <Last50
-              data={stata?.lastDeaths}
+              data={stata?.lastKills}
               isLoading={stataIsLoading}
               isSuccess={stataIsSuccess}
             />
           )}
           {selectedTab === 7 && (
             <Last50
-              data={stata?.lastKills}
+              data={stata?.lastDeaths}
               isLoading={stataIsLoading}
               isSuccess={stataIsSuccess}
             />

@@ -16,7 +16,6 @@ export function Last50({ data, isSuccess, isLoading }: Props) {
     PlayerModalContext
   ) as PlayerModalContextType
 
-  console.log(data)
   return (
     <div className={styles.wrapper}>
       {isLoading && (
